@@ -21,13 +21,20 @@
         <icon-chevron-down />
       </button>
     </div>
-    <img class="bigImg" :src="path" alt="" />
+    <img class="bigImg" :src="path" :alt="path" />
 
     <div>
       <div class="title__wrapper">
-        <ui-text-h1>
-          {{ props.price }}
-        </ui-text-h1>
+        <div>
+          <ui-text-h1 :class="{ isSale: props.isSale === 'true' }">
+            {{ props.price }}
+          </ui-text-h1>
+
+          <ui-text-h1 class="discount" v-if="props.isSale === 'true'">
+            {{ props.sale }}
+          </ui-text-h1>
+        </div>
+
         <ui-btn @click="addProductToCart">Купити</ui-btn>
       </div>
 
@@ -35,22 +42,18 @@
         <ui-text-h2>Доставка</ui-text-h2>
 
         <div class="post__title">
-          <div>
-            <icon-new-post />
-          </div>
+          <icon-new-post />
 
-          <ui-text-h2
+          <ui-text-h6
             >Безкоштовна доставка до відділення "Нової пошти" при замовленні від
-            710 грн'</ui-text-h2
+            710 грн'</ui-text-h6
           >
         </div>
 
         <div class="post__title">
-          <div>
-            <icon-new-post />
-          </div>
+          <icon-new-post />
 
-          <ui-text-h2>Адресна доставка "Новою поштою</ui-text-h2>
+          <ui-text-h6>Адресна доставка "Новою поштою</ui-text-h6>
         </div>
 
         <ul>
@@ -78,13 +81,16 @@ import IconChevronUp from "~/assets/icons/IconChevronUp.vue";
 import IconChevronDown from "~/assets/icons/IconChewronDown.vue";
 import UiBtn from "~/components/Ui/UiBtn.vue";
 import UiTextH1 from "~/components/Ui/UiTextH1.vue";
-import UiTextH2 from "~/components/Ui/UiTextH1.vue";
+import UiTextH2 from "~/components/Ui/UiTextH2.vue";
+import UiTextH6 from "~/components/Ui/UiTextH6.vue";
 import iconNewPost from "~/assets/icons/iconNewPost.vue";
 
 const emit = defineEmits(["buyProduct"]);
 const props = defineProps({
   pictures: Array,
   price: String,
+  isSale: String,
+  sale: String,
   alt: String,
 });
 
@@ -136,9 +142,8 @@ const addProductToCart = () => {
 
 <style lang="scss" scoped>
 .imgTabs {
-  margin-top: 65px;
   display: flex;
-  gap: 30px;
+  gap: 10%;
 }
 
 .litleImg {
@@ -174,17 +179,23 @@ img {
 }
 
 .bigImg {
-  width: 700px;
+  width: 40%;
   height: auto;
+  object-fit: contain;
 }
 
 .title__wrapper {
-  margin-top: 181px;
+  padding-top: 181px;
   display: flex;
+  align-items: center;
   gap: 30px;
 
   h2 {
     font-weight: 700;
+  }
+
+  button {
+    height: 50px;
   }
 }
 
@@ -192,16 +203,12 @@ img {
   padding-top: 40px;
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  h2 {
-    font-weight: 700;
-    font-size: 14px;
-  }
+  gap: 30px;
 
   ul {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
   }
 }
 
@@ -210,12 +217,16 @@ img {
   align-items: center;
   gap: 10px;
 
-  div {
-    width: 15%;
-  }
-
   svg {
     width: 25px;
   }
+}
+
+.isSale {
+  text-decoration: line-through;
+}
+
+.discount {
+  color: darkred;
 }
 </style>

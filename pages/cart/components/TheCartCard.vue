@@ -1,74 +1,97 @@
 <template>
-  <div class="cart__item_wrapper">
+  <div class="product-in-cart">
     <img :src="props.path" :alt="props.title" />
 
-    <div class="text">
-      <div class="cart__item_wrapper_title">
-        <ui-text-h6>{{ props.title }}</ui-text-h6>
-        <ui-text-h6 class="price"> {{ total }} грн</ui-text-h6>
+    <div class="product-in-cart_wrapper">
+      <div class="product-in-cart_wrapper-title">
+        <div>
+          <ui-text-h6>{{ props.title }}</ui-text-h6>
 
-        <icon-close @click="removePropduct(props.id)" />
+          <ui-text-h6
+            style="text-decoration: none; margin-top: 4px"
+            :class="{
+              'product-in-cart_wrapper_price_discount': +props.salePrice !== 0,
+            }"
+          >
+            {{ priceOfOneProduct }}
+            грн</ui-text-h6
+          >
+        </div>
+
+        <div class="product-in-cart_wrapper_price">
+          <ui-text-h6
+            class="price"
+            :class="{
+              'product-in-cart_wrapper_price_old-price': +props.salePrice !== 0,
+            }"
+          >
+            {{ productQuantityPrice }}
+            грн</ui-text-h6
+          >
+
+          <ui-text-h6
+            class="product-in-cart_wrapper_price_discount"
+            v-if="+props.salePrice !== 0"
+          >
+            {{ discountQuantityPrice }} грн</ui-text-h6
+          >
+        </div>
+
+        <icon-close @click="removeProduct(props.id)" />
       </div>
 
-      <div class="cart__item_wrapper_counter">
+      <div class="product-in-cart_wrapper_counter">
         <ui-text-h6>{{ counterProducts }} шт.</ui-text-h6>
-        <the-counter
-          :price="props.price"
-          :count="props.count"
-          @updateTotalPrice="calcTotalPrice"
-        />
+
+        <the-counter :count="props.count" @updateTotalPrice="calcTotalPrice" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import UiTextH6 from "~/components/Ui/UiTextH6.vue";
 import IconClose from "~/assets/icons/IconClose.vue";
 import TheCounter from "./TheCounter.vue";
 import { useCartData } from "~/stores/cartData";
 
+const { calcTotal, removeProduct, updateValuePriceProducts } = useCartData();
 const props = defineProps({
-  id: {
-    type: String,
-  },
-
-  path: {
-    type: String,
-  },
-
-  title: {
-    type: String,
-  },
-
-  price: {
-    type: Number,
-  },
-
-  count: {
-    type: String,
-  },
+  id: String,
+  path: String,
+  title: String,
+  price: String,
+  itemTotalPrice: Number,
+  salePrice: String,
+  count: Number,
 });
 
-const price = ref(Number(props.price));
 const counterProducts = ref(props.count);
-const total = ref(price.value);
 
-const { calcTotal, removePropduct, updateValuePriceProducts } = useCartData();
+const priceOfOneProduct = computed(() => {
+  return !+props.salePrice ? props.price : +props.salePrice;
+});
 
-const calcTotalPrice = async (value, count) => {
-  total.value = value;
+const productQuantityPrice = computed(() => {
+  return !+props.salePrice ? props.itemTotalPrice : props.price;
+});
+
+const discountQuantityPrice = computed(() => {
+  return +props.salePrice !== 0 ? props.itemTotalPrice : +props.salePrice;
+});
+
+const calcTotalPrice = async (count) => {
   counterProducts.value = count;
 
-  updateValuePriceProducts(count, value, props.id);
+  updateValuePriceProducts(count, props.id);
 
   calcTotal();
 };
 </script>
 
 <style lang="scss" scoped>
-.cart__item_wrapper {
+.product-in-cart {
   padding: 15px 20px;
   display: flex;
   align-items: center;
@@ -78,31 +101,39 @@ const calcTotalPrice = async (value, count) => {
     width: 100px;
   }
 
-  &_title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+  &_wrapper {
+    width: 100%;
 
-    .price {
+    &-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    &_price {
       font-size: 12px;
       font-weight: 700;
+
+      &_old-price {
+        text-decoration: line-through;
+      }
+
+      &_discount {
+        color: darkred;
+      }
+    }
+
+    &_counter {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    svg {
+      width: 25px;
     }
   }
-
-  &_counter {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-
-  svg {
-    width: 25px;
-  }
-}
-
-.text {
-  width: 100%;
 }
 </style>

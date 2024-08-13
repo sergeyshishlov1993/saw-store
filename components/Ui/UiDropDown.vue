@@ -12,9 +12,9 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { reactive, computed } from "vue";
 import UiTextH6 from "../Ui/UiTextH6.vue";
-const typeWarehouses = ref("841339c7-591a-42e2-8233-7a0a00f0ed6f");
+
 const defaultValue = reactive([
   {
     city: "Київ",
@@ -148,7 +148,7 @@ const props = defineProps({
 });
 
 function getCityValue(cityRef, city) {
-  emit("selectCity", cityRef, city, false, props.name, typeWarehouses.value);
+  emit("selectCity", cityRef, city, false, props.name);
 }
 
 const cityArray = computed(() => {

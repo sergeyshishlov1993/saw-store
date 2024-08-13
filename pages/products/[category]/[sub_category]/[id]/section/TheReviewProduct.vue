@@ -4,7 +4,7 @@
       >Відгуки <span v-if="!props.reviews">({{ reviews.length }})</span>
     </ui-text-h2>
 
-    <ui-btn @click="showFormReview = !showFormReview" v-if="isAdmin">
+    <ui-btn @click="showFormReview = !showFormReview">
       <icon-pensil />
       залишити відгук
     </ui-btn>
@@ -124,7 +124,7 @@ function deleteReviewClient(id) {
 
 <style lang="scss" scoped>
 .reviews {
-  padding-top: 150px;
+  padding-top: 100px;
   display: flex;
   flex-direction: column;
   gap: 50px;

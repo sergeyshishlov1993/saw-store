@@ -1,6 +1,8 @@
 <template>
   <div class="container">
     <div class="wrapper">
+      <breadcrumbs :breadcrumbs="validBreadcrumbs" />
+
       <!-- обвертка основная  -->
       <div
         class="product__wrapper"
@@ -39,7 +41,9 @@
             <img-tabs
               :pictures="product.pictures"
               :price="product.price"
-              @buy-product="addProductToCart"
+              :isSale="product.sale"
+              :sale="product.sale_price"
+              @buy-product="addProductToCart(product, product.product_id)"
             />
 
             <!-- таблица параметров -->
@@ -72,7 +76,7 @@
             :path="product.pictures[0].pictures_name"
             :rate="rating"
             :countReview="product.review.length"
-            @buy-product="addProductToCart"
+            @buy-product="addProductToCart(product, product.product_id)"
           />
         </div>
       </div>
@@ -97,8 +101,10 @@ import TheSmalCard from "./components/TheSmalCard.vue";
 import useScrollToTop from "~/utils/useScrollToTop";
 import { useCartData } from "~/stores/cartData";
 
+import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
+
 const route = useRoute();
-const { productsInСart, showModalWindow } = useCartData();
+const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
 
 const id = route.params.id;
@@ -111,6 +117,27 @@ const tabs = [
   { name: "Відгуки" },
 ];
 const productById = ref();
+
+const breadcrumb = ref([
+  { name: "Головна", path: "/" },
+
+  {
+    name: route.query.category,
+    path: `${route.query.category_path}?category=${route.query.category}`,
+  },
+
+  {
+    name: route.query.sub_category,
+    path: `${route.query.sub_category_path}?category=${route.query.category}&category_path=${route.query.category_path}&sub_category=${route.query.sub_category}`,
+  },
+
+  {
+    name: route.query.product,
+    path: `${route.query.sub_category_path}?sub_category=${route.query.sub_category}`,
+  },
+]);
+
+const validBreadcrumbs = breadcrumb.value.filter((el) => el.name);
 
 function changeTab(name) {
   currentTab.value = name;
@@ -130,25 +157,16 @@ onMounted(async () => {
   }
 });
 
+definePageMeta({
+  breadcrumb: [{ name: "Головна", path: "/" }],
+});
+
 const calculateAverageRating = () => {
   productById.value.forEach((el) => {
     el.review.forEach((rate) => (rating.value += +rate.rating));
 
     return (rating.value = Math.floor(rating.value / el.review.length));
   });
-};
-
-const addProductToCart = () => {
-  scrollToTop();
-  let item = productsInСart.find((item) => item.product_id == id);
-
-  if (item) {
-    item.count += 1;
-  } else {
-    productsInСart.push({ ...productById.value[0], count: 1 });
-  }
-
-  showModalWindow[0] = true;
 };
 </script>
 
@@ -175,7 +193,7 @@ const addProductToCart = () => {
 }
 
 .product__wrapper {
-  padding-top: 150px;
+  padding-top: 100px;
 
   .sub_title {
     margin-top: 20px;

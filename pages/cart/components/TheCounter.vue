@@ -20,31 +20,24 @@ import { ref } from "vue";
 const emit = defineEmits(["updateTotalPrice"]);
 
 const props = defineProps({
-  price: {
-    type: Number,
-  },
-
   count: {
-    tupe: Number,
+    type: Number,
   },
 });
 const counterValue = ref(props.count);
-const price = ref(+props.price);
-
-const total = ref(price.value);
 
 const decrementCounterValue = () => {
-  counterValue.value--;
-  total.value -= price.value;
+  if (counterValue.value > 1) {
+    counterValue.value--;
 
-  emit("updateTotalPrice", total.value, counterValue.value);
+    emit("updateTotalPrice", counterValue.value);
+  }
 };
 
 const incrementCounterValue = () => {
   counterValue.value++;
-  total.value += price.value;
 
-  emit("updateTotalPrice", total.value, counterValue.value);
+  emit("updateTotalPrice", counterValue.value);
 };
 </script>
 

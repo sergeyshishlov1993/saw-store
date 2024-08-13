@@ -7,7 +7,7 @@
             class="category__wrapper"
             v-for="category in category"
             :key="category.id"
-            @click="showSubCategory(category.id)"
+            @click="showSubCategory(category.id, category.category_name)"
           >
             <ui-text-h6>{{ category.category_name }}</ui-text-h6>
           </div>
@@ -23,7 +23,13 @@
           :id="sub.sub_category_id"
           :parentId="sub.parent_id"
           @click="getProductsBySubCategory(sub.parent_id, sub.sub_category_id)"
-          @goToCatalog="goToCatalog(sub.parent_id, sub.sub_category_id)"
+          @goToCatalog="
+            goToCatalog(
+              sub.parent_id,
+              sub.sub_category_id,
+              sub.sub_category_name
+            )
+          "
         />
       </div>
     </div>
@@ -40,6 +46,7 @@ import SubMenuCard from "./SubMenuCard.vue";
 
 const router = useRouter();
 const category = ref();
+const categoryName = ref();
 const subCategory = ref();
 const filterSubCategory = ref();
 const { getProductsBySubCategory } = useProductsByDubCategory();
@@ -57,14 +64,18 @@ onBeforeMount(async () => {
   }
 });
 
-const showSubCategory = (id) => {
-  return (filterSubCategory.value = subCategory.value.filter(
+const showSubCategory = (id, name) => {
+  categoryName.value = name || "Електроінструмент";
+
+  filterSubCategory.value = subCategory.value.filter(
     (el) => el.parent_id == id
-  ));
+  );
 };
 
-const goToCatalog = (parentId, id) => {
-  router.push(`/products/${parentId}/${id}`);
+const goToCatalog = (parentId, id, name) => {
+  router.push(
+    `/products/${parentId}/${id}?category=${categoryName.value}&category_path=/products/${parentId}&sub_category=${name}&sub_category_path=/products/${parentId}/${id}`
+  );
 };
 </script>
 

@@ -60,7 +60,7 @@ function showMoreParam() {
 
 <style lang="scss" scoped>
 .wrapper_parametr {
-  padding-top: 150px;
+  padding-top: 100px;
   width: 75%;
   display: flex;
   flex-direction: column;

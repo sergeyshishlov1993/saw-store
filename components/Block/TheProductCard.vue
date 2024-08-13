@@ -1,14 +1,27 @@
 <template>
   <div class="product-card__wrapper">
-    <img :src="props.path" :alt="props.title" />
+    <div class="product-card__wrapper_img">
+      <img :src="props.path" :alt="props.title" />
+
+      <div
+        class="discount"
+        v-if="props.discount || props.bestseller"
+        :class="{ bestseller: props.bestseller }"
+      >
+        <ui-text-h4 v-if="props.discount"> -{{ props.discount }}%</ui-text-h4>
+        <ui-text-h4 v-else> хіт</ui-text-h4>
+        <icon-fire v-if="!props.discount" />
+      </div>
+    </div>
 
     <ui-text-h5> {{ props.title }}</ui-text-h5>
 
     <div class="product-card__wrapper_price">
-      <ui-text-h4 v-if="props.actionPrice" class="action"
-        >{{ props.actionPrice }} грн</ui-text-h4
+      <ui-text-h4 v-if="props.promotionalPrice" class="action"
+        >{{ props.promotionalPrice }} грн</ui-text-h4
       >
-      <ui-text-h4 :class="{ text: props.actionPrice }"
+
+      <ui-text-h4 :class="{ text: props.promotionalPrice }"
         >{{ props.price }} грн</ui-text-h4
       >
     </div>
@@ -21,10 +34,11 @@
 import UiTextH4 from "../Ui/UiTextH4.vue";
 import UiTextH5 from "../Ui/UiTextH5.vue";
 import UiBtn from "../Ui/UiBtn.vue";
+import IconFire from "~/assets/icons/IconFire.vue";
 
 const emit = defineEmits(["buyProduct"]);
 const props = defineProps({
-  actionPrice: {
+  promotionalPrice: {
     type: String,
   },
 
@@ -39,8 +53,16 @@ const props = defineProps({
   },
 
   price: {
-    type: Number,
+    type: String,
     require: true,
+  },
+
+  discount: {
+    type: Number,
+  },
+
+  bestseller: {
+    type: String,
   },
 });
 
@@ -61,12 +83,20 @@ const buyProduct = () => {
   border-radius: 20px;
   box-shadow: 0px 2px 6px rgb(0 0 0 / 8%);
 
+  &_img {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
   button {
     display: none;
   }
+
   h2 {
     font-weight: 700;
   }
+
   &_price {
     display: flex;
     align-items: center;
@@ -84,5 +114,29 @@ const buyProduct = () => {
 
 .text {
   text-decoration: line-through;
+}
+
+.discount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background-color: rgba(68, 154, 16, 0.13);
+  color: #449a10;
+}
+
+.bestseller {
+  background: none;
+  border: 1px solid rgb(144, 5, 5);
+  color: black !important;
+  border-radius: 10px;
+  width: 100px;
+
+  svg {
+    width: 20px;
+    margin-left: 5px;
+  }
 }
 </style>

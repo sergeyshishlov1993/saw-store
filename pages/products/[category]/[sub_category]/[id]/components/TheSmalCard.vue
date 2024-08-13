@@ -66,7 +66,6 @@ const handlerClick = () => {
   align-items: center;
   gap: 20px;
   border-radius: 10px;
-
   box-shadow: 0px 2px 5px rgb(120 144 156 / 8%), 0px 2px 5px rgb(48 48 48 / 5%);
   border-radius: 2px;
 
@@ -77,10 +76,15 @@ const handlerClick = () => {
   }
   .review_count {
     font-weight: 500;
+
     span {
       font-weight: 700;
       font-size: 16px;
     }
+  }
+
+  img {
+    max-width: 75%;
   }
 }
 

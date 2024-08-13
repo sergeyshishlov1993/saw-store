@@ -7,7 +7,7 @@
         v-for="title in categogiesMain"
         :key="title"
         :title="title"
-        @click="goToCategory(title[1])"
+        @click="goToCategory(title[1], title[0])"
       />
     </div>
   </div>
@@ -16,7 +16,6 @@
 <script setup>
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
 import UiTextH1 from "../../components/Ui/UiTextH1.vue";
 import TheMainCard from "../../components/Block/TheMainCard.vue";
 
@@ -33,8 +32,8 @@ const categogiesMain = reactive([
   ["Будівельна техніка та обладнання", 187],
 ]);
 
-async function goToCategory(category) {
-  router.push(`/products/${category}`);
+async function goToCategory(category, name) {
+  router.push(`/products/${category}?category=${name}`);
 }
 </script>
 

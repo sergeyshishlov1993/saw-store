@@ -178,7 +178,7 @@ async function getAllReviews() {
 async function deleteReview() {
   try {
     const response = await axios.delete(
-      `http://localhost:8000/admin/products/${props.id}/review/${props.reviewId}`
+      `http://localhost:8000/admin/products/review/${props.reviewId}`
     );
 
     emit("deleteReview", props.reviewId);

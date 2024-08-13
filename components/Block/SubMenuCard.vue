@@ -28,11 +28,11 @@ const props = defineProps({
   },
 
   id: {
-    type: Number,
+    type: String,
   },
 
   parentId: {
-    type: Number,
+    type: String,
   },
 
   isMainMenu: {

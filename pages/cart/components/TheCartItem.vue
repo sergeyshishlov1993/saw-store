@@ -2,36 +2,40 @@
   <div class="cart__item">
     <div class="cart__item_title">
       <ui-text-h5>У кошику</ui-text-h5>
-      <button>
+
+      <button @click="emptyTrash">
         <ui-text-h5>Очистити кошик</ui-text-h5>
       </button>
     </div>
 
-    <div class="cart__item_messange" v-if="!productsInСart.length">
+    <div class="cart__item_messange" v-if="!state.productsInСart.length">
       <ui-text-h4> Ваш кошик порожній.</ui-text-h4>
     </div>
 
     <div v-else>
       <the-cart-card
-        v-for="product in productsInСart"
+        v-for="product in state.productsInСart"
         :key="product.product_id"
         :id="product.product_id"
         :title="product.product_name"
         :count="product.count"
         :path="product.pictures[0].pictures_name"
         :price="product.price"
+        :itemTotalPrice="product.itemTotalPrice"
+        :salePrice="product.sale_price"
       />
     </div>
 
     <div class="cart__item_total">
       <ui-text-h5>Разом:</ui-text-h5>
-      <ui-text-h2 class="total_price">{{ totalPriceCart[0] }} грн</ui-text-h2>
+      <ui-text-h2 class="total_price"
+        >{{ state.totalPriceCart }} грн</ui-text-h2
+      >
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import UiTextH2 from "~/components/Ui/UiTextH2.vue";
 import UiTextH4 from "~/components/Ui/UiTextH4.vue";
 import UiTextH5 from "~/components/Ui/UiTextH5.vue";
@@ -41,7 +45,12 @@ import { useCartData } from "~/stores/cartData";
 import useScrollToTop from "~/utils/useScrollToTop";
 
 const { scrollToTop } = useScrollToTop();
-const { productsInСart, totalPriceCart } = useCartData();
+const { state } = useCartData();
+
+function emptyTrash() {
+  state.productsInСart = [];
+  state.totalPriceCart = 0
+}
 </script>
 
 <style lang="scss" scoped>

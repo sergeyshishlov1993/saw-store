@@ -15,6 +15,8 @@
           :count="product.count"
           :path="product.pictures[0].pictures_name"
           :price="product.price"
+          :itemTotalPrice="product.itemTotalPrice"
+          :salePrice="product.sale_price"
         />
       </div>
 
@@ -23,7 +25,7 @@
           продовжите покупки
         </ui-text-h4>
         <ui-text-h4>всьго:</ui-text-h4>
-        <ui-text-h4 class="price">{{ totalPriceCart[0] }} грн</ui-text-h4>
+        <ui-text-h4 class="price">{{ state.totalPriceCart }} грн</ui-text-h4>
       </div>
 
       <div class="wrapper__modal_btn">
@@ -44,18 +46,11 @@ import { useCartData } from "~/stores/cartData";
 import TheCartCard from "~/pages/cart/components/TheCartCard.vue";
 import UiBtn from "../Ui/UiBtn.vue";
 
-const {
-  productsInСart,
-  showModalWindow,
-  totalPriceCart,
-  calcTotal,
-  blockScroll,
-  removeBlockScroll,
-} = useCartData();
+const { calcTotal, blockScroll, state } = useCartData();
 const router = useRouter();
 
 const emit = defineEmits(["changeState"]);
-const filterProducts = ref(productsInСart);
+const filterProducts = ref(state.productsInСart);
 
 const changeState = () => {
   emit("changeState");
@@ -68,13 +63,13 @@ onMounted(async () => {
 });
 
 const goToCart = () => {
-  router.push("/cart");
-  showModalWindow[0] = false;
+  router.push("/cart?cart=Оформлення замовлення");
+  state.showModalWindow = false;
   blockScroll();
 };
 
 const backToShopping = () => {
-  showModalWindow[0] = false;
+  state.showModalWindow = false;
   document.body.style.overflow = "";
 };
 </script>

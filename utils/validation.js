@@ -10,7 +10,7 @@ export const errorsFormData = reactive({}); //create a reactive object to store 
 export function createErrorObj(name) {
   errorsFormData[name] = { ...defaultErrorObject }; //create a function that will create a default object with errors where the object key is the name of the input
 }
-export function validateField(value, name) {
+export function validateField(value, name, message) {
   //we check the input fields where the name parameter is the name of the input, the value parameter is the input value, password is the password input value for comparison
 
   errorsFormData[name].errors = []; //reset the error value in the object so that errors are not duplicated
@@ -21,17 +21,28 @@ export function validateField(value, name) {
   }
 
   // Min  length
-  if (!!value && value.length <= 3) {
+  if (!!value && value.length <= 3 && name !== "file") {
     errorsFormData[name].errors.push("Мінімальна кількість символів 3");
   }
 
+  //phone validation
   if (!!value && name == "phone" && value.length < 13) {
     errorsFormData[name].errors = [];
     errorsFormData[name].errors.push("Введіть полний номер телефону");
   }
 
-  // Max length
-  // if (!!value && value.length > 255) {
-  //   errorsFormData[name].errors.push("Максимальна кількість 255 !");
-  // }
+  //file validation
+  if (!!value && name == "file" && value.length == 0) {
+    errorsFormData[name].errors = [];
+    errorsFormData[name].errors.push("Потрібно додати картинку");
+  }
+
+  if (
+    (!!value && message === "User not found") ||
+    message === "Password is incorrect" ||
+    message === "Ошибка при получении данных администратора"
+  ) {
+    errorsFormData[name].errors = [];
+    errorsFormData[name].errors.push("Невірне имʼя або пароль");
+  }
 }

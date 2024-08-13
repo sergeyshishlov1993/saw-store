@@ -1,6 +1,8 @@
 <template>
   <div class="container">
     <div class="about__wrapper">
+      <breadcrumbs :breadcrumbs="breadcrumb" />
+
       <ui-text-h1 class="title">Про нас</ui-text-h1>
       <div class="about__wrapper_text">
         <icon-logo class="logo" />
@@ -57,12 +59,24 @@
 </template>
 
 <script setup>
+import { useRoute } from "vue-router";
 import IconLogo from "~/assets/icons/IconLogo.vue";
 import UiTextH1 from "~/components/Ui/UiTextH1.vue";
 import UiTextH3 from "~/components/Ui/UiTextH3.vue";
-import UiTextH5 from "~/components/Ui/UiTextH5.vue";
 import iconIntertool from "../../assets/icons/iconIntertool.vue";
 import IconLogoBlack from "~/assets/icons/IconLogoBlack.vue";
+import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
+
+const route = useRoute();
+
+const breadcrumb = ref([
+  { name: "Головна", path: "/" },
+
+  {
+    name: route.query.about,
+    path: `${route.path}?about=${route.query.about}`,
+  },
+]);
 </script>
 
 <style lang="scss" scoped>
@@ -102,5 +116,15 @@ import IconLogoBlack from "~/assets/icons/IconLogoBlack.vue";
 .logo {
   width: 75%;
   fill: black;
+}
+
+.breadcrumb-item {
+  a {
+    color: black;
+  }
+}
+
+.active {
+  color: rgb(144, 5, 5);
 }
 </style>

@@ -89,6 +89,7 @@
         name="newPost"
         value="9a68df70-0267-42a8-bb5c-37f427e36ee4"
         v-model="typeWarehouses"
+        @change="handleChange"
       />
       <label for="BranchСargo">у вантажне відділення</label>
     </div>
@@ -100,6 +101,7 @@
         name="newPost"
         value="Courier"
         v-model="typeWarehouses"
+        @change="handleChange"
       />
       <label for="Courier">кур'єром за адресою</label>
     </div>
@@ -111,22 +113,27 @@
         name="newPost"
         value="f9316480-5f2d-425d-bc2c-ac7cd29decf0"
         v-model="typeWarehouses"
+        @change="handleChange"
       />
       <label for="Postomat">у поштомат</label>
     </div>
 
     <!-- ---------------город------------------- -->
     <div class="delivery__wrapper">
-      <ui-input
-        name="city"
-        placeholder="Ваше місто"
-        class="customInput"
-        :value="city"
-        @focus="(event) => handleFocus('city', event)"
-        @input="(event) => getInputValue('city', event.target.value)"
-        @blur="(event) => handleBlur('city', event.target.value)"
-        :class="{ invalid: errorsFormData?.city?.errors.length != 0 }"
-      />
+      <div class="input__wrapper">
+        <ui-input
+          name="city"
+          placeholder="Ваше місто"
+          class="customInput"
+          :value="city"
+          @focus="(event) => handleFocus('city', event)"
+          @input="(event) => getInputValue('city', event.target.value)"
+          @blur="(event) => handleBlur('city', event.target.value)"
+          :class="{ invalid: errorsFormData?.city?.errors.length != 0 }"
+        />
+
+        <icon-close @click="clearInputValue('city')" />
+      </div>
 
       <ui-error
         v-for="error in errorsFormData?.city?.errors ?? []"
@@ -134,7 +141,10 @@
         :text="error"
       />
 
+      <ui-loader v-if="loadDataNovaPoshta" />
+
       <ui-drop-down
+        v-else
         @selectCity="getCityValue"
         :value="cityList"
         name="cityList"
@@ -143,17 +153,21 @@
     </div>
 
     <!-- ---------------отделение------------------- -->
-    <div class="delivery__wrapper">
-      <ui-input
-        placeholder="Ваше віділення"
-        class="customInput"
-        name="warehouses"
-        :value="warehouses"
-        @focus="(event) => handleFocus('warehouses', event)"
-        @input="(event) => getInputValue('warehouses', event.target.value)"
-        @blur="(event) => handleBlur('warehouses', event.target.value)"
-        :class="{ invalid: errorsFormData?.warehouses?.errors.length != 0 }"
-      />
+    <div class="delivery__wrapper" v-if="typeWarehouses !== 'Courier'">
+      <div class="input__wrapper">
+        <ui-input
+          placeholder="Ваше віділення"
+          class="customInput"
+          name="warehouses"
+          :value="warehouses"
+          @focus="(event) => handleFocus('warehouses', event)"
+          @input="(event) => getInputValue('warehouses', event.target.value)"
+          @blur="(event) => handleBlur('warehouses', event.target.value)"
+          :class="{ invalid: errorsFormData?.warehouses?.errors.length != 0 }"
+        />
+
+        <icon-close @click="clearInputValue('warehouses')" />
+      </div>
 
       <ui-error
         v-for="error in errorsFormData?.warehouses?.errors ?? []"
@@ -166,6 +180,31 @@
         :value="warehousesList"
         :show="showDropWarehouses"
         name="warehousesList"
+      />
+    </div>
+
+    <div class="delivery__wrapper" v-else>
+      <ui-input
+        placeholder="Адреса доставки"
+        class="customInput"
+        name="courierDeliveryAddress"
+        :value="courierDeliveryAddress"
+        @focus="(event) => handleFocus('courierDeliveryAddress', event)"
+        @input="
+          (event) => getInputValue('courierDeliveryAddress', event.target.value)
+        "
+        @blur="
+          (event) => handleBlur('courierDeliveryAddress', event.target.value)
+        "
+        :class="{
+          invalid: errorsFormData?.courierDeliveryAddress?.errors.length != 0,
+        }"
+      />
+
+      <ui-error
+        v-for="error in errorsFormData?.courierDeliveryAddress?.errors ?? []"
+        :key="error"
+        :text="error"
       />
     </div>
 
@@ -202,7 +241,9 @@
       >
     </div>
 
-    <ui-btn :disabled="!productsInСart.length">Оформити замовлення</ui-btn>
+    <ui-btn :disabled="!state.productsInСart.length"
+      >Оформити замовлення</ui-btn
+    >
   </form>
 </template>
 
@@ -215,6 +256,8 @@ import UiBtn from "~/components/Ui/UiBtn.vue";
 import UiTextH3 from "~/components/Ui/UiTextH3.vue";
 import UiTextH4 from "~/components/Ui/UiTextH4.vue";
 import UiDropDown from "~/components/Ui/UiDropDown.vue";
+import UiLoader from "~/components/Ui/UiLoader.vue";
+import IconClose from "~/assets/icons/IconClose.vue";
 
 import {
   errorsFormData,
@@ -223,7 +266,7 @@ import {
 } from "~/utils/validation";
 import { useCartData } from "~/stores/cartData";
 
-const { productsInСart, totalPriceCart } = useCartData();
+const { state } = useCartData();
 
 const emit = defineEmits(["show"]);
 
@@ -234,11 +277,19 @@ const city = ref("");
 const cityList = ref([]);
 const cityRef = ref("");
 const warehouses = ref();
+const courierDeliveryAddress = ref("");
 const typeWarehouses = ref("841339c7-591a-42e2-8233-7a0a00f0ed6f");
 const warehousesList = ref([]);
 const showDropCity = ref(false);
 const showDropWarehouses = ref(false);
 const payment = ref("Післяплатою");
+const loadDataNovaPoshta = ref(false);
+
+async function handleChange(event) {
+  typeWarehouses.value = event.target.value;
+
+  await getWarehousesNovaPoshta();
+}
 
 async function getCityValue(value, valueCity, show, name, type) {
   cityRef.value = value;
@@ -246,7 +297,7 @@ async function getCityValue(value, valueCity, show, name, type) {
   if (name == "cityList") {
     city.value = valueCity;
     showDropCity.value = show;
-    typeWarehouses.value = type;
+    warehouses.value = "";
     try {
       const response = await axios.post(
         "http://localhost:8000/nova-poshta/citi",
@@ -286,11 +337,18 @@ async function handleFocus(name, event) {
       break;
 
     case "warehouses":
-      showDropWarehouses.value = true;
       if (city.value) {
         warehousesList.value = [];
         await getWarehousesNovaPoshta();
+
+        showDropWarehouses.value = true;
       }
+
+      break;
+
+    case "courierDeliveryAddress":
+      courierDeliveryAddress.value = event.target.value;
+      warehouses.value = "Кур'єрська доставка";
 
       break;
   }
@@ -325,8 +383,12 @@ async function getInputValue(name, event) {
       city.value = event;
       validateField(city.value, "city");
 
-      if (city.value.length >= 3) {
+      if (city.value.length > 3) {
         await getCityNovaPoshta();
+      } else if (!city.value.length) {
+        cityList.value = [];
+      } else {
+        warehouses.value = "";
       }
 
       break;
@@ -335,6 +397,12 @@ async function getInputValue(name, event) {
       warehouses.value = event;
 
       await getWarehousesNovaPoshta();
+
+      break;
+
+    case "courierDeliveryAddress":
+      courierDeliveryAddress.value = event;
+      warehouses.value = "Кур'єрська доставка";
 
       break;
   }
@@ -373,6 +441,23 @@ async function handleBlur(name, event) {
       await getWarehousesNovaPoshta();
 
       break;
+
+    case "courierDeliveryAddress":
+      courierDeliveryAddress.value = event;
+      warehouses.value = "Кур'єрська доставка";
+
+      break;
+  }
+}
+
+function clearInputValue(name) {
+  if (name === "city") {
+    city.value = "";
+    cityList.value = [];
+    warehouses.value = "";
+    showDropCity.value = false;
+  } else {
+    warehouses.value = "";
   }
 }
 
@@ -382,12 +467,15 @@ function doValidateForm() {
   createErrorObj("phone");
   createErrorObj("city");
   createErrorObj("warehouses");
+  createErrorObj("courierDeliveryAddress");
 
   validateField(firstName.value, "firstName");
   validateField(secondName.value, "secondName");
   validateField(phone.value, "phone");
   validateField(city.value, "city");
   validateField(warehouses.value, "warehouses");
+
+  validateField(courierDeliveryAddress.value, "courierDeliveryAddress");
 }
 
 function isFormValid() {
@@ -398,65 +486,111 @@ function isFormValid() {
 
 //nova poshta city
 async function getCityNovaPoshta() {
-  const response = await axios.post("http://localhost:8000/nova-poshta/citi", {
-    city: city.value,
-    cityRef: cityRef.value,
-    numberWarehouses: warehouses.value,
-    type: typeWarehouses.value,
-  });
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/nova-poshta/citi",
+      {
+        city: city.value,
+        cityRef: cityRef.value,
+        numberWarehouses: warehouses.value,
+        type: typeWarehouses.value,
+      }
+    );
 
-  cityList.value = [];
+    cityList.value = [];
 
-  // showDropCity.value = true;
-
-  response.data.city.data.forEach((el) => {
-    cityList.value.push({ city: el.Description, cityRef: el.Ref });
-  });
+    response.data.city.data.forEach((el) => {
+      cityList.value.push({ city: el.Description, cityRef: el.Ref });
+    });
+  } catch (error) {
+    console.error("помилка", error);
+  }
 }
 
+// async function getWarehousesNovaPoshta() {
+//   loadDataNovaPoshta.value = true;
+
+//   try {
+//     const response = await axios.post(
+//       "http://localhost:8000/nova-poshta/citi/warehouses",
+//       {
+//         city: cityRef.value,
+//         numberWarehouses: warehouses.value,
+//         type: typeWarehouses.value,
+//       }
+//     );
+
+//     warehousesList.value = [];
+
+//     await response.data.warehouses.data.forEach((el) => {
+//       warehousesList.value.push({
+//         city: el.Description,
+//         cityRef: el.CityRef,
+//       });
+//     });
+
+//     loadDataNovaPoshta.value = false;
+//   } catch (error) {
+//     console.error("помилка", error);
+//   }
+// }
+
 async function getWarehousesNovaPoshta() {
-  const response = await axios.post(
-    "http://localhost:8000/nova-poshta/citi/warehouses",
-    {
-      city: cityRef.value,
-      numberWarehouses: warehouses.value,
-      type: typeWarehouses.value,
+  loadDataNovaPoshta.value = true;
+
+  try {
+    warehousesList.value = [];
+
+    const response = await axios.post(
+      "http://localhost:8000/nova-poshta/citi/warehouses",
+      {
+        city: cityRef.value,
+        numberWarehouses: warehouses.value,
+        type: typeWarehouses.value,
+      }
+    );
+
+    for (const el of response.data.warehouses.data) {
+      warehousesList.value.push({
+        city: el.Description,
+        cityRef: el.CityRef,
+      });
     }
-  );
 
-  warehousesList.value = [];
+    if (!response.data.warehouses.data.length) {
+      showDropWarehouses.value = false;
+    }
 
-  // showDropWarehouses.value = true;
-
-  response.data.warehouses.data.forEach((el) => {
-    warehousesList.value.push({
-      city: el.Description,
-      cityRef: el.CityRef,
-    });
-  });
+    loadDataNovaPoshta.value = false;
+  } catch (error) {
+    console.error("помилка", error);
+    loadDataNovaPoshta.value = false; // Зупинити лоадер навіть у разі помилки
+  }
 }
 
 async function buyOrder() {
   doValidateForm();
 
   if (!isFormValid()) {
-    const random = crypto.randomUUID();
-    const orders = productsInСart.map((el) => ({
-      order_id: random,
-      orderName: el.product_name,
-      count: el.count,
-      img: el.pictures[0].pictures_name,
-      product_id: el.product_id,
-      discount: el.discount,
-      discountProduct: el.sale,
-      price: el.price,
-    }));
-
     try {
+      const random = crypto.randomUUID();
+      const orders = state.productsInСart.map((el) => ({
+        order_id: random,
+        orderName: el.product_name,
+        count: el.count,
+        img: el.pictures[0].pictures_name,
+        product_id: el.product_id,
+        discount: el.discount,
+        discountProduct: el.sale,
+        price: el.price,
+      }));
+
       const response = await axios.post(
         "http://localhost:8000/order/add-order",
         {
           order_id: random,
+          order_name: orders.orderName,
+          order_pictures: orders.img,
           name: firstName.value,
           secondName: secondName.value,
           phone: phone.value,
@@ -464,7 +598,8 @@ async function buyOrder() {
           payment: payment.value,
           city: city.value,
           warehouses: warehouses.value,
-          totalPrice: totalPriceCart[0],
+          courierDeliveryAddress: courierDeliveryAddress.value,
+          totalPrice: state.totalPriceCart,
         }
       );
 
@@ -474,9 +609,10 @@ async function buyOrder() {
       payment.value = "Післяплатою";
       city.value = "";
       warehouses.value = "";
-      totalPriceCart[0] = 0;
+      courierDeliveryAddress.value = "";
+      state.totalPriceCart = 0;
 
-      productsInСart.length = 0;
+      state.productsInСart.length = 0;
 
       emit("show", true);
     } catch (error) {
@@ -530,9 +666,17 @@ form {
 }
 
 .input__wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 15px;
+
+  svg {
+    position: absolute;
+    top: 6px;
+    right: 5px;
+    width: 30px;
+  }
 }
 
 .customInput {

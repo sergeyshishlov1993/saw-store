@@ -6,45 +6,48 @@
       data-bs-ride="carousel"
     >
       <div class="carousel-inner">
-        <div class="carousel-item active" data-bs-interval="10000">
+        <div class="carousel-item" v-for="slide in slider" :key="slide.id">
+          <img :src="slide.name" class="d-block w-100" alt="..." />
+        </div>
+        <!-- <div class="carousel-item active" data-bs-interval="10000">
           <img
             src="assets/img/carpenter-works-with-tree.jpg"
             class="d-block w-100"
             alt="..."
           />
-        </div>
+        </div> -->
 
-        <div class="carousel-item" data-bs-interval="2000">
+        <!-- <div class="carousel-item" data-bs-interval="2000">
           <img
             src="assets/img/close-up-photo-cutting-wood-with-fretsaw.jpg"
             class="d-block w-100"
             alt="..."
           />
-        </div>
+        </div> -->
 
-        <div class="carousel-item">
+        <!-- <div class="carousel-item">
           <img
             src="assets/img/carpenter-cutting-mdf-board-inside-workshop.jpg"
             class="d-block w-100"
             alt="..."
           />
-        </div>
+        </div> -->
 
-        <div class="carousel-item">
+        <!-- <div class="carousel-item">
           <img
             src="assets/img/carpenter-using-circular-saw-cutting-wooden-boards-construction-details-male-worker-handy-man-with-power-tools (1).jpg"
             class="d-block w-100"
             alt="..."
           />
-        </div>
+        </div> -->
 
-        <div class="carousel-item">
+        <!-- <div class="carousel-item">
           <img
             src="assets/img/carpenter-using-circular-saw-cutting-wooden-boards-construction-details-male-worker-handy-man-with-power-tools.jpg"
             class="d-block w-100"
             alt="..."
           />
-        </div>
+        </div> -->
       </div>
 
       <button
@@ -70,7 +73,28 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+import axios from "axios";
+
+const slider = ref([]);
+
+onMounted(async () => {
+  await getSliderImg();
+});
+
+async function getSliderImg() {
+  try {
+    const response = await axios.get(`http://localhost:8000/slider`);
+
+    console.log("slider", response);
+
+    slider.value = response.data.slider;
+  } catch (error) {
+    console.error("сталась помилка:", error);
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .slider__wrapper {

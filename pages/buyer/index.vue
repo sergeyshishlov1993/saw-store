@@ -1,6 +1,8 @@
 <template>
   <div class="container">
     <div class="info__wrapper">
+      <breadcrumbs :breadcrumbs="breadcrumb" />
+
       <ui-text-h1 class="title">Доставка і оплата</ui-text-h1>
 
       <div class="info__wrapper_text">
@@ -53,9 +55,13 @@
 </template>
 
 <script setup>
+import { useRoute } from "vue-router";
 import UiTextH1 from "~/components/Ui/UiTextH1.vue";
 import UiTextH2 from "~/components/Ui/UiTextH2.vue";
 import BuyerCard from "./components/BuyerCard.vue";
+import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
+
+const route = useRoute();
 
 const cardData = [
   {
@@ -75,6 +81,15 @@ const cardDataDelivery = [
     text: `Оплатити товар готівкою можна при доставці кур'єром або в будь-якому відділенні «Нова пошта» післяплатою.`,
   },
 ];
+
+const breadcrumb = ref([
+  { name: "Головна", path: "/" },
+
+  {
+    name: route.query.buyer,
+    path: `${route.path}?buyer=${route.query.buyer}`,
+  },
+]);
 </script>
 
 <style lang="scss" scoped>

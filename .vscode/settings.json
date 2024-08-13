@@ -1,7 +1,5 @@
 {
   "vetur.format.defaultFormatterOptions": {
-    
-
     "js-beautify-html": {
       "wrap_attributes": "force-expand-multiline"
     },
@@ -11,5 +9,6 @@
       "wrapAttributes": false,
       "sortAttributes": false
     }
-  }
+  },
+  "vue3snippets.enable-compile-vue-file-on-did-save-code": false
 }

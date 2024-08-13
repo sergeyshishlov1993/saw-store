@@ -1,8 +1,8 @@
 <template>
   <div>
-    <ui-text-h-3 :class="addClass">
+    <ui-text-h3 :class="{ active: props.name === props.selectedTab }">
       <slot />
-    </ui-text-h-3>
+    </ui-text-h3>
 
     <div :class="{ tab: props.name === props.selectedTab }" />
   </div>
@@ -17,15 +17,11 @@ const props = defineProps({
     type: String,
     requered: true,
   },
+
   name: {
     type: String,
     requered: true,
   },
-});
-const addClass = computed(() => {
-  return props.name === props.selectedTab
-    ? "black fw-400"
-    : "grey pr-96 fw-400";
 });
 </script>
 
@@ -34,20 +30,22 @@ div {
   position: relative;
   display: flex;
   flex-direction: column;
+
   h2 {
     white-space: nowrap;
+    font-size: 16px;
+    cursor: pointer;
   }
 }
-.pr-96 {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-}
+
 .tab {
   width: 100%;
   position: absolute;
   bottom: -35px;
   border: 1px solid rgba(0, 0, 0, 1);
+}
+
+.active {
+  font-weight: 700;
 }
 </style>

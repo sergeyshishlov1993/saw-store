@@ -40,7 +40,13 @@
           :name="product.product_name"
           :price="product.price"
           :path="product.pictures"
-          @click="goToProduct(product.sub_category_id, product.product_id)"
+          @click="
+            goToProduct(
+              product.sub_category_id,
+              product.product_id,
+              product.product_name
+            )
+          "
         />
       </div>
 
@@ -48,7 +54,7 @@
         <icon-cart />
 
         <div class="cart__counter">
-          <h6>{{ productsInСart.length }}</h6>
+          <h6>{{ state.productsInСart.length }}</h6>
         </div>
       </div>
     </div>
@@ -76,7 +82,7 @@ const store = useOtherData();
 const router = useRouter();
 const route = useRoute();
 const isAdmin = ref(route.path.startsWith("/admin"));
-const { productsInСart } = useCartData();
+const { state } = useCartData();
 
 function showMenu() {
   store.showCatalogNav = !store.showCatalogNav;
@@ -103,8 +109,8 @@ const searchProducts = async (event) => {
   }
 };
 
-function goToProduct(sub, id) {
-  router.push(`/products/tools/${sub}/${id}`);
+function goToProduct(sub, id, name) {
+  router.push(`/products/tools/${sub}/${id}?product=${name}`);
   query.value = "";
   products.value = [];
 }
@@ -115,27 +121,27 @@ function goHome() {
 }
 
 function goToBestseller() {
-  router.push("/bestseller");
+  router.push("/bestseller?category=Хіт продажу");
   store.showCatalogNav = false;
 }
 
 function goToSales() {
-  router.push("/sale");
+  router.push("/sale?category=Акція");
   store.showCatalogNav = false;
 }
 
 function goToAbout() {
-  router.push("/about");
+  router.push("/about?about=Про нас");
   store.showCatalogNav = false;
 }
 
 function goToBuyersPage() {
-  router.push("/buyer");
+  router.push("/buyer?buyer=Покупцям");
   store.showCatalogNav = false;
 }
 
 function goToCart() {
-  router.push("/cart");
+  router.push("/cart?cart=Кошик");
   store.showCatalogNav = false;
 }
 </script>

@@ -6,7 +6,7 @@
       :loop="true"
       :effect="'creative'"
       :autoplay="{
-        delay: 4000,
+        delay: 7000,
         disableOnInteraction: true,
       }"
       :creative-effect="{
@@ -20,48 +20,44 @@
         },
       }"
     >
-      <SwiperSlide>
-        <img
-          src="assets/img/close-up-photo-cutting-wood-with-fretsaw.jpg"
-          alt="..."
-        />
-      </SwiperSlide>
-
-      <SwiperSlide>
-        <img
-          src="assets/img/carpenter-cutting-mdf-board-inside-workshop.jpg"
-          alt="..."
-        />
-      </SwiperSlide>
-
-      <SwiperSlide>
-        <img
-          src="assets/img/carpenter-using-circular-saw-cutting-wooden-boards-construction-details-male-worker-handy-man-with-power-tools (1).jpg"
-          alt="..."
-        />
-      </SwiperSlide>
-
-      <SwiperSlide>
-        <img
-          src="assets/img/close-up-photo-cutting-wood-with-fretsaw.jpg"
-          alt="..."
-        />
-      </SwiperSlide>
-
-      <SwiperSlide>
-        <img
-          src="assets/img/carpenter-using-circular-saw-cutting-wooden-boards-construction-details-male-worker-handy-man-with-power-tools.jpg"
-          alt="..."
-        />
+      <SwiperSlide v-for="slide in slider" :key="slide.id">
+        <img :src="slide.name" :alt="slide.name" />
       </SwiperSlide>
     </Swiper>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+import axios from "axios";
+
+const slider = ref([]);
+
+onMounted(async () => {
+  await getSliderImg();
+});
+
+async function getSliderImg() {
+  try {
+    const response = await axios.get(`http://localhost:8000/slider`);
+
+    slider.value = response.data.slider;
+  } catch (error) {
+    console.error("сталась помилка:", error);
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .slider__wrapper {
-  //   padding-top: 200px;
+  padding: 150px 0 30px 0;
+
+  max-width: 100%;
+
+  img {
+    width: 100%;
+    height: 70vh;
+    object-fit: cover;
+  }
 }
 </style>
