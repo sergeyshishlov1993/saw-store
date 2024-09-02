@@ -58,12 +58,18 @@ async function getSliderImg() {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh; /* Фіксована висота слайдера */
+    height: 80vh;
   }
 
   img {
     width: 100%;
     max-height: 100%;
+  }
+}
+
+@media screen and (max-width: 991) {
+  .swiper-slide {
+    height: 100%;
   }
 }
 </style>
