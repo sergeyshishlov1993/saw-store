@@ -105,7 +105,7 @@ const tabs = [
   { name: "Відгуки" },
 ];
 const productById = ref();
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL;
 
 function changeTab(name) {
   currentTab.value = name;

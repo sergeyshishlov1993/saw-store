@@ -50,7 +50,7 @@ import {
 } from "~/utils/validation";
 
 const emit = defineEmits(["auth"]);
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL;
 const userName = ref("");
 const password = ref("");
 

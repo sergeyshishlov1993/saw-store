@@ -105,7 +105,7 @@ const isAdmin = ref(route.path.startsWith("/admin"));
 const query = ref("");
 const products = ref([]);
 const showSearchCart = ref(false);
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL;
 
 const searchProducts = async (event) => {
   query.value = event.target.value;

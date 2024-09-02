@@ -78,7 +78,7 @@ const currentPage = ref(1);
 const totalPage = ref();
 const isLoading = ref(true);
 const { scrollToTop } = useScrollToTop();
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL;
 
 onMounted(async () => {
   await getFeedback();

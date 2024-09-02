@@ -266,7 +266,7 @@ import {
 import { useCartData } from "~/stores/cartData";
 
 const { state } = useCartData();
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL;
 const emit = defineEmits(["show"]);
 
 const firstName = ref("");

@@ -81,7 +81,7 @@ const reviews = ref([]);
 const currentPage = ref(1);
 const totalPageCount = ref();
 const totalReviews = ref();
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL;
 
 onMounted(async () => {
   if (props.reviews) {

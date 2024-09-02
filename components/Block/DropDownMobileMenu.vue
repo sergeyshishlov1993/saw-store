@@ -30,7 +30,7 @@ const showSubCategory = ref(false);
 const category = ref();
 const subCategory = ref();
 const filterSubCategory = ref();
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL;
 
 function changeState(state, name, id) {
   switch (name) {

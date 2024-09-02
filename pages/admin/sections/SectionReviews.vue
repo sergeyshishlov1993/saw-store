@@ -147,7 +147,7 @@ const totalPageResponse = ref();
 const currentTab = ref("Відгуки");
 const tabs = [{ name: "Відгуки" }, { name: "Відповіді на відгуки" }];
 const isLoading = ref(true);
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL;
 
 onMounted(async () => {
   await getReviews();

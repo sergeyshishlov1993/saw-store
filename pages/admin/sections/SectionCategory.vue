@@ -82,7 +82,7 @@ const subCategory = ref();
 const pictirePath = ref("");
 const currentPage = ref(1);
 const totalPage = ref();
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL;
 
 onMounted(async () => {
   await getSubCategory();

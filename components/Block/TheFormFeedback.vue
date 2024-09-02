@@ -76,7 +76,7 @@ const props = defineProps({
     type: String,
   },
 });
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL;
 
 function handleFocus(event, name) {
   createErrorObj(name);
