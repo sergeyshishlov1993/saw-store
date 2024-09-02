@@ -13,7 +13,11 @@
         :discount="product.discount"
         @buy-product="addProductToCart(product, product.product_id)"
         @click="
-          goToProducts(product.sub_category_id, product.product_id, product.product_name)
+          goToProducts(
+            product.sub_category_id,
+            product.product_id,
+            product.product_name
+          )
         "
       />
     </div>

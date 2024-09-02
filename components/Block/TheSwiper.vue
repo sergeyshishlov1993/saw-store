@@ -67,9 +67,20 @@ async function getSliderImg() {
   }
 }
 
-@media screen and (max-width: 991) {
-  .swiper-slide {
-    height: 100%;
+@media screen and (max-width: 1199px) {
+  .slider__wrapper {
+    .swiper-slide {
+      padding-top: 30px;
+      height: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .slider__wrapper {
+    .swiper-slide {
+      padding-top: 5px;
+    }
   }
 }
 </style>

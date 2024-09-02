@@ -274,7 +274,7 @@ useHead({
 
 @media screen and (max-width: 767px) {
   .wrapper {
-    padding: 50px 0;
+    padding: 70px 0;
   }
 
   .product__wrapper {
