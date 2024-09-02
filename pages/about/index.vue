@@ -77,6 +77,17 @@ const breadcrumb = ref([
     path: `${route.path}?about=${route.query.about}`,
   },
 ]);
+
+useHead({
+  title:
+    "SAW STORE - Інтернет магазин професійного електроінструменту - Професійний та доступний електроінструмент - SAW STORE - Вибір професіоналів - Надійний електроінструмент для будь-яких задач - SAW STORE - Інструмент, на який можна покластися - Висока якість за доступною ціною - SAW STORE - Електроінструменти, які працюють за вас - Професійні рішення для кожного - SAW STORE - Технології, що надихають - Професійний електроінструмент для вашого бізнесу - SAW STORE - Якість, перевірена часом - Надійний інструмент для професіоналів та аматорів",
+  meta: [
+    {
+      name: "robots",
+      content: "index, follow",
+    },
+  ],
+});
 </script>
 
 <style lang="scss" scoped>
@@ -126,5 +137,56 @@ const breadcrumb = ref([
 
 .active {
   color: rgb(144, 5, 5);
+}
+
+@media screen and (max-width: 991px) {
+  .about__wrapper {
+    padding-top: 100px;
+
+    &_text {
+      .logo {
+        width: 50%;
+      }
+
+      &_description {
+        h2 {
+          font-size: 16px;
+        }
+
+        ul {
+          flex-wrap: wrap;
+          li {
+            img,
+            svg {
+              width: 150px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .title {
+    font-size: 20px;
+    line-height: 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about__wrapper_text_description {
+    h2 {
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    ul {
+      li {
+        img,
+        svg {
+          width: 120px;
+        }
+      }
+    }
+  }
 }
 </style>

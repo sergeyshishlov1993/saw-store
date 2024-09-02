@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed, onMounted } from "vue";
 import SectionProducts from "./sections/SectionProducts.vue";
 import SectionCategory from "./sections/SectionCategory.vue";
 import SectionReviews from "./sections/SectionReviews.vue";
@@ -43,7 +43,7 @@ import LoginAdmin from "./components/LoginAdmin.vue";
 
 const isAuth = ref(false);
 const currentTab = ref("Зворотній звʼязок");
-const tabs = [
+const tabs = ref([
   { name: "Зворотній звʼязок" },
   { name: "Товари" },
   { name: "Додати товар" },
@@ -51,7 +51,23 @@ const tabs = [
   { name: "Замовлення" },
   { name: "Відгуки" },
   { name: "Головний слайдер" },
-];
+]);
+
+onMounted(() => {
+  calcScrinWidth();
+});
+
+const calcScrinWidth = () => {
+  const screenWidth = window.innerWidth;
+
+  if (screenWidth < 992) {
+    return (tabs.value = [
+      { name: "Зворотній звʼязок" },
+      { name: "Замовлення" },
+      { name: "Відгуки" },
+    ]);
+  }
+};
 
 function changeTab(name) {
   currentTab.value = name;
@@ -86,6 +102,7 @@ function checkAuthAdmin(value) {
   padding: 64px 0 34px 0;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 70px;
   border-bottom: 1px solid rgba(216, 216, 216, 1);
 }
@@ -97,5 +114,15 @@ function checkAuthAdmin(value) {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+@media screen and (max-width: 991px) {
+  .login {
+    top: calc(50% - 185px);
+  }
+
+  .tabs {
+    gap: 40px;
+  }
 }
 </style>

@@ -24,4 +24,22 @@ import UiTextH3 from "~/components/Ui/UiTextH3.vue";
     text-align: center;
   }
 }
+
+@media screen and (max-width: 991px) {
+  .modal__sucses {
+    h2 {
+      font-size: 20px;
+      line-height: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .modal__sucses {
+    h2 {
+      font-size: 16px;
+      line-height: 20px;
+    }
+  }
+}
 </style>

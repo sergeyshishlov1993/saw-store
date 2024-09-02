@@ -50,7 +50,7 @@ import {
 } from "~/utils/validation";
 
 const emit = defineEmits(["auth"]);
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const userName = ref("");
 const password = ref("");
 
@@ -104,7 +104,7 @@ function isFormValid() {
 async function refreshAccessToken() {
   try {
     const refreshToken = localStorage.getItem("refreshToken");
-    const response = await axios.post(`http://localhost:8000/admin/token`, {
+    const response = await axios.post(`${apiUrl}/admin/token`, {
       token: refreshToken,
     });
 
@@ -144,16 +144,16 @@ async function login() {
   doValidateForm();
   if (!isFormValid()) {
     try {
-      const response = await axios.post(`http://localhost:8000/admin/login`, {
+      const response = await axios.post(`${apiUrl}/admin/login`, {
         username: userName.value,
         password: password.value,
       });
 
       if (response.status === 200) {
-        const accessTokenExpires = new Date(new Date().getTime() + 3600 * 1000); // 1 година в мілісекундах
+        const accessTokenExpires = new Date(new Date().getTime() + 3600 * 1000);
         const refreshTokenExpires = new Date(
           new Date().getTime() + 604800 * 1000
-        ); // 7 днів в мілісекундах
+        );
 
         localStorage.setItem("accessToken", response.data.accessToken);
         localStorage.setItem("refreshToken", response.data.refreshToken);
@@ -194,6 +194,34 @@ async function login() {
 
   input {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .login {
+    width: 500px;
+    form {
+      h2 {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .login {
+    padding: 20px;
+    width: 400px;
+
+    form {
+      gap: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .login {
+    width: 300px;
   }
 }
 </style>

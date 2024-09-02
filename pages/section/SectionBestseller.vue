@@ -1,5 +1,5 @@
 <template>
-  <div class="sales">
+  <div class="bestseller">
     <div class="title__wrapper">
       <ui-text-h1>ХІТ продажів</ui-text-h1>
 
@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div class="sales__wrapper" :style="calcWidthWrapper">
+    <div class="bestseller__wrapper" :style="calcWidthWrapper">
       <the-product-card
         v-for="product in bestsellerProduct"
         :key="product.product_id"
@@ -54,6 +54,7 @@ const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const router = useRouter();
 const route = useRoute();
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const currentIndex = ref(0);
 const bestsellerProduct = ref([]);
@@ -64,7 +65,7 @@ onMounted(async () => {
 
 async function getPromotionalItem() {
   try {
-    const response = await axios.get(`http://localhost:8000/bestseller`);
+    const response = await axios.get(`${apiUrl}/bestseller`);
 
     bestsellerProduct.value = response.data.bestseller;
   } catch (error) {
@@ -72,12 +73,19 @@ async function getPromotionalItem() {
   }
 }
 
-const calcWidthWrapper = computed(() => ({
-  width: 305 * bestsellerProduct.value.length + "px",
-}));
+const calcWidthWrapper = computed(() => {
+  const screenWidth = ref(window.innerWidth);
+  const baseWidth = screenWidth.value < 426 ? 310 : 305;
+
+  return {
+    width: baseWidth * bestsellerProduct.value.length + "px",
+  };
+});
 
 const goForward = computed(() => {
-  const slider = document.querySelector(".sales__wrapper");
+  const slider = document.querySelector(".bestseller__wrapper");
+  const screenWidth = ref(window.innerWidth);
+  const basePosition = screenWidth.value < 426 ? 310 : 315;
 
   if (currentIndex.value == bestsellerProduct.value.length - 6) {
     currentIndex.value = 0;
@@ -85,12 +93,14 @@ const goForward = computed(() => {
     currentIndex.value += 1;
   }
 
-  const currentPosition = ref(315 * currentIndex.value);
+  const currentPosition = ref(basePosition * currentIndex.value);
   slider.style.transform = `translateX(-${currentPosition.value}px)`;
 });
 
 const goBackward = computed(() => {
-  const slider = document.querySelector(".sales__wrapper");
+  const slider = document.querySelector(".bestseller__wrapper");
+  const screenWidth = ref(window.innerWidth);
+  const basePosition = screenWidth.value < 426 ? 310 : 315;
 
   if (currentIndex.value === 1) {
     currentIndex.value = 0;
@@ -98,7 +108,7 @@ const goBackward = computed(() => {
     currentIndex.value -= 1;
   }
 
-  const currentPosition = ref(315 * currentIndex.value);
+  const currentPosition = ref(basePosition * currentIndex.value);
   slider.style.transform = `translateX(-${currentPosition.value}px)`;
 });
 
@@ -110,7 +120,7 @@ const goToProducts = (category, id, name) => {
 </script>
 
 <style lang="scss" scoped>
-.sales {
+.bestseller {
   margin-top: 86px;
   padding-top: 50px;
   width: 100%;
@@ -141,5 +151,11 @@ const goToProducts = (category, id, name) => {
   align-items: center;
   justify-content: center;
   gap: 25px;
+}
+
+@media screen and (max-width: 767px) {
+  .bestseller {
+    margin-top: 0;
+  }
 }
 </style>

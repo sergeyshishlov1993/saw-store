@@ -32,6 +32,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 
 const slider = ref([]);
+const apiUrl = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   await getSliderImg();
@@ -39,7 +40,7 @@ onMounted(async () => {
 
 async function getSliderImg() {
   try {
-    const response = await axios.get(`http://localhost:8000/slider`);
+    const response = await axios.get(`${apiUrl}/slider`);
 
     slider.value = response.data.slider;
   } catch (error) {
@@ -50,14 +51,19 @@ async function getSliderImg() {
 
 <style lang="scss" scoped>
 .slider__wrapper {
-  padding: 150px 0 30px 0;
-
+  padding: 80px 0 30px 0;
   max-width: 100%;
+
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* Фіксована висота слайдера */
+  }
 
   img {
     width: 100%;
-    height: 70vh;
-    object-fit: cover;
+    max-height: 100%;
   }
 }
 </style>

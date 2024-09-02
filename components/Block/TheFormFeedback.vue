@@ -63,7 +63,6 @@ import UiTextH5 from "../Ui/UiTextH5.vue";
 import UiInput from "../Ui/UiInput.vue";
 import UiError from "../Ui/UiError.vue";
 import UiBtn from "../Ui/UiBtn.vue";
-
 import {
   errorsFormData,
   validateField,
@@ -72,12 +71,12 @@ import {
 
 const name = ref("");
 const phone = ref("+380");
-
 const props = defineProps({
   titleForm: {
     type: String,
   },
 });
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function handleFocus(event, name) {
   createErrorObj(name);
@@ -136,7 +135,7 @@ const sendFeedback = async () => {
         name: name.value,
         phone: phone.value,
       };
-      const response = await axios.post(`http://localhost:8000/feedback`, data);
+      const response = await axios.post(`${apiUrl}/feedback`, data);
 
       name.value = "";
       phone.value = "";
@@ -183,5 +182,29 @@ const sendFeedback = async () => {
   margin-top: 10px;
   color: rgba(35, 31, 32, 1);
   line-height: 24px;
+}
+
+@media screen and (max-width: 1199px) {
+  .form__wrapper {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .form__wrapper {
+    form {
+      gap: 15px;
+    }
+  }
+}
+
+@media screen and (max-width: 769px) {
+  .container {
+    padding-bottom: 50px;
+  }
+
+  .form__wrapper {
+    display: none;
+  }
 }
 </style>

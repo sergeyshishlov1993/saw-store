@@ -78,6 +78,7 @@ const currentPage = ref(1);
 const totalPage = ref();
 const isLoading = ref(true);
 const { scrollToTop } = useScrollToTop();
+const apiUrl = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   await getFeedback();
@@ -87,7 +88,7 @@ async function getFeedback() {
   isLoading.value = false;
   try {
     const response = await axios.get(
-      `http://localhost:8000/feedback/all?page=${currentPage.value}`
+      `${apiUrl}/feedback/all?page=${currentPage.value}`
     );
 
     feedback.value = response.data.feedback;
@@ -99,9 +100,7 @@ async function getFeedback() {
 
 async function changeStatus(id) {
   try {
-    const response = await axios.put(
-      `http://localhost:8000/feedback/change-status/${id}`
-    );
+    const response = await axios.put(`${apiUrl}/feedback/change-status/${id}`);
 
     const idx = feedback.value.findIndex((el) => el.id === id);
 
@@ -113,9 +112,7 @@ async function changeStatus(id) {
 
 async function removeFeedback(id) {
   try {
-    const response = await axios.delete(
-      `http://localhost:8000/feedback/delete/${id}`
-    );
+    const response = await axios.delete(`${apiUrl}/feedback/delete/${id}`);
 
     const idx = feedback.value.findIndex((el) => el.id === id);
 
@@ -175,7 +172,7 @@ table {
     }
 
     button {
-      width: 50%;
+      width: 100%;
     }
   }
 
@@ -213,5 +210,42 @@ table {
 
 .new {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 991px) {
+  .feedback {
+    padding-top: 50px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  table {
+    thead {
+      display: none;
+    }
+
+    tbody {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      tr {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        td {
+          width: 100%;
+
+          svg {
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

@@ -50,4 +50,11 @@ div {
   align-items: center;
   justify-content: space-between;
 }
+
+@media screen and (max-width: 1399px) {
+  .categorie__wrapper {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
 </style>

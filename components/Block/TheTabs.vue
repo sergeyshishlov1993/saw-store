@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
 import UiTextH3 from "~/components/Ui/UiTextH3.vue";
 
 const props = defineProps({
@@ -47,5 +46,19 @@ div {
 
 .active {
   font-weight: 700;
+}
+
+@media screen and (max-width: 767px) {
+  div {
+    h2 {
+      font-size: 13px;
+    }
+  }
+}
+
+@media screen and (max-width: 424px) {
+  .tab {
+    display: none;
+  }
 }
 </style>

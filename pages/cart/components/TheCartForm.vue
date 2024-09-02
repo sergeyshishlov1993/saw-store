@@ -258,7 +258,6 @@ import UiTextH4 from "~/components/Ui/UiTextH4.vue";
 import UiDropDown from "~/components/Ui/UiDropDown.vue";
 import UiLoader from "~/components/Ui/UiLoader.vue";
 import IconClose from "~/assets/icons/IconClose.vue";
-
 import {
   errorsFormData,
   validateField,
@@ -267,7 +266,7 @@ import {
 import { useCartData } from "~/stores/cartData";
 
 const { state } = useCartData();
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const emit = defineEmits(["show"]);
 
 const firstName = ref("");
@@ -299,15 +298,12 @@ async function getCityValue(value, valueCity, show, name, type) {
     showDropCity.value = show;
     warehouses.value = "";
     try {
-      const response = await axios.post(
-        "http://localhost:8000/nova-poshta/citi",
-        {
-          city: city.value,
-          cityRef: cityRef.value,
-          numberWarehouses: warehouses.value,
-          type: typeWarehouses.value,
-        }
-      );
+      const response = await axios.post(`${apiUrl}/nova-poshta/citi`, {
+        city: city.value,
+        cityRef: cityRef.value,
+        numberWarehouses: warehouses.value,
+        type: typeWarehouses.value,
+      });
 
       warehousesList.value = [];
 
@@ -343,12 +339,6 @@ async function handleFocus(name, event) {
 
         showDropWarehouses.value = true;
       }
-
-      break;
-
-    case "courierDeliveryAddress":
-      courierDeliveryAddress.value = event.target.value;
-      warehouses.value = "Кур'єрська доставка";
 
       break;
   }
@@ -397,12 +387,6 @@ async function getInputValue(name, event) {
       warehouses.value = event;
 
       await getWarehousesNovaPoshta();
-
-      break;
-
-    case "courierDeliveryAddress":
-      courierDeliveryAddress.value = event;
-      warehouses.value = "Кур'єрська доставка";
 
       break;
   }
@@ -474,8 +458,6 @@ function doValidateForm() {
   validateField(phone.value, "phone");
   validateField(city.value, "city");
   validateField(warehouses.value, "warehouses");
-
-  validateField(courierDeliveryAddress.value, "courierDeliveryAddress");
 }
 
 function isFormValid() {
@@ -487,15 +469,12 @@ function isFormValid() {
 //nova poshta city
 async function getCityNovaPoshta() {
   try {
-    const response = await axios.post(
-      "http://localhost:8000/nova-poshta/citi",
-      {
-        city: city.value,
-        cityRef: cityRef.value,
-        numberWarehouses: warehouses.value,
-        type: typeWarehouses.value,
-      }
-    );
+    const response = await axios.post(`${apiUrl}/nova-poshta/citi`, {
+      city: city.value,
+      cityRef: cityRef.value,
+      numberWarehouses: warehouses.value,
+      type: typeWarehouses.value,
+    });
 
     cityList.value = [];
 
@@ -507,48 +486,17 @@ async function getCityNovaPoshta() {
   }
 }
 
-// async function getWarehousesNovaPoshta() {
-//   loadDataNovaPoshta.value = true;
-
-//   try {
-//     const response = await axios.post(
-//       "http://localhost:8000/nova-poshta/citi/warehouses",
-//       {
-//         city: cityRef.value,
-//         numberWarehouses: warehouses.value,
-//         type: typeWarehouses.value,
-//       }
-//     );
-
-//     warehousesList.value = [];
-
-//     await response.data.warehouses.data.forEach((el) => {
-//       warehousesList.value.push({
-//         city: el.Description,
-//         cityRef: el.CityRef,
-//       });
-//     });
-
-//     loadDataNovaPoshta.value = false;
-//   } catch (error) {
-//     console.error("помилка", error);
-//   }
-// }
-
 async function getWarehousesNovaPoshta() {
   loadDataNovaPoshta.value = true;
 
   try {
     warehousesList.value = [];
 
-    const response = await axios.post(
-      "http://localhost:8000/nova-poshta/citi/warehouses",
-      {
-        city: cityRef.value,
-        numberWarehouses: warehouses.value,
-        type: typeWarehouses.value,
-      }
-    );
+    const response = await axios.post(`${apiUrl}/nova-poshta/citi/warehouses`, {
+      city: cityRef.value,
+      numberWarehouses: warehouses.value,
+      type: typeWarehouses.value,
+    });
 
     for (const el of response.data.warehouses.data) {
       warehousesList.value.push({
@@ -585,23 +533,20 @@ async function buyOrder() {
         price: el.price,
       }));
 
-      const response = await axios.post(
-        "http://localhost:8000/order/add-order",
-        {
-          order_id: random,
-          order_name: orders.orderName,
-          order_pictures: orders.img,
-          name: firstName.value,
-          secondName: secondName.value,
-          phone: phone.value,
-          orders: orders,
-          payment: payment.value,
-          city: city.value,
-          warehouses: warehouses.value,
-          courierDeliveryAddress: courierDeliveryAddress.value,
-          totalPrice: state.totalPriceCart,
-        }
-      );
+      const response = await axios.post(`${apiUrl}/order/add-order`, {
+        order_id: random,
+        order_name: orders.orderName,
+        order_pictures: orders.img,
+        name: firstName.value,
+        secondName: secondName.value,
+        phone: phone.value,
+        orders: orders,
+        payment: payment.value,
+        city: city.value,
+        warehouses: warehouses.value,
+        courierDeliveryAddress: courierDeliveryAddress.value,
+        totalPrice: state.totalPriceCart,
+      });
 
       firstName.value = "";
       secondName.value = "";
@@ -685,5 +630,43 @@ form {
 
 .delivery__wrapper {
   width: 100%;
+}
+
+@media screen and (max-width: 1023px) {
+  form {
+    margin-top: 20px;
+    width: 100%;
+    order: 2;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  form {
+    gap: 20px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  form {
+    h2 {
+      font-size: 16px;
+    }
+
+    .input__wrapper {
+      label {
+        font-size: 13px;
+      }
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 200px;
+      height: 40px;
+
+      font-size: 13px;
+    }
+  }
 }
 </style>

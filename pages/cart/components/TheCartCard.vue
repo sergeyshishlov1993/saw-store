@@ -136,4 +136,11 @@ const calcTotalPrice = async (count) => {
     }
   }
 }
+
+@media screen and (max-width: 426px) {
+  .product-in-cart {
+    padding: 5px;
+    gap: 5px;
+  }
+}
 </style>

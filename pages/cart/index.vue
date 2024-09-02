@@ -17,7 +17,7 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import useScrollToTop from "~/utils/useScrollToTop";
 import UiTextH1 from "~/components/Ui/UiTextH1.vue";
 import TheCartForm from "./components/TheCartForm.vue";
@@ -27,6 +27,7 @@ import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 
 const { scrollToTop } = useScrollToTop();
 const route = useRoute();
+const router = useRouter();
 
 const breadcrumb = ref([
   { name: "Головна", path: "/" },
@@ -52,6 +53,7 @@ function showMessage(arg) {
   scrollToTop();
   setTimeout(() => {
     showSuccessModal.value = false;
+    router.push("/");
   }, 2000);
 }
 </script>
@@ -79,5 +81,30 @@ function showMessage(arg) {
 
 .message {
   margin-top: 100px;
+}
+
+@media screen and (max-width: 1023px) {
+  .cart {
+    h2 {
+      font-size: 22px;
+    }
+    &__wrapper {
+      flex-direction: column;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .cart {
+    padding-top: 80px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .cart {
+    h2 {
+      margin-top: 20px;
+    }
+  }
 }
 </style>

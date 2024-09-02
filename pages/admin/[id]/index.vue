@@ -105,6 +105,7 @@ const tabs = [
   { name: "Відгуки" },
 ];
 const productById = ref();
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function changeTab(name) {
   currentTab.value = name;
@@ -113,9 +114,7 @@ function changeTab(name) {
 
 onMounted(async () => {
   try {
-    const response = await axios.get(
-      `http://localhost:8000/products/${category}/${id}`
-    );
+    const response = await axios.get(`${apiUrl}/products/${category}/${id}`);
     productById.value = response.data.product;
 
     await calculateAverageRating();

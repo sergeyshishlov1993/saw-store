@@ -69,7 +69,7 @@ const props = defineProps({
     type: Date,
   },
 });
-
+const apiUrl = import.meta.env.VITE_API_URL;
 let dateStr = props.dataCreate;
 let date = new Date(dateStr);
 
@@ -82,7 +82,7 @@ let formattedDate = date.toLocaleDateString("ru-RU", {
 async function deleteResponse() {
   try {
     const response = await axios.delete(
-      `http://localhost:8000/admin/products/${props.productId}/review/${props.reviewId}/${props.responseId}`
+      `${apiUrl}/admin/products/${props.productId}/review/${props.reviewId}/${props.responseId}`
     );
 
     emit("deleteResponse", props.responseId);

@@ -41,7 +41,8 @@ const props = defineProps({
   background: white;
   border-radius: 15px;
   transition: background 0.3s ease;
-  width: 400px;
+
+  width: 500px;
 
   &:hover {
     background: rgb(238, 238, 238);
@@ -71,6 +72,31 @@ const props = defineProps({
 
     h2 {
       font-weight: 500;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .search_card-text {
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      width: 180px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .search_card {
+    width: 320px;
+
+    &-text {
+      button {
+        height: 30px;
+        width: 100px;
+      }
     }
   }
 }

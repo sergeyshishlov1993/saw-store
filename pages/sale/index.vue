@@ -39,6 +39,7 @@ const { state } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const router = useRouter();
 const route = useRoute();
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const discontProduct = ref([]);
 const breadcrumb = ref([
@@ -56,7 +57,7 @@ onMounted(async () => {
 
 async function getPromotionalItem() {
   try {
-    const response = await axios.get(`http://localhost:8000/sale`);
+    const response = await axios.get(`${apiUrl}/sale`);
 
     discontProduct.value = response.data.sale;
   } catch (error) {
@@ -82,6 +83,27 @@ const goToProducts = (category, id, name) => {
     `/products/sale/${category}/${id}?category=Акція&category_path=/sale&product=${name}`
   );
 };
+
+useHead({
+  title:
+    "Акції - SAW STORE - Спеціальні пропозиції на професійний електроінструмент - Знижки та вигідні умови на найкращий інструмент",
+  meta: [
+    {
+      name: "robots",
+      content: "index, follow",
+    },
+    {
+      name: "description",
+      content:
+        "Не пропустіть акції від SAW STORE! Спеціальні пропозиції, знижки та вигідні умови на професійний електроінструмент. Обирайте якість за найкращою ціною.",
+    },
+    {
+      name: "keywords",
+      content:
+        "SAW STORE, акції, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови, купити інструмент зі знижкою",
+    },
+  ],
+});
 </script>
 
 <style lang="scss" scoped>
@@ -118,6 +140,35 @@ const goToProducts = (category, id, name) => {
       background: darkred;
       color: white;
     }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .action {
+    padding-top: 50px;
+
+    &__wrapper {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .action__wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .action__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .action {
+    margin-top: 40px;
   }
 }
 </style>

@@ -14,7 +14,6 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
 import { useRouter } from "vue-router";
 import TheHeader from "./components/Block/TheHeader.vue";
 import { useCartData } from "~/stores/cartData";
@@ -29,6 +28,18 @@ import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 const router = useRouter();
 const { showScrollToTop, scrollToTop } = useScrollToTop();
 const { closeModal, state } = useCartData();
+
+useHead({
+  title:
+    "SAW STORE - Інтернет магазин професійного електроінструменту - Професійний та доступний електроінструмент - SAW STORE - Вибір професіоналів - Надійний електроінструмент для будь-яких задач - SAW STORE - Інструмент, на який можна покластися - Висока якість за доступною ціною - SAW STORE - Електроінструменти, які працюють за вас - Професійні рішення для кожного - SAW STORE - Технології, що надихають - Професійний електроінструмент для вашого бізнесу - SAW STORE - Якість, перевірена часом - Надійний інструмент для професіоналів",
+
+  meta: [
+    {
+      name: "robots",
+      content: "index, follow",
+    },
+  ],
+});
 </script>
 
 <style lang="scss" scoped>

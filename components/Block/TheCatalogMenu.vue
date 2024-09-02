@@ -37,12 +37,13 @@
 </template>
 
 <script setup>
-import { ref, reactive, onBeforeMount, computed } from "vue";
+import { ref, onBeforeMount, computed } from "vue";
 import { useProductsByDubCategory } from "~/stores/productsBySubCategory";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import UiTextH6 from "../Ui/UiTextH6.vue";
 import SubMenuCard from "./SubMenuCard.vue";
+import UiLoader from "../Ui/UiLoader.vue";
 
 const router = useRouter();
 const category = ref();
@@ -50,10 +51,11 @@ const categoryName = ref();
 const subCategory = ref();
 const filterSubCategory = ref();
 const { getProductsBySubCategory } = useProductsByDubCategory();
+const apiUrl = import.meta.env.VITE_API_URL;
 
 onBeforeMount(async () => {
   try {
-    const response = await axios.get("http://localhost:8000/products/category");
+    const response = await axios.get(`${apiUrl}/products/category`);
 
     category.value = await response.data.category;
     subCategory.value = await response.data.subCategory;
@@ -129,5 +131,11 @@ const goToCatalog = (parentId, id, name) => {
   grid-template-rows: repeat(3, 180px);
 
   background-color: #fff;
+}
+
+@media screen and (max-width: 991px) {
+  .catalog_sub_menu {
+    padding: 30px;
+  }
 }
 </style>

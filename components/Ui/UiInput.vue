@@ -33,4 +33,10 @@ input {
   font-weight: 400;
   line-height: 17px;
 }
+
+@media screen and (max-width: 767px) {
+  input {
+    font-size: 13px;
+  }
+}
 </style>

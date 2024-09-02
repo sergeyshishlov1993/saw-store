@@ -218,6 +218,7 @@ const available = ref(false);
 const discount = ref("");
 const showLoader = ref(false);
 const progress = ref(0);
+const apiUrl = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   await getSubCategory();
@@ -225,7 +226,7 @@ onMounted(async () => {
 
 async function getSubCategory() {
   try {
-    const response = await axios.get(`http://localhost:8000/products/category`);
+    const response = await axios.get(`${apiUrl}/products/category`);
 
     subCategory.value = response.data.subCategory;
   } catch (error) {
@@ -415,24 +416,21 @@ async function addCustomProduct() {
         salePrice.value = 0;
       }
 
-      const response = await axios.post(
-        `http://localhost:8000/admin/products/add`,
-        {
-          id: crypto.randomUUID(),
-          sub_category_id: selectedCategoryValue.value,
-          product_name: productName.value,
-          product_description: productDescription.value,
-          price: price.value,
-          discount: discount.value,
-          sale_price: salePrice.value,
-          available: available.value.toString(),
-          bestseller: bestseller.value.toString(),
-          sale: sale.value.toString(),
-          customProduct: true,
-          pictures: downloadURL.value,
-          parameters: parameters.value,
-        }
-      );
+      const response = await axios.post(`${apiUrl}/admin/products/add`, {
+        id: crypto.randomUUID(),
+        sub_category_id: selectedCategoryValue.value,
+        product_name: productName.value,
+        product_description: productDescription.value,
+        price: price.value,
+        discount: discount.value,
+        sale_price: salePrice.value,
+        available: available.value.toString(),
+        bestseller: bestseller.value.toString(),
+        sale: sale.value.toString(),
+        customProduct: true,
+        pictures: downloadURL.value,
+        parameters: parameters.value,
+      });
 
       console.log("response", response);
 

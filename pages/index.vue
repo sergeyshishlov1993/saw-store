@@ -1,5 +1,6 @@
 <template>
   <the-swiper />
+
   <div class="container">
     <div class="main-page">
       <section-main-categorie />
@@ -19,5 +20,17 @@ import TheSwiper from "../components/Block/TheSwiper.vue";
 <style lang="scss" scoped>
 .main-page {
   padding: 20px 50px;
+}
+
+@media screen and (max-width: 767px) {
+  .main-page {
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .main-page {
+    padding: 10px;
+  }
 }
 </style>

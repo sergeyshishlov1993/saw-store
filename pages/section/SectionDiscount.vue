@@ -37,7 +37,7 @@ import useScrollToTop from "~/utils/useScrollToTop";
 const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const router = useRouter();
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const discontProduct = ref([]);
 
 onMounted(async () => {
@@ -46,7 +46,7 @@ onMounted(async () => {
 
 async function getPromotionalItem() {
   try {
-    const response = await axios.get(`http://localhost:8000/sale`);
+    const response = await axios.get(`${apiUrl}/sale`);
 
     discontProduct.value = response.data.sale;
   } catch (error) {
@@ -97,6 +97,41 @@ const goToDiscountProposable = () => {
       background: darkred;
       color: white;
     }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .action__wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .action__wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .action {
+    &__wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button {
+      width: 250px;
+      height: 40px;
+      font-size: 12px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .action {
+    margin-top: 40px;
   }
 }
 </style>

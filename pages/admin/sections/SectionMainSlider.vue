@@ -74,6 +74,7 @@ const slider = ref([]);
 const showLoader = ref(false);
 const isLoadToFirebase = ref(true);
 const progress = ref(0);
+const apiUrl = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   await getSliderImg();
@@ -150,7 +151,7 @@ async function deleteFileByUrlAndDataBase(fileUrl, id) {
   slider.value.splice(idx, 1);
 
   try {
-    const response = await axios.delete(`http://localhost:8000/slider/${id}`);
+    const response = await axios.delete(`${apiUrl}/slider/${id}`);
 
     console.log("slider", response);
     const fileRef = storageRef(storage, fileUrl);
@@ -173,7 +174,7 @@ async function deleteAllFileByUrl(fileUrl) {
 
 async function getSliderImg() {
   try {
-    const response = await axios.get(`http://localhost:8000/slider`);
+    const response = await axios.get(`${apiUrl}/slider`);
 
     console.log("slider", response);
 
@@ -191,7 +192,7 @@ async function loadSliderImg() {
     }
 
     for (const el of downloadURL.value) {
-      const response = await axios.post(`http://localhost:8000/slider/add`, {
+      const response = await axios.post(`${apiUrl}/slider/add`, {
         id: crypto.randomUUID(),
         linkImg: el,
       });

@@ -10,6 +10,7 @@
             <ui-input
               placeholder="Пошук замовлення по номеру +380"
               name="search_admin"
+              type="search"
               :value="search"
               @focus="(event) => focusAdminOrder(event)"
               @input="(event) => searchAdminOrder(event)"
@@ -144,7 +145,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeMount } from "vue";
 import axios from "axios";
 import ThePagination from "~/components/Block/ThePagination.vue";
 import TheEmptyModal from "~/components/Block/TheEmptyModal.vue";
@@ -158,6 +159,7 @@ import IconChevronLeft from "~/assets/icons/IconChevronLeft.vue";
 import IconChevronNext from "~/assets/icons/IconChevronNext.vue";
 
 const { scrollToTop } = useScrollToTop();
+const apiUrl = import.meta.env.VITE_API_URL;
 const orders = ref([]);
 const currentPage = ref(1);
 const totalPage = ref();
@@ -167,7 +169,7 @@ const search = ref("");
 const showLoader = ref(true);
 const notFound = ref(false);
 
-onMounted(async () => {
+onBeforeMount(async () => {
   await getOrders();
 });
 
@@ -175,7 +177,7 @@ async function getOrders() {
   showLoader.value = false;
   try {
     const response = await axios.get(
-      `http://localhost:8000/order/all-orders?page=${currentPage.value}&search=${search.value}`
+      `${apiUrl}/order/all-orders?page=${currentPage.value}&search=${search.value}`
     );
 
     orders.value = response.data.orders;
@@ -205,7 +207,7 @@ async function getSelectValue(event, id) {
 
   try {
     const response = await axios.put(
-      `http://localhost:8000/order/change-status/${id}?status=${status.value}`
+      `${apiUrl}/order/change-status/${id}?status=${status.value}`
     );
   } catch (error) {
     console.error(error);
@@ -245,7 +247,7 @@ async function removeItem(id, parentId) {
 
   try {
     const response = await axios.put(
-      `http://localhost:8000/order/delete/${parentId}/${id}?totalPrice=${updatedTotalPrice.value}`
+      `${apiUrl}/order/delete/${parentId}/${id}?totalPrice=${updatedTotalPrice.value}`
     );
     console.log("Order updated successfully", response);
   } catch (error) {
@@ -263,9 +265,7 @@ async function removeOrder(id) {
   orders.value.splice(idx, 1);
 
   try {
-    const response = await axios.delete(
-      `http://localhost:8000/order/delete/${id}`
-    );
+    const response = await axios.delete(`${apiUrl}/order/delete/${id}`);
   } catch (error) {
     console.error("Error updating the order:", error);
   }
@@ -286,10 +286,6 @@ async function searchAdminOrder(event) {
   setTimeout(async () => {
     await getOrders();
   }, 500);
-}
-
-async function blurAdminOrder(event) {
-  search.value = "";
 }
 
 async function changePage(page) {
@@ -453,5 +449,42 @@ select {
   font-weight: 700;
   background: #e8e8f3;
   border-radius: 20px;
+}
+
+@media screen and (max-width: 991px) {
+  .orders {
+    padding-top: 50px;
+  }
+  table {
+    display: flex;
+    thead {
+      display: none;
+    }
+
+    tr {
+      position: relative;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+
+      td {
+        div,
+        select,
+        h2 {
+          width: 100%;
+        }
+
+        .person__title {
+          flex-direction: column;
+        }
+
+        svg {
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+      }
+    }
+  }
 }
 </style>

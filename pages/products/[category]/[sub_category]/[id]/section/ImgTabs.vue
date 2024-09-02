@@ -2,7 +2,7 @@
   <div class="imgTabs">
     <div class="litleImg">
       <button @click="goBackward" :disabled="props.pictures.length <= 1">
-        <icon-chevron-up />
+        <icon-chevron-up class="next" />
       </button>
 
       <div class="slider__wrapper">
@@ -18,12 +18,14 @@
       </div>
 
       <button @click="goForward" :disabled="props.pictures.length <= 1">
-        <icon-chevron-down />
+        <icon-chevron-down class="prev" />
       </button>
     </div>
-    <img class="bigImg" :src="path" :alt="path" />
 
-    <div>
+    <ui-loader v-if="!imageLoaded" />
+    <img class="bigImg" :src="path" :alt="path" @load="onImageLoad" />
+
+    <div style="order: 3">
       <div class="title__wrapper">
         <div>
           <ui-text-h1 :class="{ isSale: props.isSale === 'true' }">
@@ -40,15 +42,6 @@
 
       <div class="delivery">
         <ui-text-h2>Доставка</ui-text-h2>
-
-        <div class="post__title">
-          <icon-new-post />
-
-          <ui-text-h6
-            >Безкоштовна доставка до відділення "Нової пошти" при замовленні від
-            710 грн'</ui-text-h6
-          >
-        </div>
 
         <div class="post__title">
           <icon-new-post />
@@ -76,7 +69,7 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect, computed } from "vue";
 import IconChevronUp from "~/assets/icons/IconChevronUp.vue";
 import IconChevronDown from "~/assets/icons/IconChewronDown.vue";
 import UiBtn from "~/components/Ui/UiBtn.vue";
@@ -84,6 +77,7 @@ import UiTextH1 from "~/components/Ui/UiTextH1.vue";
 import UiTextH2 from "~/components/Ui/UiTextH2.vue";
 import UiTextH6 from "~/components/Ui/UiTextH6.vue";
 import iconNewPost from "~/assets/icons/iconNewPost.vue";
+import UiLoader from "~/components/Ui/UiLoader.vue";
 
 const emit = defineEmits(["buyProduct"]);
 const props = defineProps({
@@ -94,10 +88,11 @@ const props = defineProps({
   alt: String,
 });
 
-const newPost = ref([
-  'Безкоштовна доставка до відділення "Нової пошти" при замовленні від 710 грн',
-  'Адресна доставка "Новою поштою"',
-]);
+const imageLoaded = ref(false);
+
+const onImageLoad = () => {
+  imageLoaded.value = true;
+};
 
 const currentIndex = ref(props.pictures.length - 4);
 
@@ -108,7 +103,26 @@ const sliderStyle = ref({
 
 watchEffect(() => {
   const newPosition = -75 * currentIndex.value;
-  sliderStyle.value.transform = `translateY(${newPosition}px)`;
+
+  if (window.innerWidth < 992) {
+    sliderStyle.value.transform = `translateX(${newPosition}px)`;
+  } else {
+    sliderStyle.value.transform = `translateY(${newPosition}px)`;
+  }
+});
+
+function updateSliderDirection() {
+  const newPosition = -75 * currentIndex.value;
+
+  if (window.innerWidth < 992) {
+    sliderStyle.value.transform = `translateX(${newPosition}px)`;
+  } else {
+    sliderStyle.value.transform = `translateY(${newPosition}px)`;
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("resize", updateSliderDirection);
 });
 
 function goForward() {
@@ -118,6 +132,8 @@ function goForward() {
     currentIndex.value++;
     path.value = props.pictures[currentIndex.value].pictures_name;
   }
+
+  updateSliderDirection();
 }
 
 function goBackward() {
@@ -127,6 +143,8 @@ function goBackward() {
     currentIndex.value--;
     path.value = props.pictures[currentIndex.value].pictures_name;
   }
+
+  updateSliderDirection();
 }
 
 const path = ref(props.pictures[0]?.pictures_name);
@@ -152,6 +170,7 @@ const addProductToCart = () => {
   align-items: center;
   justify-content: center;
   gap: 20px;
+  order: 1;
 
   button {
     svg {
@@ -163,7 +182,7 @@ const addProductToCart = () => {
 .slider__wrapper {
   display: flex;
   overflow: hidden;
-  height: 300px;
+  height: 180px;
 }
 
 .slider__inner {
@@ -182,6 +201,7 @@ img {
   width: 40%;
   height: auto;
   object-fit: contain;
+  order: 2;
 }
 
 .title__wrapper {
@@ -228,5 +248,135 @@ img {
 
 .discount {
   color: darkred;
+}
+
+@media screen and (max-width: 1199px) {
+  .imgTabs {
+    gap: 5%;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .imgTabs {
+    padding-top: 50px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bigImg {
+    width: 100%;
+    height: 400px;
+    order: 1;
+  }
+
+  .litleImg {
+    flex-direction: row;
+
+    order: 2;
+    align-items: center;
+    justify-content: space-between;
+
+    .next {
+      transform: rotate(-90deg);
+    }
+
+    .prev {
+      transform: rotate(-90deg);
+    }
+
+    button {
+      svg {
+        width: 30px;
+      }
+    }
+  }
+
+  .slider__wrapper {
+    width: 300px;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slider__inner {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.title__wrapper {
+  padding-top: 50px;
+
+  h2 {
+    font-size: 18px;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 200px;
+    height: 40px;
+  }
+}
+.delivery {
+  h2 {
+    font-size: 18px;
+  }
+  .post__title {
+    h2 {
+      font-size: 14px;
+    }
+  }
+
+  ul {
+    h2 {
+      font-size: 14px;
+    }
+
+    li {
+      font-size: 12px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .title__wrapper {
+    h2 {
+      font-size: 16px;
+    }
+  }
+
+  .delivery {
+    h2 {
+      font-size: 16px;
+    }
+    .post__title {
+      h2 {
+        font-size: 13px;
+      }
+    }
+
+    ul {
+      h2 {
+        font-size: 13px;
+      }
+
+      li {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 374px) {
+  .bigImg {
+    width: 80%;
+  }
+
+  .litleImg {
+    width: 280px;
+  }
 }
 </style>

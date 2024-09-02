@@ -93,8 +93,36 @@ function showMoreParam() {
   cursor: pointer;
   text-decoration: underline;
   transition: font-weight 0.3s ease;
+
   &:hover {
     font-weight: 700;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .title {
+    font-size: 18px;
+  }
+
+  .wrapper_parametr {
+    width: 100%;
+    padding-top: 50px;
+  }
+
+  .spec-table td {
+    h2 {
+      font-size: 13px;
+    }
+  }
+
+  .show_more_param {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .title {
+    font-size: 16px;
   }
 }
 </style>

@@ -90,4 +90,10 @@ const componentsIcon = computed(() => {
     }
   }
 }
+
+@media screen and (max-width: 1399px) {
+  .main_card__wrapper {
+    width: 160px;
+  }
+}
 </style>

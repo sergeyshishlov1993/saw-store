@@ -1,7 +1,8 @@
 <template>
   <div class="product-card__wrapper">
     <div class="product-card__wrapper_img">
-      <img :src="props.path" :alt="props.title" />
+      <ui-loader v-if="!imageLoaded" />
+      <img :src="props.path" :alt="props.title" @load="onImageLoad" />
 
       <div
         class="discount"
@@ -35,6 +36,7 @@ import UiTextH4 from "../Ui/UiTextH4.vue";
 import UiTextH5 from "../Ui/UiTextH5.vue";
 import UiBtn from "../Ui/UiBtn.vue";
 import IconFire from "~/assets/icons/IconFire.vue";
+import UiLoader from "../Ui/UiLoader.vue";
 
 const emit = defineEmits(["buyProduct"]);
 const props = defineProps({
@@ -65,7 +67,10 @@ const props = defineProps({
     type: String,
   },
 });
-
+const imageLoaded = ref(false);
+const onImageLoad = () => {
+  imageLoaded.value = true;
+};
 const buyProduct = () => {
   emit("buyProduct");
 };
@@ -137,6 +142,18 @@ const buyProduct = () => {
   svg {
     width: 20px;
     margin-left: 5px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .product-card__wrapper {
+    width: 320px;
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .product-card__wrapper {
+    width: 300px;
   }
 }
 </style>

@@ -39,10 +39,11 @@ const router = useRouter();
 const category = ref();
 const subCategory = ref();
 const filterSubCategory = ref();
+const apiUrl = import.meta.env.VITE_API_URL;
 
 onBeforeMount(async () => {
   try {
-    const response = await axios.get("http://localhost:8000/products/category");
+    const response = await axios.get(`${apiUrl}/products/category`);
 
     category.value = await response.data.category;
     subCategory.value = await response.data.subCategory;

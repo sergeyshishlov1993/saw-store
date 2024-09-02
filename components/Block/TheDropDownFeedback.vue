@@ -72,6 +72,7 @@ import {
 const name = ref("");
 const phone = ref("+380");
 const openDrop = ref(false);
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function handleFocus(event, name) {
   createErrorObj(name);
@@ -130,7 +131,7 @@ const sendFeedback = async () => {
         name: name.value,
         phone: phone.value,
       };
-      const response = await axios.post(`http://localhost:8000/feedback`, data);
+      const response = await axios.post(`${apiUrl}/feedback`, data);
 
       name.value = "";
       phone.value = "";
@@ -165,6 +166,7 @@ const sendFeedback = async () => {
 
     a {
       color: #fff;
+      font-size: 14px;
       &:hover {
         color: rgb(203, 24, 24);
       }
@@ -186,6 +188,7 @@ const sendFeedback = async () => {
     }
 
     form {
+      width: 100%;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -203,6 +206,26 @@ const sendFeedback = async () => {
   button {
     border: 1px solid white;
     color: white;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1439px) {
+  .feedback {
+    width: 200px;
+    top: 24px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .feedback {
+    top: 25px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .feedback {
+    display: none;
   }
 }
 </style>

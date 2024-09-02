@@ -51,4 +51,18 @@ const props = defineProps({
 .disabled-crumb {
   cursor: default;
 }
+
+@media screen and (max-width: 991px) {
+  .breadcrumbs {
+    flex-wrap: wrap;
+  }
+
+  .crumb {
+    font-size: 13px;
+  }
+
+  .disabled-crumb {
+    font-size: 13px;
+  }
+}
 </style>

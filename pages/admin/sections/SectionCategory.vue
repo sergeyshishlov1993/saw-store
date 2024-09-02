@@ -3,6 +3,7 @@
     <div class="category__wrapper">
       <ui-text-h2 class="title">Підкатегорія</ui-text-h2>
 
+      <ui-btn @click="syncCateogory">Завантажити категорії</ui-btn>
       <table>
         <thead>
           <tr>
@@ -71,7 +72,6 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import useScrollToTop from "~/utils/useScrollToTop";
 import UiTextH2 from "~/components/Ui/UiTextH2.vue";
-import UiTextH4 from "~/components/Ui/UiTextH4.vue";
 import UiInput from "~/components/Ui/UiInput.vue";
 import UiBtn from "~/components/Ui/UiBtn.vue";
 
@@ -82,15 +82,26 @@ const subCategory = ref();
 const pictirePath = ref("");
 const currentPage = ref(1);
 const totalPage = ref();
+const apiUrl = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   await getSubCategory();
 });
 
+async function syncCateogory() {
+  try {
+    const response = await axios.put(`${apiUrl}/admin/products/add_category`);
+
+    console.log("response", response);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 async function getSubCategory() {
   try {
     const response = await axios.get(
-      `http://localhost:8000/admin/products/category?page=${currentPage.value}`
+      `${apiUrl}/admin/products/category?page=${currentPage.value}`
     );
     subCategory.value = response.data.subCategory;
     totalPage.value = response.data.totalPages;
@@ -106,7 +117,7 @@ function getInputValue(event) {
 async function changePicturesCategory(id) {
   try {
     const response = await axios.put(
-      `http://localhost:8000/products/category/${id}/update`,
+      `${apiUrl}/products/category/${id}/update`,
 
       {
         path: pictirePath.value,
@@ -125,7 +136,7 @@ async function removeCategory(id) {
     subCategory.value.splice(idx, 1);
 
     const response = await axios.delete(
-      `http://localhost:8000/products/category/${id}/delete`
+      `${apiUrl}/products/category/${id}/delete`
     );
   } catch (error) {
     console.error(error);

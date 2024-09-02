@@ -1,6 +1,8 @@
 <template>
   <div class="sub_menu_card" @click="goToCatalog">
+    <ui-loader v-if="!imageLoaded" />
     <img
+      @load="onImageLoad"
       :src="props.src"
       :alt="props.name"
       :class="{ main: props.isMainMenu == 'main' }"
@@ -15,8 +17,9 @@
 import { useOtherData } from "~/stores/otherData";
 import UiTextH5 from "../Ui/UiTextH5.vue";
 import UiTextH6 from "../Ui/UiTextH6.vue";
+import UiLoader from "../Ui/UiLoader.vue";
 
-const store = useOtherData();
+const { visibilityStore } = useOtherData();
 
 const emit = defineEmits(["goToCatalog"]);
 const props = defineProps({
@@ -40,9 +43,15 @@ const props = defineProps({
   },
 });
 
+const imageLoaded = ref(false);
+
+const onImageLoad = () => {
+  imageLoaded.value = true;
+};
+
 function goToCatalog() {
   if (props.isMainMenu !== "main") {
-    store.showCatalogNav = false;
+    visibilityStore.showCatalogNav = false;
   }
 
   emit("goToCatalog");
@@ -76,5 +85,11 @@ function goToCatalog() {
 
 .main {
   width: 180px !important;
+}
+
+@media screen and (max-width: 991px) {
+  .main {
+    width: 100px !important;
+  }
 }
 </style>

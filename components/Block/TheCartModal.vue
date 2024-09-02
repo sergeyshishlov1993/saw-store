@@ -85,6 +85,7 @@ const backToShopping = () => {
   top: 0;
   left: 0;
   width: 100%;
+  height: 100vh;
 
   background-color: rgba(0, 0, 0, 0.5);
   padding: 20px;
@@ -150,6 +151,48 @@ const backToShopping = () => {
     &_btn {
       align-self: center;
     }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .wrapper__modal {
+    margin: 100px 0;
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .wrapper {
+    &__modal {
+      &_card {
+        padding: 5px;
+        height: 150px;
+      }
+
+      &_total {
+        padding: 5px;
+
+        h2 {
+          font-size: 13px;
+        }
+
+        .price {
+          font-size: 15px;
+        }
+
+        .btnToCatalog {
+          font-size: 14px;
+          &:hover {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 374px) {
+  .wrapper__modal {
+    margin: 0;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="reviews">
     <ui-text-h2 class="title"
-      >Відгуки <span v-if="!props.reviews">({{ reviews.length }})</span>
+      >Відгуки <span v-if="!props.reviews">({{ totalReviews }})</span>
     </ui-text-h2>
 
     <ui-btn @click="showFormReview = !showFormReview">
@@ -29,9 +29,21 @@
         @deleteReview="deleteReviewClient"
       />
 
-      <ui-btn @click="getReviews" id="load-more-button" v-if="!props.reviews"
-        >Переглянути ще відгуки</ui-btn
-      >
+      <div class="wrapper__pagination" v-if="props.currentTab == 'Відгуки'">
+        <button @click="prevPage" :disabled="currentPage === 1">
+          <icon-chevron-left />
+        </button>
+
+        <the-pagination
+          :total="totalPageCount"
+          :current="currentPage"
+          @changePage="changePage"
+        />
+
+        <button @click="nextPage" :disabled="currentPage === totalPageCount">
+          <icon-chevron-next />
+        </button>
+      </div>
 
       <ui-text-h4
         class="show_more_reviews"
@@ -59,10 +71,17 @@ const { showScrollToTop, scrollToTop } = useScrollToTop();
 
 import TheFormReview from "../components/TheFormReview.vue";
 import TheReview from "../components/TheReview.vue";
+import IconChevronLeft from "~/assets/icons/IconChevronLeft.vue";
+import IconChevronNext from "~/assets/icons/IconChevronNext.vue";
+import ThePagination from "~/components/Block/ThePagination.vue";
 
 const showFormReview = ref(false);
 const currentOffset = ref(0);
 const reviews = ref([]);
+const currentPage = ref(1);
+const totalPageCount = ref();
+const totalReviews = ref();
+const apiUrl = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   if (props.reviews) {
@@ -74,13 +93,9 @@ onMounted(async () => {
 
 const emit = defineEmits(["moreReviews"]);
 const props = defineProps({
-  reviews: {
-    type: Array,
-  },
-
-  id: {
-    type: String,
-  },
+  reviews: Array,
+  id: String,
+  currentTab: String,
 });
 
 function createReview(date) {
@@ -88,23 +103,42 @@ function createReview(date) {
   showFormReview.value = false;
 }
 
-async function getReviews() {
+async function getReviews(page = 1) {
   try {
+    const limit = 5;
+    const offset = (page - 1) * limit;
+
     const response = await axios.get(
-      `http://localhost:8000/products/${props.id}/review?offset=${currentOffset.value}`
+      `${apiUrl}/products/${props.id}/review?offset=${offset}&limit=${limit}`
     );
 
-    reviews.value = response.data.reviews;
+    console.log("response reviews", response);
 
-    currentOffset.value += response.data.reviews.length;
+    reviews.value = response.data.reviews;
+    currentOffset.value = offset;
+    totalPageCount.value = response.data.totalPages;
+    currentPage.value = response.data.currentPage;
+    totalReviews.value = response.data.total;
 
     scrollToTop();
-
-    if (response.data.reviews.length < 5) {
-      currentOffset.value = 0;
-    }
   } catch (error) {
-    console.error("Ошибка:", error);
+    console.error("Помилка:", error);
+  }
+}
+
+async function changePage(page) {
+  await getReviews(page);
+}
+
+async function nextPage() {
+  if (currentPage.value < totalPageCount.value) {
+    await getReviews(currentPage.value + 1);
+  }
+}
+
+async function prevPage() {
+  if (currentPage.value > 1) {
+    await getReviews(currentPage.value - 1);
   }
 }
 
@@ -129,6 +163,7 @@ function deleteReviewClient(id) {
   flex-direction: column;
   gap: 50px;
   width: 75%;
+
   button {
     svg {
       width: 20px;
@@ -159,6 +194,67 @@ function deleteReviewClient(id) {
   transition: font-weight 0.3s ease;
   &:hover {
     font-weight: 700;
+  }
+}
+
+.wrapper__pagination {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+@media screen and (max-width: 991px) {
+  .reviews {
+    padding-top: 50px;
+    width: 100%;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      width: 200px;
+      height: 40px;
+
+      svg {
+        width: 15px;
+      }
+    }
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .message {
+    padding-top: 30px;
+
+    h2 {
+      font-size: 18px;
+    }
+  }
+}
+
+.show_more_reviews {
+  font-size: 14px;
+}
+
+@media screen and (max-width: 767px) {
+  .reviews {
+    gap: 30px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .message {
+    padding-top: 20px;
+    h2 {
+      font-size: 14px;
+    }
   }
 }
 </style>

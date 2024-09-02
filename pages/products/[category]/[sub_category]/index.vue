@@ -76,4 +76,28 @@ async function goToProduct(productId, name) {
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
 }
+
+@media screen and (max-width: 1199px) {
+  .product__wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .wrapper {
+    padding: 100px 0;
+  }
+  .product__wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .product__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
 </style>

@@ -58,7 +58,10 @@
           @deleteResponse="deleteResponseClient"
         />
 
-        <ui-btn class="response_btn" @click="getAllReviews"
+        <ui-btn
+          class="response_btn"
+          @click="getAllReviews"
+          v-if="countResponses > 1"
           >переглянути всі відповіді
           <span>({{ countResponses }})</span>
         </ui-btn>
@@ -129,12 +132,11 @@ const props = defineProps({
     type: String,
   },
 });
-
 const showResponseForm = ref(false);
+const apiUrl = import.meta.env.VITE_API_URL;
 
 let dateStr = props.dataCreate;
 let date = new Date(dateStr);
-
 let formattedDate = date.toLocaleDateString("ru-RU", {
   day: "2-digit",
   month: "2-digit",
@@ -151,7 +153,7 @@ function createResponse(data) {
 async function getReviewsResponse() {
   try {
     const response = await axios.get(
-      `http://localhost:8000/products/${props.productId}/review/${props.reviewId}/responses?offset=${currentOffset.value}`
+      `${apiUrl}/products/${props.productId}/review/${props.reviewId}/responses?offset=${currentOffset.value}`
     );
 
     firstResponse.value = response.data.reviewResponse;
@@ -164,7 +166,7 @@ async function getReviewsResponse() {
 async function getAllReviews() {
   try {
     const response = await axios.get(
-      `http://localhost:8000/products/${props.id}/review/${props.reviewId}/responses?all=true`
+      `${apiUrl}/products/${props.id}/review/${props.reviewId}/responses?all=true`
     );
 
     reviewResponse.value = response.data.reviewResponse;
@@ -178,7 +180,7 @@ async function getAllReviews() {
 async function deleteReview() {
   try {
     const response = await axios.delete(
-      `http://localhost:8000/admin/products/review/${props.reviewId}`
+      `${apiUrl}/admin/products/review/${props.reviewId}`
     );
 
     emit("deleteReview", props.reviewId);
@@ -271,6 +273,42 @@ function deleteResponseClient(id) {
     span {
       font-size: 18px;
       font-weight: 700;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .review {
+    width: 100%;
+    gap: 20px;
+  }
+
+  .person {
+    &__wrapper {
+      svg {
+        width: 30px;
+      }
+    }
+    &__title {
+      gap: 5px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .review {
+    gap: 10px;
+  }
+
+  .response {
+    &_btn {
+      font-size: 13px;
+      gap: 5px !important;
+
+      span {
+        font-size: 15px;
+        font-weight: 500;
+      }
     }
   }
 }

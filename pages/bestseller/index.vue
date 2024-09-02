@@ -38,7 +38,7 @@ const { state } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const router = useRouter();
 const route = useRoute();
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const bestsellerProduct = ref([]);
 const breadcrumb = ref([
   { name: "Головна", path: "/" },
@@ -55,7 +55,7 @@ onMounted(async () => {
 
 async function getPromotionalItem() {
   try {
-    const response = await axios.get(`http://localhost:8000/bestseller`);
+    const response = await axios.get(`${apiUrl}/bestseller`);
 
     bestsellerProduct.value = response.data.bestseller;
   } catch (error) {
@@ -81,6 +81,27 @@ const goToProducts = (category, id, name) => {
     `/products/bestseller/${category}/${id}?category=${route.query.category}&category_path=/bestseller&product=${name}`
   );
 };
+
+useHead({
+  title:
+    " Хіт продажу - SAW STORE - Популярний професійний електроінструмент за найкращою ціною - Надійність та якість в кожному інструменті - Обирайте найкраще для роботи з SAW STORE",
+  meta: [
+    {
+      name: "robots",
+      content: "index, follow",
+    },
+    {
+      name: "description",
+      content:
+        "Купуйте популярний професійний електроінструмент в SAW STORE - надійний та перевірений інструмент, який відповідає найвищим стандартам. Оберіть хіти продажу, які заслужили довіру професіоналів.",
+    },
+    {
+      name: "keywords",
+      content:
+        "SAW STORE, хіт продажу, професійний електроінструмент, надійний інструмент, популярний інструмент, найкраща ціна, якість, купити електроінструмент",
+    },
+  ],
+});
 </script>
 
 <style lang="scss" scoped>
@@ -117,6 +138,38 @@ const goToProducts = (category, id, name) => {
       background: darkred;
       color: white;
     }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .bestseller {
+    padding-top: 50px;
+
+    &__wrapper {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .bestseller__wrapper {
+    margin-top: 0;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .bestseller__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .bestseller {
+    margin-top: 40px;
   }
 }
 </style>

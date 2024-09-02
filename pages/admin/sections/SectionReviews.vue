@@ -132,10 +132,8 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import useScrollToTop from "~/utils/useScrollToTop";
-
 import TheTabs from "~/components/Block/TheTabs.vue";
 import ThePagination from "~/components/Block/ThePagination.vue";
-
 import IconClose from "~/assets/icons/IconClose.vue";
 import IconChevronLeft from "~/assets/icons/IconChevronLeft.vue";
 import IconChevronNext from "~/assets/icons/IconChevronNext.vue";
@@ -149,6 +147,7 @@ const totalPageResponse = ref();
 const currentTab = ref("Відгуки");
 const tabs = [{ name: "Відгуки" }, { name: "Відповіді на відгуки" }];
 const isLoading = ref(true);
+const apiUrl = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   await getReviews();
@@ -164,7 +163,7 @@ async function getReviews() {
   isLoading.value = false;
   try {
     const response = await axios.get(
-      `http://localhost:8000/admin/products/all-reviews?page=${currentPage.value}`
+      `${apiUrl}/admin/products/all-reviews?page=${currentPage.value}`
     );
 
     reviews.value = response.data.review;
@@ -182,7 +181,7 @@ async function getReviewsResponse() {
   isLoading.value = false;
   try {
     const response = await axios.get(
-      `http://localhost:8000/admin/products/all-reviews-response?page=${currentPage.value}`
+      `${apiUrl}/admin/products/all-reviews-response?page=${currentPage.value}`
     );
 
     reviewResponses.value = response.data.reviewResponse;
@@ -234,7 +233,7 @@ async function remove(id, table, parentId) {
 
     try {
       const response = await axios.delete(
-        `http://localhost:8000/admin/products/${parentId}/review/${id}`
+        `${apiUrl}/admin/products/${parentId}/review/${id}`
       );
     } catch (error) {
       console.error(`Ошибка при удаления отзыва: ${id}`, error);
@@ -245,7 +244,7 @@ async function remove(id, table, parentId) {
 
     try {
       const response = await axios.delete(
-        `http://localhost:8000/admin/products/review/${parentId}/${id}`
+        `${apiUrl}/admin/products/review/${parentId}/${id}`
       );
     } catch (error) {
       console.error(`Ошибка при удаления отзыва: ${id}`, error);
@@ -318,5 +317,40 @@ table {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+@media screen and (max-width: 991px) {
+  .admin__reviews {
+    padding-top: 0;
+    gap: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  table {
+    display: flex;
+
+    th {
+      display: none;
+    }
+
+    tbody {
+      width: 100%;
+    }
+
+    tr {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      td {
+        svg {
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+      }
+    }
+  }
 }
 </style>

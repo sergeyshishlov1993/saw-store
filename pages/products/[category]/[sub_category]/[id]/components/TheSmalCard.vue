@@ -92,4 +92,10 @@ const handlerClick = () => {
   font-size: 18px;
   font-weight: 500;
 }
+
+@media screen and (max-width: 991px) {
+  .wrapper_smal_card {
+    display: none;
+  }
+}
 </style>

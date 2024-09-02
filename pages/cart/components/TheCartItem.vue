@@ -49,7 +49,7 @@ const { state } = useCartData();
 
 function emptyTrash() {
   state.productsInСart = [];
-  state.totalPriceCart = 0
+  state.totalPriceCart = 0;
 }
 </script>
 
@@ -62,6 +62,7 @@ function emptyTrash() {
   background: #ffffff;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
+  order: 1;
 
   button {
     h2 {
@@ -97,5 +98,52 @@ function emptyTrash() {
 
 .total_price {
   font-weight: 700;
+}
+
+@media screen and (max-width: 1023px) {
+  .cart__item {
+    width: 100%;
+    margin-top: 40px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .cart__item {
+    margin-top: 20px;
+
+    &_messange {
+      h2 {
+        font-size: 14px;
+      }
+    }
+
+    &_total {
+      .total_price {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .cart__item {
+    &_title {
+      h2 {
+        font-size: 12px;
+      }
+    }
+
+    &_messange {
+      h2 {
+        font-size: 13px;
+      }
+    }
+
+    &_total {
+      h2 {
+        font-size: 13px;
+      }
+    }
+  }
 }
 </style>

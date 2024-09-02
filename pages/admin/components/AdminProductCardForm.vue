@@ -172,6 +172,7 @@ const sale = ref(props.sale == "true" ? true : false);
 const available = ref(props.available == "true" ? true : false);
 const discount = ref(props.discount);
 const showLoader = ref(false);
+const apiUrl = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   await getSubCategory();
@@ -179,7 +180,7 @@ onMounted(async () => {
 
 async function getSubCategory() {
   try {
-    const response = await axios.get(`http://localhost:8000/products/category`);
+    const response = await axios.get(`${apiUrl}/products/category`);
 
     subCategory.value = response.data.subCategory;
 
@@ -281,7 +282,7 @@ async function changeProduct() {
       }
 
       const response = await axios.put(
-        `http://localhost:8000/admin/products/update/${props.id}`,
+        `${apiUrl}/admin/products/update/${props.id}`,
         {
           sub_category_id: selectedCategoryValue.value,
           product_name: productName.value,
@@ -311,7 +312,7 @@ async function removePictures(id) {
 
   try {
     const response = await axios.delete(
-      `http://localhost:8000/admin/products/${props.id}/${id}`
+      `${apiUrl}/admin/products/${props.id}/${id}`
     );
   } catch (error) {
     console.error("сталась помилка"), error;

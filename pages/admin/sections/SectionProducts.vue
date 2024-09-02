@@ -4,6 +4,8 @@
       <div class="positions">
         <ui-text-h3>Перелік позицій</ui-text-h3>
 
+        {{ apiUrl }}
+
         <div class="positions__btn">
           <ui-btn
             v-if="!showLoader"
@@ -155,6 +157,7 @@ import SuccessSyncModal from "../components/SuccessSyncModal.vue";
 const router = useRouter();
 const { scrollToTop } = useScrollToTop();
 const storage = getStorage(app);
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const subCategory = ref();
 const search = ref("");
@@ -176,7 +179,7 @@ onMounted(async () => {
 
 async function getSubCategory() {
   try {
-    const response = await axios.get(`http://localhost:8000/products/category`);
+    const response = await axios.get(`${apiUrl}/products/category`);
 
     subCategory.value = response.data.subCategory;
   } catch (error) {
@@ -188,7 +191,7 @@ async function getProduct() {
   isLoadContent.value = false;
   try {
     const response = await axios.get(
-      `http://localhost:8000/admin/products?page=${currentPage.value}&search=${search.value}&sub_category=${selectedCategoryValue.value}&sale=${sale.value}&bestseller=${bestseller.value}`
+      `${apiUrl}/admin/products?page=${currentPage.value}&search=${search.value}&sub_category=${selectedCategoryValue.value}&sale=${sale.value}&bestseller=${bestseller.value}`
     );
 
     products.value = response.data.products;
@@ -203,13 +206,10 @@ async function getProduct() {
 async function downloadProductsFromLink() {
   try {
     showLoader.value = true;
+
     const response = await axios.put(
-      `http://localhost:8000/admin/products/update-or-create`
+      `${apiUrl}/admin/products/update-or-create`
     );
-
-    console.log("response link", response);
-
-    console.log("status", response.status);
 
     if (response.status === 200) {
       showLoader.value = false;
@@ -286,9 +286,7 @@ async function removeProduct(id, url, custom) {
     const idx = products.value.findIndex((el) => el.product_id == id);
     products.value.splice(idx, 1);
 
-    const response = await axios.delete(
-      `http://localhost:8000/admin/products/${id}`
-    );
+    const response = await axios.delete(`${apiUrl}/admin/products/${id}`);
 
     if (custom) {
       url.forEach(async (el) => await deleteFileByUrl(el.pictures_name));

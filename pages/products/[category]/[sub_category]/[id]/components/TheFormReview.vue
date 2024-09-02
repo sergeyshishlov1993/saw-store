@@ -85,6 +85,7 @@ const nikname = ref("");
 const review = ref("");
 const starsCount = ref(5);
 const currentRate = ref(0);
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function handleFocus(name, event) {
   createErrorObj(name);
@@ -155,12 +156,12 @@ async function leaveFeedback(event) {
 
       if (props.reviewId) {
         const response = await axios.post(
-          `http://localhost:8000/products/${props.product_id}/review/${props.reviewId}/responses`,
+          `${apiUrl}/products/${props.product_id}/review/${props.reviewId}/responses`,
           data
         );
       } else {
         const response = await axios.post(
-          `http://localhost:8000/products/${props.product_id}/review`,
+          `${apiUrl}/products/${props.product_id}/review`,
           data
         );
       }

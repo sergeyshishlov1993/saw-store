@@ -57,5 +57,19 @@ const cardIcon = computed(() => {
 
 .title {
   font-weight: 700;
+  margin-bottom: 5px;
+}
+
+@media screen and (max-width: 991px) {
+  .card {
+    .text {
+      h2 {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
 }
 </style>

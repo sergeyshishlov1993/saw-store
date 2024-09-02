@@ -33,7 +33,7 @@ import SubMenuCard from "~/components/Block/SubMenuCard.vue";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 
 const subCategory = ref();
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const route = useRoute();
 const router = useRouter();
 
@@ -48,7 +48,7 @@ const breadcrumb = ref([
 
 onMounted(async () => {
   const response = await axios.get(
-    `http://localhost:8000/products/category/${route.params.category}`
+    `${apiUrl}/products/category/${route.params.category}`
   );
 
   subCategory.value = response.data.subCategory;
@@ -72,11 +72,37 @@ const goToProducts = (parentId, id, name) => {
     gap: 30px 20px;
   }
 }
-// .sub_category_wrapper {
-//   padding-top: 100px;
 
-//   display: grid;
-//   grid-template-columns: repeat(4, 1fr);
-//   gap: 30px 20px;
-// }
+@media screen and (max-width: 991px) {
+  .sub_category {
+    padding-top: 100px;
+    &_wrapper {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sub_category {
+    padding-top: 50px;
+
+    &_wrapper {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .sub_category_wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .sub_category_wrapper {
+    grid-template-columns: 1fr;
+  }
+}
 </style>

@@ -120,4 +120,39 @@ const breadcrumb = ref([
   text-align: center;
   font-weight: 700;
 }
+
+@media screen and (max-width: 991px) {
+  .info__wrapper {
+    padding-top: 100px;
+
+    &_text {
+      margin-top: 50px;
+      gap: 20px;
+      h2 {
+        font-size: 16px;
+      }
+
+      ul {
+        span {
+          font-size: 14px;
+        }
+
+        li {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  .title {
+    margin-top: 30px;
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .info__wrapper {
+    padding-top: 50px;
+  }
+}
 </style>

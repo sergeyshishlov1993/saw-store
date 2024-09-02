@@ -67,7 +67,11 @@
             :tab="currentTab"
           />
 
-          <the-review-product v-if="currentTab == 'Відгуки'" :id="id" />
+          <the-review-product
+            v-if="currentTab == 'Відгуки'"
+            :id="id"
+            :currentTab="currentTab"
+          />
 
           <the-smal-card
             v-if="currentTab != 'Все про товар'"
@@ -87,7 +91,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-
+import { useCartData } from "~/stores/cartData";
 import axios from "axios";
 
 import UiTextH1 from "~/components/Ui/UiTextH1.vue";
@@ -99,14 +103,12 @@ import TheReviewProduct from "./section/TheReviewProduct.vue";
 import TheStarCounter from "./components/TheStarCounter.vue";
 import TheSmalCard from "./components/TheSmalCard.vue";
 import useScrollToTop from "~/utils/useScrollToTop";
-import { useCartData } from "~/stores/cartData";
-
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 
 const route = useRoute();
 const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const id = route.params.id;
 const category = route.params.category;
 const currentTab = ref("Все про товар");
@@ -146,9 +148,7 @@ function changeTab(name) {
 
 onMounted(async () => {
   try {
-    const response = await axios.get(
-      `http://localhost:8000/products/${category}/${id}`
-    );
+    const response = await axios.get(`${apiUrl}/products/${category}/${id}`);
     productById.value = response.data.product;
 
     await calculateAverageRating();
@@ -168,6 +168,27 @@ const calculateAverageRating = () => {
     return (rating.value = Math.floor(rating.value / el.review.length));
   });
 };
+
+useHead({
+  title:
+    "Акції - SAW STORE - Спеціальні пропозиції на професійний електроінструмент - Знижки та вигідні умови на найкращий інструмент",
+  meta: [
+    {
+      name: "robots",
+      content: "index, follow",
+    },
+    {
+      name: "description",
+      content:
+        "Не пропустіть акції від SAW STORE! Спеціальні пропозиції, знижки та вигідні умови на професійний електроінструмент. Обирайте якість за найкращою ціною.",
+    },
+    {
+      name: "keywords",
+      content:
+        "SAW STORE, акції, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови, купити інструмент зі знижкою",
+    },
+  ],
+});
 </script>
 
 <style lang="scss" scoped>
@@ -218,6 +239,58 @@ const calculateAverageRating = () => {
   .title {
     font-weight: 700;
     font-size: 30px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .tabs {
+    gap: 80px;
+    flex-wrap: wrap;
+  }
+
+  .product__wrapper {
+    padding-top: 50px;
+
+    .title {
+      font-size: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .wrapper {
+    padding: 100px 0;
+
+    &__tabs {
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tabs {
+      gap: 50px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .wrapper {
+    padding: 50px 0;
+  }
+
+  .product__wrapper {
+    .title {
+      font-size: 15px;
+    }
+
+    .sub_title {
+      h2 {
+        font-size: 13px;
+
+        span {
+          font-size: 15px;
+        }
+      }
+    }
   }
 }
 </style>

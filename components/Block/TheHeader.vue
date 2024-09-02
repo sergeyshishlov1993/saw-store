@@ -5,8 +5,12 @@
         <icon-logo />
       </div>
 
+      <div class="burger__wrapper">
+        <icon-burger @click="openMobileMenu" />
+      </div>
+
       <div class="header__wrapper">
-        <ui-text-h5 @click="goToSales" style="color: red">АКЦІЇ</ui-text-h5>
+        <ui-text-h5 @click="goToSales" style="color: red">АКЦІЯ</ui-text-h5>
         <ui-text-h5 @click="goToBestseller">ХІТ ПРОДАЖ</ui-text-h5>
         <ui-text-h5 @click="goToAbout">ПРО НАС</ui-text-h5>
         <ui-text-h5 @click="goToBuyersPage">ПОКУПЦЯМ</ui-text-h5>
@@ -33,7 +37,11 @@
         <icon-search />
       </div>
 
-      <div class="search_card_wrapper">
+      <div
+        class="search_card_wrapper"
+        v-if="showSearchCart"
+        @click="closeSearchCart"
+      >
         <the-search-card
           v-for="product in products"
           :key="product.product_id"
@@ -59,7 +67,16 @@
       </div>
     </div>
 
-    <the-catalog-menu v-if="store.showCatalogNav" />
+    <div
+      :class="{ substrate: visibilityStore.showMobileMenu }"
+      @click="closeVisibilityMenu"
+    ></div>
+
+    <div class="mobile__wrapper" v-if="visibilityStore.showMobileMenu">
+      <the-mobile-header-menu />
+    </div>
+
+    <the-catalog-menu v-if="visibilityStore.showCatalogNav" />
   </div>
 </template>
 
@@ -74,40 +91,66 @@ import IconLogo from "~/assets/icons/IconLogo.vue";
 import IconCart from "~/assets/icons/IconCart.vue";
 import IconSearch from "~/assets/icons/IconSearch.vue";
 import IconCatalog from "~/assets/icons/IconCatalog.vue";
+import IconBurger from "~/assets/icons/IconBurger.vue";
 import TheCatalogMenu from "./TheCatalogMenu.vue";
 import TheSearchCard from "./TheSearchCard.vue";
 import TheDropDownFeedback from "./TheDropDownFeedback.vue";
+import TheMobileHeaderMenu from "./TheMobileHeaderMenu.vue";
 
-const store = useOtherData();
+const { state } = useCartData();
+const { visibilityStore } = useOtherData();
 const router = useRouter();
 const route = useRoute();
 const isAdmin = ref(route.path.startsWith("/admin"));
-const { state } = useCartData();
-
-function showMenu() {
-  store.showCatalogNav = !store.showCatalogNav;
-}
-
 const query = ref("");
 const products = ref([]);
+const showSearchCart = ref(false);
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const searchProducts = async (event) => {
   query.value = event.target.value;
 
   try {
-    const response = await axios.get("http://localhost:8000/products/search", {
+    const response = await axios.get(`${apiUrl}/products/search`, {
       params: { search: query.value },
     });
 
     products.value = await response.data.products;
+    showSearchCart.value = true;
 
     if (!query.value.length) {
       products.value = [];
+
+      showSearchCart.value = false;
     }
   } catch (error) {
     console.error("сталась помилка");
   }
 };
+
+function closeSearchCart() {
+  products.value = [];
+  showSearchCart.value = false;
+  query.value = "";
+}
+
+function showMenu() {
+  visibilityStore.showCatalogNav = !visibilityStore.showCatalogNav;
+}
+
+function openMobileMenu() {
+  visibilityStore.showMobileMenu = !visibilityStore.showMobileMenu;
+  document.body.style.overflow = visibilityStore.showMobileMenu
+    ? "hidden"
+    : "auto";
+  document.body.style.height = visibilityStore.showMobileMenu ? "100%" : "auto";
+}
+
+function closeVisibilityMenu() {
+  visibilityStore.showMobileMenu = false;
+  document.body.style.overflow = "auto";
+  document.body.style.height = "auto";
+}
 
 function goToProduct(sub, id, name) {
   router.push(`/products/tools/${sub}/${id}?product=${name}`);
@@ -117,32 +160,32 @@ function goToProduct(sub, id, name) {
 
 function goHome() {
   router.push("/");
-  store.showCatalogNav = false;
+  visibilityStore.showCatalogNav = false;
 }
 
 function goToBestseller() {
   router.push("/bestseller?category=Хіт продажу");
-  store.showCatalogNav = false;
+  visibilityStore.showCatalogNav = false;
 }
 
 function goToSales() {
   router.push("/sale?category=Акція");
-  store.showCatalogNav = false;
+  visibilityStore.showCatalogNav = false;
 }
 
 function goToAbout() {
   router.push("/about?about=Про нас");
-  store.showCatalogNav = false;
+  visibilityStore.showCatalogNav = false;
 }
 
 function goToBuyersPage() {
   router.push("/buyer?buyer=Покупцям");
-  store.showCatalogNav = false;
+  visibilityStore.showCatalogNav = false;
 }
 
 function goToCart() {
   router.push("/cart?cart=Кошик");
-  store.showCatalogNav = false;
+  visibilityStore.showCatalogNav = false;
 }
 </script>
 
@@ -192,7 +235,6 @@ function goToCart() {
 }
 
 .search {
-  position: relative;
   padding: 0 15px;
   display: flex;
   gap: 30px;
@@ -200,6 +242,7 @@ function goToCart() {
   justify-content: space-evenly;
   background: rgba(255, 255, 255, 1);
   height: 76px;
+  z-index: 100;
   svg {
     height: 30px;
   }
@@ -269,7 +312,118 @@ function goToCart() {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  padding-top: 100px;
+  overflow-y: auto;
   position: absolute;
-  top: 76px;
+  top: 100px;
+  width: 100%;
+  height: 100vh;
+  align-items: center;
+}
+
+.burger__wrapper {
+  display: none;
+
+  svg {
+    width: 25px;
+  }
+}
+
+.mobile__wrapper {
+  position: absolute;
+  top: 88px;
+  left: 0;
+  background-color: #fff;
+  z-index: 10;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.substrate {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+@media screen and (max-width: 1439px) {
+  .logo {
+    width: 200px;
+  }
+
+  .header__wrapper {
+    padding-top: 0;
+    gap: 20px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .header__wrapper {
+    h2 {
+      font-size: 12px;
+      width: 100px;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .header__wrapper {
+    display: none;
+  }
+
+  .input {
+    width: 500px !important;
+  }
+
+  .header__phone {
+    display: none;
+  }
+
+  .burger__wrapper {
+    display: block;
+  }
+
+  .search {
+    button {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .input {
+    height: 40px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .header {
+    padding: 10px;
+  }
+
+  .logo {
+    width: 150px;
+  }
+
+  .search {
+    .cart__wrapper {
+      .cart__counter {
+        top: -12px;
+        right: -12px;
+      }
+    }
+  }
+
+  .search_card_wrapper {
+    height: 400px;
+  }
+}
+
+.mobile__wrapper {
+  width: 100%;
 }
 </style>

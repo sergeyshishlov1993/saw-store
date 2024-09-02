@@ -6,11 +6,10 @@ export const useProductsByDubCategory = defineStore(
   "productsBySubCategory",
   () => {
     const products = ref([]);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     async function getProductsBySubCategory(sub_category_id) {
-      const response = await axios.get(
-        `http://localhost:8000/products/${sub_category_id}`
-      );
+      const response = await axios.get(`${apiUrl}/products/${sub_category_id}`);
 
       return (products.value = response.data.products);
     }
