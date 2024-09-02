@@ -65,7 +65,7 @@ onMounted(async () => {
   await getPromotionalItem();
   screenWidth.value = window.innerWidth;
 
-  console.log("apiiiiiii", apiUrl);
+  console.log("apiiiiiii", myVariable);
 });
 
 async function getPromotionalItem() {
