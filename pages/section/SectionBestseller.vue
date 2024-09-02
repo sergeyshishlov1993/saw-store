@@ -58,9 +58,11 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 const currentIndex = ref(0);
 const bestsellerProduct = ref([]);
+const screenWidth = ref(null);
 
 onMounted(async () => {
   await getPromotionalItem();
+  screenWidth.value = window.innerWidth;
 });
 
 async function getPromotionalItem() {
@@ -73,9 +75,18 @@ async function getPromotionalItem() {
   }
 }
 
+// const calcWidthWrapper = computed(() => {
+//   const screenWidth = ref(window.innerWidth);
+//   const baseWidth = screenWidth.value < 426 ? 310 : 305;
+
+//   return {
+//     width: baseWidth * bestsellerProduct.value.length + "px",
+//   };
+// });
+
 const calcWidthWrapper = computed(() => {
-  const screenWidth = ref(window.innerWidth);
-  const baseWidth = screenWidth.value < 426 ? 310 : 305;
+  // Якщо screenWidth ще не ініціалізований (наприклад, під час SSR), використовуйте значення за замовчуванням.
+  const baseWidth = screenWidth.value && screenWidth.value < 426 ? 310 : 305;
 
   return {
     width: baseWidth * bestsellerProduct.value.length + "px",

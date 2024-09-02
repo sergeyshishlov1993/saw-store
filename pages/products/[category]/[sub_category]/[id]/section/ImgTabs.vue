@@ -101,23 +101,47 @@ const sliderStyle = ref({
   transition: "transform 0.3s",
 });
 
+// watchEffect(() => {
+//   const newPosition = -75 * currentIndex.value;
+
+//   if (window.innerWidth < 992) {
+//     sliderStyle.value.transform = `translateX(${newPosition}px)`;
+//   } else {
+//     sliderStyle.value.transform = `translateY(${newPosition}px)`;
+//   }
+// });
+
 watchEffect(() => {
   const newPosition = -75 * currentIndex.value;
 
-  if (window.innerWidth < 992) {
-    sliderStyle.value.transform = `translateX(${newPosition}px)`;
-  } else {
-    sliderStyle.value.transform = `translateY(${newPosition}px)`;
+  if (typeof window !== "undefined") {
+    if (window.innerWidth < 992) {
+      sliderStyle.value.transform = `translateX(${newPosition}px)`;
+    } else {
+      sliderStyle.value.transform = `translateY(${newPosition}px)`;
+    }
   }
 });
 
-function updateSliderDirection() {
-  const newPosition = -75 * currentIndex.value;
+// function updateSliderDirection() {
+//   const newPosition = -75 * currentIndex.value;
 
-  if (window.innerWidth < 992) {
-    sliderStyle.value.transform = `translateX(${newPosition}px)`;
-  } else {
-    sliderStyle.value.transform = `translateY(${newPosition}px)`;
+//   if (window.innerWidth < 992) {
+//     sliderStyle.value.transform = `translateX(${newPosition}px)`;
+//   } else {
+//     sliderStyle.value.transform = `translateY(${newPosition}px)`;
+//   }
+// }
+
+function updateSliderDirection() {
+  if (typeof window !== "undefined") {
+    const newPosition = -75 * currentIndex.value;
+
+    if (window.innerWidth < 992) {
+      sliderStyle.value.transform = `translateX(${newPosition}px)`;
+    } else {
+      sliderStyle.value.transform = `translateY(${newPosition}px)`;
+    }
   }
 }
 

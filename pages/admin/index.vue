@@ -57,15 +57,29 @@ onMounted(() => {
   calcScrinWidth();
 });
 
-const calcScrinWidth = () => {
-  const screenWidth = window.innerWidth;
+// const calcScrinWidth = () => {
+//   const screenWidth = window.innerWidth;
 
-  if (screenWidth < 992) {
-    return (tabs.value = [
-      { name: "Зворотній звʼязок" },
-      { name: "Замовлення" },
-      { name: "Відгуки" },
-    ]);
+//   if (screenWidth < 992) {
+//     return (tabs.value = [
+//       { name: "Зворотній звʼязок" },
+//       { name: "Замовлення" },
+//       { name: "Відгуки" },
+//     ]);
+//   }
+// };
+
+const calcScrinWidth = () => {
+  if (typeof window !== "undefined") {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth < 992) {
+      tabs.value = [
+        { name: "Зворотній звʼязок" },
+        { name: "Замовлення" },
+        { name: "Відгуки" },
+      ];
+    }
   }
 };
 
