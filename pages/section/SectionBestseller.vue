@@ -54,8 +54,7 @@ const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const router = useRouter();
 const route = useRoute();
-const apiUrl = import.meta.env.VITE_API_URL;
-const myVariable = process.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL;
 
 const currentIndex = ref(0);
 const bestsellerProduct = ref([]);
@@ -65,7 +64,7 @@ onMounted(async () => {
   await getPromotionalItem();
   screenWidth.value = window.innerWidth;
 
-  console.log("apiiiiiii", myVariable);
+  console.log("apiiiiiii", apiUrl);
 });
 
 async function getPromotionalItem() {
