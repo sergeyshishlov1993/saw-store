@@ -13,11 +13,7 @@
         :discount="product.discount"
         @buy-product="addProductToCart(product, product.product_id)"
         @click="
-          goToProducts(
-            product.sub_category_id,
-            product.product_id,
-            product.product_name
-          )
+          goToProducts(product.sub_category_id, product.product_id, product.product_name)
         "
       />
     </div>
@@ -37,7 +33,7 @@ import useScrollToTop from "~/utils/useScrollToTop";
 const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const router = useRouter();
-const apiUrl = process.env.VITE_API_URL || process.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 const discontProduct = ref([]);
 
 onMounted(async () => {

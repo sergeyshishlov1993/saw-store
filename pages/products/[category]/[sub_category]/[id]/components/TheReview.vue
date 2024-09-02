@@ -133,7 +133,7 @@ const props = defineProps({
   },
 });
 const showResponseForm = ref(false);
-const apiUrl = process.env.VITE_API_URL || process.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 
 let dateStr = props.dataCreate;
 let date = new Date(dateStr);

@@ -38,7 +38,7 @@ const { state } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const router = useRouter();
 const route = useRoute();
-const apiUrl = process.env.VITE_API_URL || process.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 const bestsellerProduct = ref([]);
 const breadcrumb = ref([
   { name: "Головна", path: "/" },

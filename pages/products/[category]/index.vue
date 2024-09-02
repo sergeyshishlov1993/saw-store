@@ -33,7 +33,7 @@ import SubMenuCard from "~/components/Block/SubMenuCard.vue";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 
 const subCategory = ref();
-const apiUrl = process.env.VITE_API_URL || process.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 const route = useRoute();
 const router = useRouter();
 
