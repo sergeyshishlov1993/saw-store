@@ -72,7 +72,7 @@ import {
 const name = ref("");
 const phone = ref("+380");
 const openDrop = ref(false);
-const apiUrl = process.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
 function handleFocus(event, name) {
   createErrorObj(name);

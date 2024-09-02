@@ -108,7 +108,7 @@ import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 const route = useRoute();
 const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
-const apiUrl = process.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL || process.env.VITE_API_URL; 
 const id = route.params.id;
 const category = route.params.category;
 const currentTab = ref("Все про товар");

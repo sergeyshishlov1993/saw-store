@@ -32,7 +32,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 
 const slider = ref([]);
-const apiUrl = process.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   await getSliderImg();

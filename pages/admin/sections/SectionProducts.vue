@@ -157,7 +157,7 @@ import SuccessSyncModal from "../components/SuccessSyncModal.vue";
 const router = useRouter();
 const { scrollToTop } = useScrollToTop();
 const storage = getStorage(app);
-const apiUrl = process.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
 const subCategory = ref();
 const search = ref("");

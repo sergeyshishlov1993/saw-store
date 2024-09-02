@@ -85,7 +85,7 @@ const nikname = ref("");
 const review = ref("");
 const starsCount = ref(5);
 const currentRate = ref(0);
-const apiUrl = process.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL || process.env.VITE_API_URL;
 
 function handleFocus(name, event) {
   createErrorObj(name);

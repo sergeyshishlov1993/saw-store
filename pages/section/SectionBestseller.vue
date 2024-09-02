@@ -27,11 +27,7 @@
         :bestseller="product.bestseller"
         @buy-product="addProductToCart(product, product.product_id)"
         @click="
-          goToProducts(
-            product.sub_category_id,
-            product.product_id,
-            product.product_name
-          )
+          goToProducts(product.sub_category_id, product.product_id, product.product_name)
         "
       />
     </div>
@@ -54,7 +50,7 @@ const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const router = useRouter();
 const route = useRoute();
-const apiUrl = process.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
 const currentIndex = ref(0);
 const bestsellerProduct = ref([]);

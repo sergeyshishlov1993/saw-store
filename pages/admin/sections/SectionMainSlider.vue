@@ -74,7 +74,7 @@ const slider = ref([]);
 const showLoader = ref(false);
 const isLoadToFirebase = ref(true);
 const progress = ref(0);
-const apiUrl = process.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   await getSliderImg();

@@ -37,7 +37,7 @@ import useScrollToTop from "~/utils/useScrollToTop";
 const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const router = useRouter();
-const apiUrl = process.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL || process.env.VITE_API_URL;
 const discontProduct = ref([]);
 
 onMounted(async () => {

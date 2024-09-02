@@ -172,7 +172,7 @@ const sale = ref(props.sale == "true" ? true : false);
 const available = ref(props.available == "true" ? true : false);
 const discount = ref(props.discount);
 const showLoader = ref(false);
-const apiUrl = process.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   await getSubCategory();

@@ -159,7 +159,7 @@ import IconChevronLeft from "~/assets/icons/IconChevronLeft.vue";
 import IconChevronNext from "~/assets/icons/IconChevronNext.vue";
 
 const { scrollToTop } = useScrollToTop();
-const apiUrl = process.env.VITE_API_URL;
+const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 const orders = ref([]);
 const currentPage = ref(1);
 const totalPage = ref();
