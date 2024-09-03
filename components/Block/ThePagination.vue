@@ -23,23 +23,20 @@ const { total, current } = toRefs(props);
 
 const pages = computed(() => {
   const range = [];
-  const sidePages = 2; // Кількість сторінок до та після поточної сторінки
-  const paginationWidth = 5; // Загальна кількість відображуваних кнопок сторінок
+  const sidePages = 2;
+  const paginationWidth = 5;
 
-  // Функція для додавання сторінок у масив
   function addPage(page) {
     if (!range.includes(page)) {
       range.push(page);
     }
   }
 
-  // Додавання початкових та кінцевих сторінок
   addPage(1);
   if (props.current > paginationWidth) {
     range.push("...");
   }
 
-  // Додавання середніх сторінок
   for (
     let i = Math.max(2, props.current - sidePages);
     i <= Math.min(props.total - 1, props.current + sidePages);
@@ -48,7 +45,6 @@ const pages = computed(() => {
     addPage(i);
   }
 
-  // Додавання многоточчя та останньої сторінки
   if (props.current < props.total - paginationWidth + 1) {
     range.push("...");
   }
@@ -59,9 +55,9 @@ const pages = computed(() => {
 
 const changePage = (page) => {
   if (page === "...") {
-    return; // Ігнорування кліка на многоточчя
+    return;
   }
-  // Місце для вашого коду або еміттера подій зміни сторінки
+
   console.log("Перехід на сторінку:", page);
   emit("changePage", page);
 };

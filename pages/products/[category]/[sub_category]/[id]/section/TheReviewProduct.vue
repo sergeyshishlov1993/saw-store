@@ -112,8 +112,6 @@ async function getReviews(page = 1) {
       `${apiUrl}/products/${props.id}/review?offset=${offset}&limit=${limit}`
     );
 
-    console.log("response reviews", response);
-
     reviews.value = response.data.reviews;
     currentOffset.value = offset;
     totalPageCount.value = response.data.totalPages;

@@ -92,7 +92,6 @@ async function getFiles(f) {
 }
 
 function handleBlur(event, name) {
-  console.log("blur", event);
   switch (name) {
     case "file":
       validateField(event.target.files, name);

@@ -280,7 +280,6 @@ const getInputValue = (event, name) => {
 };
 
 function handleBlur(event, name) {
-  console.log("blur", event);
   switch (name) {
     case "productName":
       validateField((productName.value = event.target.value), name);
@@ -431,8 +430,6 @@ async function addCustomProduct() {
         pictures: downloadURL.value,
         parameters: parameters.value,
       });
-
-      console.log("response", response);
 
       selectedCategoryValue.value = "";
       productName.value = "";

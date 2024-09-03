@@ -151,8 +151,6 @@ onMounted(async () => {
     const response = await axios.get(`${apiUrl}/products/${category}/${id}`);
     productById.value = response.data.product;
 
-    console.log("id", productById.value);
-
     await calculateAverageRating();
   } catch (error) {
     console.error("Ошибка:", error);

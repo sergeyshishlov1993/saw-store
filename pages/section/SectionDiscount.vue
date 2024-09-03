@@ -49,8 +49,6 @@ async function getPromotionalItem() {
     const response = await axios.get(`${apiUrl}/sale`);
 
     discontProduct.value = response.data.sale;
-
-    console.log(discontProduct.value);
   } catch (error) {
     console.error("сталась помилка:", error);
   }

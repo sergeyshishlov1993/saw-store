@@ -7,7 +7,7 @@
         <the-product-card
           v-for="card in products"
           :key="card.product_id"
-          :path="card.pictures[0].pictures_name"
+          :path="card.pictures[card.pictures.length - 1].pictures_name"
           :title="card.product_name"
           :price="card.price"
           @click="goToProduct(card.product_id, card.product_name)"
@@ -32,8 +32,6 @@ const category = route.params.category;
 const sub_category = route.params.sub_category;
 const { getProductsBySubCategory } = useProductsByDubCategory();
 const { productsInСart, showModalWindow, addProductToCart } = useCartData();
-
-console.log("route sub category", route);
 
 const breadcrumb = ref([
   { name: "Головна", path: "/" },

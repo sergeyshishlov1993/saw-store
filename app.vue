@@ -57,7 +57,12 @@ useHead({
   position: fixed;
   top: 600px;
   right: 25px;
-
   z-index: 15;
+}
+
+@media screen and (max-width: 767px) {
+  .chevron {
+    width: 45px;
+  }
 }
 </style>

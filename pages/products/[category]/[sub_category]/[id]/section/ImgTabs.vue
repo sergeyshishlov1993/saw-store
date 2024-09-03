@@ -101,21 +101,12 @@ const sliderStyle = ref({
   transition: "transform 0.3s",
 });
 
-// watchEffect(() => {
-//   const newPosition = -75 * currentIndex.value;
-
-//   if (window.innerWidth < 992) {
-//     sliderStyle.value.transform = `translateX(${newPosition}px)`;
-//   } else {
-//     sliderStyle.value.transform = `translateY(${newPosition}px)`;
-//   }
-// });
-
 watchEffect(() => {
   const newPosition = -75 * currentIndex.value;
 
   if (typeof window !== "undefined") {
     if (window.innerWidth < 992) {
+      const newPosition = -50 * currentIndex.value;
       sliderStyle.value.transform = `translateX(${newPosition}px)`;
     } else {
       sliderStyle.value.transform = `translateY(${newPosition}px)`;
@@ -123,21 +114,12 @@ watchEffect(() => {
   }
 });
 
-// function updateSliderDirection() {
-//   const newPosition = -75 * currentIndex.value;
-
-//   if (window.innerWidth < 992) {
-//     sliderStyle.value.transform = `translateX(${newPosition}px)`;
-//   } else {
-//     sliderStyle.value.transform = `translateY(${newPosition}px)`;
-//   }
-// }
-
 function updateSliderDirection() {
   if (typeof window !== "undefined") {
     const newPosition = -75 * currentIndex.value;
 
     if (window.innerWidth < 992) {
+      const newPosition = -50 * currentIndex.value;
       sliderStyle.value.transform = `translateX(${newPosition}px)`;
     } else {
       sliderStyle.value.transform = `translateY(${newPosition}px)`;
@@ -249,6 +231,10 @@ img {
   flex-direction: column;
   gap: 30px;
 
+  h2 {
+    font-weight: 700;
+  }
+
   ul {
     display: flex;
     flex-direction: column;
@@ -284,7 +270,6 @@ img {
   .imgTabs {
     padding-top: 50px;
     flex-direction: column;
-    align-items: center;
   }
 
   .bigImg {
@@ -391,6 +376,15 @@ img {
         font-size: 12px;
       }
     }
+  }
+
+  .bigImg {
+    height: 300px;
+  }
+
+  img {
+    width: 50px;
+    height: 50px;
   }
 }
 

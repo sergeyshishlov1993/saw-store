@@ -53,7 +53,6 @@ import useScrollToTop from "~/utils/useScrollToTop";
 const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const router = useRouter();
-const route = useRoute();
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
 const currentIndex = ref(0);
@@ -63,8 +62,6 @@ const screenWidth = ref(null);
 onMounted(async () => {
   await getPromotionalItem();
   screenWidth.value = window.innerWidth;
-
-  console.log("apiiiiiii", apiUrl);
 });
 
 async function getPromotionalItem() {
@@ -77,17 +74,7 @@ async function getPromotionalItem() {
   }
 }
 
-// const calcWidthWrapper = computed(() => {
-//   const screenWidth = ref(window.innerWidth);
-//   const baseWidth = screenWidth.value < 426 ? 310 : 305;
-
-//   return {
-//     width: baseWidth * bestsellerProduct.value.length + "px",
-//   };
-// });
-
 const calcWidthWrapper = computed(() => {
-  // Якщо screenWidth ще не ініціалізований (наприклад, під час SSR), використовуйте значення за замовчуванням.
   const baseWidth = screenWidth.value && screenWidth.value < 426 ? 310 : 305;
 
   return {

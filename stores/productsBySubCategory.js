@@ -8,8 +8,6 @@ export const useProductsByDubCategory = defineStore(
     const products = ref([]);
     const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 
-    console.log("categoryyyyyy", apiUrl);
-
     async function getProductsBySubCategory(sub_category_id) {
       const response = await axios.get(`${apiUrl}/products/${sub_category_id}`);
 
