@@ -51,6 +51,24 @@ const products = ref();
 onMounted(async () => {
   try {
     products.value = await getProductsBySubCategory(sub_category);
+
+    useHead({
+      title: `${route.query.sub_category} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент`,
+      meta: [
+        {
+          name: "robots",
+          content: "index, follow",
+        },
+        {
+          name: "description",
+          content: `Купити ${route.query.sub_category} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент. Обирайте якість за найкращою ціною.`,
+        },
+        {
+          name: "keywords",
+          content: `${route.query.sub_category}, SAW STORE, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови`,
+        },
+      ],
+    });
   } catch (error) {
     console.error("Ошибка:", error);
   }

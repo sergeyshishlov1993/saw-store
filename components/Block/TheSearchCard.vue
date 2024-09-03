@@ -1,6 +1,9 @@
 <template>
   <div class="search_card">
-    <img :src="props.path[0].pictures_name" :alt="props.name" />
+    <img
+      :src="props.path[props.path.length - 1].pictures_name"
+      :alt="props.name"
+    />
 
     <div class="search_card-text">
       <ui-text-h5>{{ props.name }}</ui-text-h5>

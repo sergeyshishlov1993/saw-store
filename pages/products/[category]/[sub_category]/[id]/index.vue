@@ -152,6 +152,66 @@ onMounted(async () => {
     productById.value = response.data.product;
 
     await calculateAverageRating();
+
+    useHead({
+      title: `${productById.value[0].product_name} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент`,
+      meta: [
+        {
+          name: "robots",
+          content: "index, follow",
+        },
+        {
+          name: "description",
+          content: `Купити ${productById.value[0].product_name} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент. Обирайте якість за найкращою ціною.`,
+        },
+        {
+          name: "keywords",
+          content: `${productById.value[0].product_name}, SAW STORE, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови`,
+        },
+
+        {
+          property: "og:title",
+          content: `${productById.value[0].product_name} - Купити у SAW STORE`,
+        },
+        {
+          property: "og:description",
+          content: `Купити ${productById.value[0].product_name} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент.`,
+        },
+        {
+          property: "og:image",
+          content: productById.value[0].pictures[0].pictures_name,
+        },
+        {
+          property: "og:url",
+          content: window.location.href,
+        },
+        {
+          property: "og:type",
+          content: "website",
+        },
+
+        {
+          name: "twitter:card",
+          content: "summary_large_image",
+        },
+        {
+          name: "twitter:title",
+          content: `${productById.value[0].product_name} - Купити у SAW STORE`,
+        },
+        {
+          name: "twitter:description",
+          content: `Купити ${productById.value[0].product_name} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент.`,
+        },
+        {
+          name: "twitter:image",
+          content: productById.value[0].pictures[0].pictures_name,
+        },
+        {
+          name: "twitter:url",
+          content: window.location.href,
+        },
+      ],
+    });
   } catch (error) {
     console.error("Ошибка:", error);
   }
@@ -168,27 +228,6 @@ const calculateAverageRating = () => {
     return (rating.value = Math.floor(rating.value / el.review.length));
   });
 };
-
-useHead({
-  title:
-    "Акції - SAW STORE - Спеціальні пропозиції на професійний електроінструмент - Знижки та вигідні умови на найкращий інструмент",
-  meta: [
-    {
-      name: "robots",
-      content: "index, follow",
-    },
-    {
-      name: "description",
-      content:
-        "Не пропустіть акції від SAW STORE! Спеціальні пропозиції, знижки та вигідні умови на професійний електроінструмент. Обирайте якість за найкращою ціною.",
-    },
-    {
-      name: "keywords",
-      content:
-        "SAW STORE, акції, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови, купити інструмент зі знижкою",
-    },
-  ],
-});
 </script>
 
 <style lang="scss" scoped>

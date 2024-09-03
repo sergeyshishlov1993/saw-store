@@ -398,6 +398,23 @@ function goToCart() {
   .input {
     height: 40px;
   }
+
+  .search {
+    padding: 0 10px;
+    height: 50px;
+
+    .cart__wrapper {
+      .cart__counter {
+        top: -8px;
+        width: 15px;
+        height: 15px;
+
+        h6 {
+          font-size: 12px;
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 425px) {

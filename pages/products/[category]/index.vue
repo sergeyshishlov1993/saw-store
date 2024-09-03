@@ -52,6 +52,24 @@ onMounted(async () => {
   );
 
   subCategory.value = response.data.subCategory;
+
+  useHead({
+    title: `${route.query.category} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент`,
+    meta: [
+      {
+        name: "robots",
+        content: "index, follow",
+      },
+      {
+        name: "description",
+        content: `Купити ${route.query.category} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент. Обирайте якість за найкращою ціною.`,
+      },
+      {
+        name: "keywords",
+        content: `${route.query.category}, SAW STORE, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови`,
+      },
+    ],
+  });
 });
 
 const goToProducts = (parentId, id, name) => {

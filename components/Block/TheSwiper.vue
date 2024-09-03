@@ -21,6 +21,7 @@
       }"
     >
       <SwiperSlide v-for="slide in slider" :key="slide.id">
+        <div v-if="!slide.loaded" class="skeleton"></div>
         <img :src="slide.name" :alt="slide.name" />
       </SwiperSlide>
     </Swiper>
@@ -40,12 +41,22 @@ onMounted(async () => {
 
 async function getSliderImg() {
   try {
-    const response = await axios.get(`${apiUrl}/slider`);
+    // const response = await axios.get(`${apiUrl}/slider`);
 
-    slider.value = response.data.slider;
+    // slider.value = response.data.slider;
+
+    const response = await axios.get(`${apiUrl}/slider`);
+    slider.value = response.data.slider.map((slide) => ({
+      ...slide,
+      loaded: false,
+    }));
   } catch (error) {
     console.error("сталась помилка:", error);
   }
+}
+
+function imageLoaded(index) {
+  slider.value[index].loaded = true;
 }
 </script>
 
@@ -65,6 +76,25 @@ async function getSliderImg() {
     width: 100%;
     max-height: 100%;
   }
+
+  .skeleton {
+    width: 100%;
+    height: 100%;
+    background-color: #e0e0e0;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      background-color: #e0e0e0;
+    }
+    50% {
+      background-color: #f0f0f0;
+    }
+    100% {
+      background-color: #e0e0e0;
+    }
+  }
 }
 
 @media screen and (max-width: 1199px) {
@@ -72,6 +102,14 @@ async function getSliderImg() {
     .swiper-slide {
       padding-top: 30px;
       height: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .slider__wrapper {
+    .swiper-slide {
+      padding-top: 5px;
     }
   }
 }
