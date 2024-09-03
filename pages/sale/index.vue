@@ -7,7 +7,7 @@
         <the-product-card
           v-for="product in discontProduct"
           :key="product.product_id"
-          :path="product.pictures[0].pictures_name"
+          :path="product.pictures[product.pictures.length - 1].pictures_name"
           :title="product.product_name"
           :price="product.price"
           :promotionalPrice="product.sale_price"

@@ -75,12 +75,4 @@ async function getSliderImg() {
     }
   }
 }
-
-@media screen and (max-width: 767px) {
-  .slider__wrapper {
-    .swiper-slide {
-      padding-top: 5px;
-    }
-  }
-}
 </style>

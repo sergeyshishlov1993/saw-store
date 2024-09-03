@@ -6,7 +6,7 @@
       <the-product-card
         v-for="product in discontProduct.slice(0, 8)"
         :key="product.product_id"
-        :path="product.pictures[0].pictures_name"
+        :path="product.pictures[product.pictures.length - 1].pictures_name"
         :title="product.product_name"
         :price="product.price"
         :promotionalPrice="product.sale_price"
@@ -49,6 +49,8 @@ async function getPromotionalItem() {
     const response = await axios.get(`${apiUrl}/sale`);
 
     discontProduct.value = response.data.sale;
+
+    console.log(discontProduct.value);
   } catch (error) {
     console.error("сталась помилка:", error);
   }

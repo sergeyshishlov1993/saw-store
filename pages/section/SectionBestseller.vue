@@ -21,13 +21,17 @@
       <the-product-card
         v-for="product in bestsellerProduct"
         :key="product.product_id"
-        :path="product.pictures[0].pictures_name"
+        :path="product.pictures[product.pictures.length - 1].pictures_name"
         :title="product.product_name"
         :price="product.price"
         :bestseller="product.bestseller"
         @buy-product="addProductToCart(product, product.product_id)"
         @click="
-          goToProducts(product.sub_category_id, product.product_id, product.product_name)
+          goToProducts(
+            product.sub_category_id,
+            product.product_id,
+            product.product_name
+          )
         "
       />
     </div>
