@@ -113,6 +113,7 @@ async function deleteResponse() {
     }
   }
 }
+
 .person {
   display: flex;
   justify-content: space-between;
@@ -134,5 +135,35 @@ async function deleteResponse() {
 
 .comment {
   line-height: 30px;
+}
+
+@media screen and (max-width: 991px) {
+  .review_response {
+    padding-top: 50px;
+    width: 100%;
+
+    .person {
+      align-items: center;
+
+      &__wrapper {
+        gap: 10px;
+        svg {
+          width: 25px;
+        }
+      }
+    }
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .message {
+    padding-top: 30px;
+
+    h2 {
+      font-size: 18px;
+    }
+  }
 }
 </style>

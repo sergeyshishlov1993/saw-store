@@ -88,6 +88,11 @@ function goToCatalog() {
 }
 
 @media screen and (max-width: 991px) {
+  .sub_menu_card {
+    &:hover h2 {
+      pointer-events: none;
+    }
+  }
   .main {
     width: 100px !important;
   }

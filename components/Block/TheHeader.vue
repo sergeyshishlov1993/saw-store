@@ -394,14 +394,21 @@ function goToCart() {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
+  .header {
+    padding: 10px;
+  }
+
+  .logo {
+    width: 150px;
+  }
+
   .input {
     height: 40px;
   }
 
   .search {
     padding: 0 10px;
-    height: 50px;
 
     .cart__wrapper {
       .cart__counter {
@@ -424,15 +431,6 @@ function goToCart() {
 
   .logo {
     width: 150px;
-  }
-
-  .search {
-    .cart__wrapper {
-      .cart__counter {
-        top: -12px;
-        right: -12px;
-      }
-    }
   }
 
   .search_card_wrapper {

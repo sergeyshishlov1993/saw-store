@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch, nextTick } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import IconPerson from "~/assets/icons/IconPerson.vue";
@@ -93,6 +93,7 @@ const route = useRoute();
 const isAdmin = ref(route.path.startsWith("/admin"));
 
 onMounted(async () => {
+  await nextTick();
   await getReviewsResponse();
 });
 

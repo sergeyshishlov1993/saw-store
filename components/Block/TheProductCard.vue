@@ -145,6 +145,16 @@ const buyProduct = () => {
   }
 }
 
+@media screen and (max-width: 991px) {
+  .product-card__wrapper {
+    button {
+      &:hover {
+        pointer-events: none;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 767px) {
   .product-card__wrapper {
     width: 320px;

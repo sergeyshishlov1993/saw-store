@@ -66,7 +66,9 @@ function goToBuyersPage() {
   background-color: #fff;
   width: 350px;
   border-radius: 0 0 20px 20px;
-  height: 300px;
+  min-height: 300px;
+  max-height: 100vh;
+
   overflow-y: auto;
 
   &__category {

@@ -70,7 +70,7 @@ const goToCatalog = (parentId, id, name) => {
   justify-content: space-between;
 
   h2 {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
   }
 
@@ -81,10 +81,11 @@ const goToCatalog = (parentId, id, name) => {
 }
 
 .subCategory {
+  font-size: 13px;
   padding-left: 15px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
 
   h2 {
     cursor: pointer;
