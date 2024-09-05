@@ -146,7 +146,9 @@ async function deleteResponse() {
       align-items: center;
 
       &__wrapper {
+        justify-content: space-between;
         gap: 10px;
+
         svg {
           width: 25px;
         }
