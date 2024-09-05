@@ -147,10 +147,8 @@ const buyProduct = () => {
 
 @media screen and (max-width: 991px) {
   .product-card__wrapper {
-    button {
-      &:hover {
-        pointer-events: none;
-      }
+    &:hover button {
+      display: none;
     }
   }
 }
