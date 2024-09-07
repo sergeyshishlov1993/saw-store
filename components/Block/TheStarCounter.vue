@@ -12,7 +12,7 @@
 <script setup>
 import IconStar from "~/assets/icons/IconStar.vue";
 
-const emit = defineEmits(["change"]);
+const emit = defineEmits(["changeStar"]);
 const props = defineProps({
   starsCount: {
     type: Number,

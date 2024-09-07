@@ -1,249 +1,264 @@
 <template>
   <form @submit.prevent="buyOrder" autocomplete="off">
-    <ui-text-h3
-      ><span>
-        <ui-text-h4>1</ui-text-h4>
-      </span>
-      Контактні дані</ui-text-h3
-    >
-
-    <ui-input
-      type="text"
-      name="firstName"
-      placeholder="Ваше імʼя"
-      class="customInput"
-      :value="firstName"
-      @focus="(event) => handleFocus('firstName', event.target.value)"
-      @input="(event) => getInputValue('firstName', event.target.value)"
-      @blur="(event) => handleBlur('firstName', event.target.value)"
-      :class="{ invalid: errorsFormData?.firstName?.errors.length != 0 }"
-    />
-
     <ui-error
-      v-for="error in errorsFormData?.firstName?.errors ?? []"
+      v-for="error in errorsFormData?.form?.errors ?? []"
       :key="error"
       :text="error"
     />
 
-    <ui-input
-      type="text"
-      name="secondName"
-      placeholder="Ваше призвіще"
-      :value="secondName"
-      class="customInput"
-      @focus="(event) => handleFocus('secondName', event.target.value)"
-      @input="(event) => getInputValue('secondName', event.target.value)"
-      @blur="(event) => handleBlur('secondName', event.target.value)"
-      :class="{ invalid: errorsFormData?.secondName?.errors.length != 0 }"
-    />
-
-    <ui-error
-      v-for="error in errorsFormData?.secondName?.errors ?? []"
-      :key="error"
-      :text="error"
-    />
-
-    <ui-input
-      type="phone"
-      name="phone"
-      placeholder="+380"
-      class="customInput"
-      maxlength="13"
-      minlength="13"
-      :value="phone"
-      @focus="(event) => handleFocus('phone', event.target.value)"
-      @input="(event) => getInputValue('phone', event)"
-      @blur="(event) => handleBlur('phone', event.target.value)"
-      :class="{ invalid: errorsFormData?.phone?.errors.length != 0 }"
-    />
-
-    <ui-error
-      v-for="error in errorsFormData?.phone?.errors ?? []"
-      :key="error"
-      :text="error"
-    />
-
-    <!-- ---------------------------------- -->
-    <ui-text-h3
-      ><span>
-        <ui-text-h4>2</ui-text-h4>
-      </span>
-      Доставка "Нова Пошта"</ui-text-h3
-    >
-
-    <div class="input__wrapper">
-      <input
-        type="radio"
-        id="Branch"
-        name="newPost"
-        value="841339c7-591a-42e2-8233-7a0a00f0ed6f"
-        v-model="typeWarehouses"
-      />
-      <label for="Branch">у відділення</label>
-    </div>
-
-    <div class="input__wrapper">
-      <input
-        type="radio"
-        id="BranchСargo"
-        name="newPost"
-        value="9a68df70-0267-42a8-bb5c-37f427e36ee4"
-        v-model="typeWarehouses"
-        @change="handleChange"
-      />
-      <label for="BranchСargo">у вантажне відділення</label>
-    </div>
-
-    <div class="input__wrapper">
-      <input
-        type="radio"
-        id="Courier"
-        name="newPost"
-        value="Courier"
-        v-model="typeWarehouses"
-        @change="handleChange"
-      />
-      <label for="Courier">кур'єром за адресою</label>
-    </div>
-
-    <div class="input__wrapper">
-      <input
-        type="radio"
-        id="Postomat"
-        name="newPost"
-        value="f9316480-5f2d-425d-bc2c-ac7cd29decf0"
-        v-model="typeWarehouses"
-        @change="handleChange"
-      />
-      <label for="Postomat">у поштомат</label>
-    </div>
-
-    <!-- ---------------город------------------- -->
-    <div class="delivery__wrapper">
-      <div class="input__wrapper">
-        <ui-input
-          name="city"
-          placeholder="Ваше місто"
-          class="customInput"
-          :value="city"
-          @focus="(event) => handleFocus('city', event)"
-          @input="(event) => getInputValue('city', event.target.value)"
-          @blur="(event) => handleBlur('city', event.target.value)"
-          :class="{ invalid: errorsFormData?.city?.errors.length != 0 }"
-        />
-
-        <icon-close @click="clearInputValue('city')" />
-      </div>
-
-      <ui-error
-        v-for="error in errorsFormData?.city?.errors ?? []"
-        :key="error"
-        :text="error"
-      />
-
-      <ui-loader v-if="loadDataNovaPoshta" />
-
-      <ui-drop-down
-        v-else
-        @selectCity="getCityValue"
-        :value="cityList"
-        name="cityList"
-        :show="showDropCity"
-      />
-    </div>
-
-    <!-- ---------------отделение------------------- -->
-    <div class="delivery__wrapper" v-if="typeWarehouses !== 'Courier'">
-      <div class="input__wrapper">
-        <ui-input
-          placeholder="Ваше віділення"
-          class="customInput"
-          name="warehouses"
-          :value="warehouses"
-          @focus="(event) => handleFocus('warehouses', event)"
-          @input="(event) => getInputValue('warehouses', event.target.value)"
-          @blur="(event) => handleBlur('warehouses', event.target.value)"
-          :class="{ invalid: errorsFormData?.warehouses?.errors.length != 0 }"
-        />
-
-        <icon-close @click="clearInputValue('warehouses')" />
-      </div>
-
-      <ui-error
-        v-for="error in errorsFormData?.warehouses?.errors ?? []"
-        :key="error"
-        :text="error"
-      />
-
-      <ui-drop-down
-        @selectCity="getCityValue"
-        :value="warehousesList"
-        :show="showDropWarehouses"
-        name="warehousesList"
-      />
-    </div>
-
-    <div class="delivery__wrapper" v-else>
-      <ui-input
-        placeholder="Адреса доставки"
-        class="customInput"
-        name="courierDeliveryAddress"
-        :value="courierDeliveryAddress"
-        @focus="(event) => handleFocus('courierDeliveryAddress', event)"
-        @input="
-          (event) => getInputValue('courierDeliveryAddress', event.target.value)
-        "
-        @blur="
-          (event) => handleBlur('courierDeliveryAddress', event.target.value)
-        "
-        :class="{
-          invalid: errorsFormData?.courierDeliveryAddress?.errors.length != 0,
-        }"
-      />
-
-      <ui-error
-        v-for="error in errorsFormData?.courierDeliveryAddress?.errors ?? []"
-        :key="error"
-        :text="error"
-      />
-    </div>
-
-    <!-- ---------------------------------- -->
-
-    <ui-text-h3
-      ><span>
-        <ui-text-h4>3</ui-text-h4>
-      </span>
-      Оплата
-    </ui-text-h3>
-
-    <div class="input__wrapper">
-      <input
-        type="radio"
-        id="Післяплатою"
-        name="payment"
-        value="Післяплатою"
-        v-model="payment"
-      />
-      <label for="Післяплатою">Післяплатою</label>
-    </div>
-
-    <div class="input__wrapper">
-      <input
-        type="radio"
-        id="На розрахунковий рахунок ФОП"
-        name="payment"
-        value="На розрахунковий рахунок ФОП"
-        v-model="payment"
-      />
-      <label for="На розрахунковий рахунок ФОП"
-        >На розрахунковий рахунок ФОП</label
+    <fieldset>
+      <ui-text-h3
+        ><span>
+          <ui-text-h4>1</ui-text-h4>
+        </span>
+        Контактні дані</ui-text-h3
       >
-    </div>
 
-    <ui-btn :disabled="!state.productsInСart.length"
-      >Оформити замовлення</ui-btn
-    >
+      <ui-input
+        type="text"
+        name="firstName"
+        placeholder="Ваше імʼя"
+        class="customInput"
+        :value="firstName"
+        @focus="(event) => handleFocus('firstName', event.target.value)"
+        @input="(event) => getInputValue('firstName', event.target.value)"
+        @blur="(event) => handleBlur('firstName', event.target.value)"
+        :class="{ invalid: errorsFormData?.firstName?.errors.length != 0 }"
+      />
+
+      <ui-error
+        v-for="error in errorsFormData?.firstName?.errors ?? []"
+        :key="error"
+        :text="error"
+      />
+
+      <ui-input
+        type="text"
+        name="secondName"
+        placeholder="Ваше призвіще"
+        :value="secondName"
+        class="customInput"
+        @focus="(event) => handleFocus('secondName', event.target.value)"
+        @input="(event) => getInputValue('secondName', event.target.value)"
+        @blur="(event) => handleBlur('secondName', event.target.value)"
+        :class="{ invalid: errorsFormData?.secondName?.errors.length != 0 }"
+      />
+
+      <ui-error
+        v-for="error in errorsFormData?.secondName?.errors ?? []"
+        :key="error"
+        :text="error"
+      />
+
+      <ui-input
+        type="phone"
+        name="phone"
+        placeholder="+380"
+        class="customInput"
+        maxlength="13"
+        minlength="13"
+        :value="phone"
+        @focus="(event) => handleFocus('phone', event.target.value)"
+        @input="(event) => getInputValue('phone', event)"
+        @blur="(event) => handleBlur('phone', event.target.value)"
+        :class="{ invalid: errorsFormData?.phone?.errors.length != 0 }"
+      />
+
+      <ui-error
+        v-for="error in errorsFormData?.phone?.errors ?? []"
+        :key="error"
+        :text="error"
+      />
+    </fieldset>
+
+    <!-- ---------------------------------- -->
+
+    <fieldset>
+      <ui-text-h3
+        ><span>
+          <ui-text-h4>2</ui-text-h4>
+        </span>
+        Доставка "Нова Пошта"</ui-text-h3
+      >
+
+      <div class="input__wrapper">
+        <input
+          type="radio"
+          id="Branch"
+          name="newPost"
+          value="841339c7-591a-42e2-8233-7a0a00f0ed6f"
+          v-model="typeWarehouses"
+        />
+        <label for="Branch">у відділення</label>
+      </div>
+
+      <div class="input__wrapper">
+        <input
+          type="radio"
+          id="BranchСargo"
+          name="newPost"
+          value="9a68df70-0267-42a8-bb5c-37f427e36ee4"
+          v-model="typeWarehouses"
+          @change="handleChange"
+        />
+        <label for="BranchСargo">у вантажне відділення</label>
+      </div>
+
+      <div class="input__wrapper">
+        <input
+          type="radio"
+          id="Courier"
+          name="newPost"
+          value="Courier"
+          v-model="typeWarehouses"
+          @change="handleChange"
+        />
+        <label for="Courier">кур'єром за адресою</label>
+      </div>
+
+      <div class="input__wrapper">
+        <input
+          type="radio"
+          id="Postomat"
+          name="newPost"
+          value="f9316480-5f2d-425d-bc2c-ac7cd29decf0"
+          v-model="typeWarehouses"
+          @change="handleChange"
+        />
+        <label for="Postomat">у поштомат</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <!-- ---------------город------------------- -->
+
+      <div class="delivery__wrapper">
+        <div class="input__wrapper">
+          <ui-input
+            name="city"
+            placeholder="Ваше місто"
+            class="customInput"
+            :value="city"
+            @focus="(event) => handleFocus('city', event)"
+            @input="(event) => getInputValue('city', event.target.value)"
+            @blur="(event) => handleBlur('city', event.target.value)"
+            :class="{ invalid: errorsFormData?.city?.errors.length != 0 }"
+          />
+
+          <icon-close @click="clearInputValue('city')" />
+        </div>
+
+        <ui-error
+          v-for="error in errorsFormData?.city?.errors ?? []"
+          :key="error"
+          :text="error"
+        />
+
+        <ui-loader v-if="loadDataNovaPoshta" />
+
+        <ui-drop-down
+          v-else
+          @selectCity="getCityValue"
+          :value="cityList"
+          name="cityList"
+          :show="showDropCity"
+        />
+      </div>
+
+      <!-- ---------------отделение------------------- -->
+      <div class="delivery__wrapper" v-if="typeWarehouses !== 'Courier'">
+        <div class="input__wrapper">
+          <ui-input
+            placeholder="Ваше віділення"
+            class="customInput"
+            name="warehouses"
+            :value="warehouses"
+            @focus="(event) => handleFocus('warehouses', event)"
+            @input="(event) => getInputValue('warehouses', event.target.value)"
+            @blur="(event) => handleBlur('warehouses', event.target.value)"
+            :class="{ invalid: errorsFormData?.warehouses?.errors.length != 0 }"
+          />
+
+          <icon-close @click="clearInputValue('warehouses')" />
+        </div>
+
+        <ui-error
+          v-for="error in errorsFormData?.warehouses?.errors ?? []"
+          :key="error"
+          :text="error"
+        />
+
+        <ui-drop-down
+          @selectCity="getCityValue"
+          :value="warehousesList"
+          :show="showDropWarehouses"
+          name="warehousesList"
+        />
+      </div>
+
+      <div class="delivery__wrapper" v-else>
+        <ui-input
+          placeholder="Адреса доставки"
+          class="customInput"
+          name="courierDeliveryAddress"
+          :value="courierDeliveryAddress"
+          @focus="(event) => handleFocus('courierDeliveryAddress', event)"
+          @input="
+            (event) =>
+              getInputValue('courierDeliveryAddress', event.target.value)
+          "
+          @blur="
+            (event) => handleBlur('courierDeliveryAddress', event.target.value)
+          "
+          :class="{
+            invalid: errorsFormData?.courierDeliveryAddress?.errors.length != 0,
+          }"
+        />
+
+        <ui-error
+          v-for="error in errorsFormData?.courierDeliveryAddress?.errors ?? []"
+          :key="error"
+          :text="error"
+        />
+      </div>
+
+      <!-- ---------------------------------- -->
+    </fieldset>
+
+    <fieldset>
+      <ui-text-h3
+        ><span>
+          <ui-text-h4>3</ui-text-h4>
+        </span>
+        Оплата
+      </ui-text-h3>
+
+      <div class="input__wrapper">
+        <input
+          type="radio"
+          id="Післяплатою"
+          name="payment"
+          value="Післяплатою"
+          v-model="payment"
+        />
+        <label for="Післяплатою">Післяплатою</label>
+      </div>
+
+      <div class="input__wrapper">
+        <input
+          type="radio"
+          id="На розрахунковий рахунок ФОП"
+          name="payment"
+          value="На розрахунковий рахунок ФОП"
+          v-model="payment"
+        />
+        <label for="На розрахунковий рахунок ФОП"
+          >На розрахунковий рахунок ФОП</label
+        >
+      </div>
+    </fieldset>
+
+    <ui-btn>Оформити замовлення</ui-btn>
   </form>
 </template>
 
@@ -392,6 +407,8 @@ async function getInputValue(name, event) {
   }
 }
 
+let citySearchTimeout = null;
+
 async function handleBlur(name, event) {
   switch (name) {
     case "firstName":
@@ -414,7 +431,13 @@ async function handleBlur(name, event) {
       validateField(city.value, "city");
 
       if (city.value.length >= 3) {
-        await getCityNovaPoshta();
+        // Очистимо попередній таймер, якщо користувач продовжує вводити
+        clearTimeout(citySearchTimeout);
+
+        // Додамо затримку перед викликом API
+        citySearchTimeout = setTimeout(async () => {
+          await getCityNovaPoshta();
+        }, 500); // 500 мс затримка для очікування перед викликом API
       }
 
       break;
@@ -422,6 +445,7 @@ async function handleBlur(name, event) {
     case "warehouses":
       warehouses.value = event;
 
+      // Запит до API для отримання відділень
       await getWarehousesNovaPoshta();
 
       break;
@@ -429,7 +453,6 @@ async function handleBlur(name, event) {
     case "courierDeliveryAddress":
       courierDeliveryAddress.value = event;
       warehouses.value = "Кур'єрська доставка";
-
       break;
   }
 }
@@ -448,7 +471,7 @@ function clearInputValue(name) {
 function doValidateForm() {
   createErrorObj("firstName");
   createErrorObj("secondName");
-  createErrorObj("phone");
+  createErrorObj("phoneForm");
   createErrorObj("city");
   createErrorObj("warehouses");
   createErrorObj("courierDeliveryAddress");
@@ -519,6 +542,21 @@ async function getWarehousesNovaPoshta() {
 async function buyOrder() {
   doValidateForm();
 
+  if (!state.productsInСart.length) {
+    // Прокрутка вгору
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
+    // Додаємо повідомлення про помилку
+    errorsFormData.form = {
+      errors: ["Кошик не може бути порожнім!"],
+    };
+
+    return;
+  }
+
   if (!isFormValid()) {
     try {
       const random = crypto.randomUUID();
@@ -556,7 +594,6 @@ async function buyOrder() {
       warehouses.value = "";
       courierDeliveryAddress.value = "";
       state.totalPriceCart = 0;
-
       state.productsInСart.length = 0;
 
       emit("show", true);
@@ -580,6 +617,14 @@ form {
   background: #ffffff;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
+
+  fieldset {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+  }
 
   h2 {
     display: flex;

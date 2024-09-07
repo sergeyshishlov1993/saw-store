@@ -43,7 +43,7 @@
             />
           </div>
 
-          <the-review-product v-if="currentTab == 'Відгуки'" :id="id" />
+          <the-reviews v-if="currentTab == 'Відгуки'" :id="id" />
 
           <admin-product-card-form
             :id="product.product_id"
@@ -84,8 +84,8 @@ import UiTextH1 from "~/components/Ui/UiTextH1.vue";
 import UiTextH5 from "~/components/Ui/UiTextH5.vue";
 import TheTabs from "~/components/Block/TheTabs.vue";
 import ImgTabs from "~/pages/products/[category]/[sub_category]/[id]/section/ImgTabs.vue";
-import TheReviewProduct from "~/pages/products/[category]/[sub_category]/[id]/section/TheReviewProduct.vue";
-import TheStarCounter from "~/pages/products/[category]/[sub_category]/[id]/components/TheStarCounter.vue";
+import TheReviews from "~/pages/products/[category]/[sub_category]/[id]/section/TheReviews.vue";
+import TheStarCounter from "~/components/Block/TheStarCounter.vue";
 import TheSmalCard from "~/pages/products/[category]/[sub_category]/[id]/components/TheSmalCard.vue";
 import AdminProductCardForm from "~/pages/admin/components/AdminProductCardForm.vue";
 import useScrollToTop from "~/utils/useScrollToTop";

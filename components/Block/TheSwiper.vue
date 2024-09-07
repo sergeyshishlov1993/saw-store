@@ -41,11 +41,8 @@ onMounted(async () => {
 
 async function getSliderImg() {
   try {
-    // const response = await axios.get(`${apiUrl}/slider`);
-
-    // slider.value = response.data.slider;
-
     const response = await axios.get(`${apiUrl}/slider`);
+
     slider.value = response.data.slider.map((slide) => ({
       ...slide,
       loaded: false,
@@ -53,10 +50,6 @@ async function getSliderImg() {
   } catch (error) {
     console.error("сталась помилка:", error);
   }
-}
-
-function imageLoaded(index) {
-  slider.value[index].loaded = true;
 }
 </script>
 

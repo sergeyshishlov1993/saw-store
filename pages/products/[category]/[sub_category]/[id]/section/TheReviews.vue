@@ -29,7 +29,10 @@
         @deleteReview="deleteReviewClient"
       />
 
-      <div class="wrapper__pagination" v-if="props.currentTab == 'Відгуки'">
+      <div
+        class="wrapper__pagination"
+        v-if="props.currentTab == 'Відгуки' && totalPageCount > 1"
+      >
         <button @click="prevPage" :disabled="currentPage === 1">
           <icon-chevron-left />
         </button>
@@ -91,16 +94,21 @@ onMounted(async () => {
   }
 });
 
-const emit = defineEmits(["moreReviews"]);
+const emit = defineEmits(["moreReviews", "counReviews"]);
 const props = defineProps({
   reviews: Array,
   id: String,
   currentTab: String,
 });
 
-function createReview(date) {
+async function createReview(date) {
   reviews.value.push(date);
+  totalReviews.value += 1;
   showFormReview.value = false;
+
+  emit("counReviews", totalReviews.value);
+
+  await getReviews();
 }
 
 async function getReviews(page = 1) {

@@ -51,7 +51,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-import TheStarCounter from "./TheStarCounter.vue";
+import TheStarCounter from "~/components/Block/TheStarCounter.vue";
 import axios from "axios";
 import {
   errorsFormData,
@@ -196,5 +196,11 @@ form {
   display: flex;
   flex-direction: column;
   gap: 30px;
+}
+
+@media screen and (max-width: 1199px) {
+  form {
+    width: 100%;
+  }
 }
 </style>

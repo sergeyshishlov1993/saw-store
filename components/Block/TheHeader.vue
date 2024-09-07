@@ -73,10 +73,10 @@
     ></div>
 
     <div class="mobile__wrapper" v-if="visibilityStore.showMobileMenu">
-      <the-mobile-header-menu />
+      <mobile-header />
     </div>
 
-    <the-catalog-menu v-if="visibilityStore.showCatalogNav" />
+    <category-subcategory-list v-if="visibilityStore.showCatalogNav" />
   </div>
 </template>
 
@@ -92,10 +92,10 @@ import IconCart from "~/assets/icons/IconCart.vue";
 import IconSearch from "~/assets/icons/IconSearch.vue";
 import IconCatalog from "~/assets/icons/IconCatalog.vue";
 import IconBurger from "~/assets/icons/IconBurger.vue";
-import TheCatalogMenu from "./TheCatalogMenu.vue";
+import CategorySubcategoryList from "./CategorySubcategoryList.vue";
 import TheSearchCard from "./TheSearchCard.vue";
 import TheDropDownFeedback from "./TheDropDownFeedback.vue";
-import TheMobileHeaderMenu from "./TheMobileHeaderMenu.vue";
+import MobileHeader from "./MobileHeader.vue";
 
 const { state } = useCartData();
 const { visibilityStore } = useOtherData();

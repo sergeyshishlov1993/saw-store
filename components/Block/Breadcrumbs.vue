@@ -43,9 +43,11 @@ const props = defineProps({
 }
 .crumb {
   margin-right: 0.5rem;
+  font-size: 13px;
 }
 .separator {
   margin-left: 0.5rem;
+  font-size: 13px;
 }
 
 .disabled-crumb {
@@ -55,14 +57,6 @@ const props = defineProps({
 @media screen and (max-width: 991px) {
   .breadcrumbs {
     flex-wrap: wrap;
-  }
-
-  .crumb {
-    font-size: 13px;
-  }
-
-  .disabled-crumb {
-    font-size: 13px;
   }
 }
 </style>

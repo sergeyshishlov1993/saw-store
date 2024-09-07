@@ -1,5 +1,16 @@
 import { reactive } from "vue";
 
+const handleSubmit = () => {
+  const firstInvalidInput = document.querySelector(".invalid.customInput");
+
+  if (firstInvalidInput) {
+    firstInvalidInput.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }
+};
+
 const defaultErrorObject = {
   isDirty: false,
   errors: [],
@@ -13,22 +24,29 @@ export function createErrorObj(name) {
 export function validateField(value, name, message) {
   //we check the input fields where the name parameter is the name of the input, the value parameter is the input value, password is the password input value for comparison
 
+  if (!errorsFormData[name]) {
+    createErrorObj(name);
+  }
+
   errorsFormData[name].errors = []; //reset the error value in the object so that errors are not duplicated
 
   // Is required
   if (!value) {
     errorsFormData[name].errors.push("Поле не може буди порожнім !");
+    handleSubmit();
   }
 
   // Min  length
   if (!!value && value.length <= 3 && name !== "file") {
     errorsFormData[name].errors.push("Мінімальна кількість символів 3");
+    handleSubmit();
   }
 
   //phone validation
   if (!!value && name == "phone" && value.length < 13) {
     errorsFormData[name].errors = [];
-    errorsFormData[name].errors.push("Введіть полний номер телефону");
+    errorsFormData[name].errors.push("Введіть повний номер телефону");
+    handleSubmit();
   }
 
   //file validation

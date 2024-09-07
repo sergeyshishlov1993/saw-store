@@ -63,7 +63,7 @@ function goToCatalog() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 5px;
   cursor: pointer;
 
   img {

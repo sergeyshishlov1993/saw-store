@@ -3,7 +3,7 @@
     <ui-text-h1>КАТЕГОРІЇ</ui-text-h1>
 
     <div class="categorie__wrapper">
-      <the-main-card
+      <main-screen-category-item
         v-for="title in categogiesMain"
         :key="title"
         :title="title"
@@ -17,7 +17,7 @@
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import UiTextH1 from "../../components/Ui/UiTextH1.vue";
-import TheMainCard from "../../components/Block/TheMainCard.vue";
+import MainScreenCategoryItem from "../../components/Block/MainScreenCategoryItem.vue";
 
 const router = useRouter();
 

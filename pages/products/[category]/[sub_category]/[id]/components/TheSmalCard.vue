@@ -22,7 +22,7 @@
 
 <script setup>
 import UiTextH5 from "~/components/Ui/UiTextH5.vue";
-import TheStarCounter from "../components/TheStarCounter.vue";
+import TheStarCounter from "~/components/Block/TheStarCounter.vue";
 import UiBtn from "~/components/Ui/UiBtn.vue";
 
 const emit = defineEmits("buyProduct");

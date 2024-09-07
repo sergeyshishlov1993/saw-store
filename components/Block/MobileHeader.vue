@@ -1,7 +1,7 @@
 <template>
   <div class="mobile">
     <div class="mobile__category">
-      <drop-down-mobile-menu />
+      <mobile-category-subcategory-list />
     </div>
 
     <div class="mobile__navigation">
@@ -23,7 +23,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useOtherData } from "~/stores/otherData";
-import DropDownMobileMenu from "./DropDownMobileMenu.vue";
+import MobileCategorySubcategoryList from "./MobileCategorySubcategoryList.vue";
 import UiTextH5 from "../Ui/UiTextH5.vue";
 import IconPhone from "~/assets/icons/IconPhone.vue";
 

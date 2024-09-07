@@ -6,7 +6,7 @@
 
         <div class="person__title">
           <ui-text-h5>{{ props.nikname }}</ui-text-h5>
-          <the-star-counter :rate="props.rating" />
+          <the-star-counter :rate="Number(props.rating)" />
         </div>
       </div>
 
@@ -58,10 +58,7 @@
           @deleteResponse="deleteResponseClient"
         />
 
-        <ui-btn
-          class="response_btn"
-          @click="getAllReviews"
-          v-if="countResponses > 1"
+        <ui-btn class="response_btn" @click="getAllReviews" v-if="countResponses > 1"
           >переглянути всі відповіді
           <span>({{ countResponses }})</span>
         </ui-btn>
@@ -77,12 +74,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, nextTick } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import IconPerson from "~/assets/icons/IconPerson.vue";
 import UiTextH5 from "~/components/Ui/UiTextH5.vue";
-import TheStarCounter from "../components/TheStarCounter.vue";
+import TheStarCounter from "~/components/Block/TheStarCounter.vue";
 import UiBtn from "~/components/Ui/UiBtn.vue";
 import IconArrowResponse from "~/assets/icons/IconArrowResponse.vue";
 import IconClose from "~/assets/icons/IconClose.vue";
@@ -105,33 +102,13 @@ const countResponses = ref(0);
 
 const emit = defineEmits(["deleteReview"]);
 const props = defineProps({
-  nikname: {
-    type: String,
-  },
-
-  rating: {
-    type: String,
-  },
-
-  comment: {
-    type: String,
-  },
-
-  dataCreate: {
-    type: Date,
-  },
-
-  reviewId: {
-    type: String,
-  },
-
-  reviewResponses: {
-    type: Array,
-  },
-
-  productId: {
-    type: String,
-  },
+  nikname: String,
+  rating: String,
+  comment: String,
+  dataCreate: String,
+  reviewId: String,
+  reviewResponses: Array,
+  productId: String,
 });
 const showResponseForm = ref(false);
 const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
@@ -144,21 +121,31 @@ let formattedDate = date.toLocaleDateString("ru-RU", {
   year: "numeric",
 });
 
-function createResponse(data) {
-  reviewResponse.value.push(data);
-  countResponses.value += 1;
+async function createResponse(data) {
+  if (firstResponse.value.length === 0) {
+    firstResponse.value.push(data);
+    countResponses.value += 1;
+    await getReviewsResponse();
+  } else {
+    reviewResponse.value.push(data);
+    countResponses.value += 1;
+
+    await getReviewsResponse();
+  }
 
   return (showResponseForm.value = false);
 }
 
 async function getReviewsResponse() {
   try {
-    const response = await axios.get(
-      `${apiUrl}/products/${props.productId}/review/${props.reviewId}/responses?offset=${currentOffset.value}`
-    );
+    if (props.reviewId) {
+      const response = await axios.get(
+        `${apiUrl}/products/${props.productId}/review/${props.reviewId}/responses?offset=${currentOffset.value}`
+      );
 
-    firstResponse.value = response.data.reviewResponse;
-    countResponses.value = response.data.totalResponses;
+      firstResponse.value = response.data.reviewResponse;
+      countResponses.value = response.data.totalResponses;
+    }
   } catch (error) {
     console.error("Ошибка:", error);
   }

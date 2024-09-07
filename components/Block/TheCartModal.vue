@@ -2,7 +2,11 @@
   <div class="wrapper" @click="changeState">
     <div class="wrapper__modal" @click.stop>
       <div class="wrapper__modal_title">
-        <ui-text-h3>В кошику</ui-text-h3>
+        <ui-text-h3>В кошику </ui-text-h3>
+
+        <ui-text-h3
+          ><span>({{ filterProducts.length }})</span> Товари</ui-text-h3
+        >
         <icon-close @click="changeState" />
       </div>
 
@@ -112,6 +116,14 @@ const backToShopping = () => {
 
       svg {
         width: 40px;
+      }
+
+      h2 {
+        font-size: 16px;
+
+        span {
+          font-weight: 700;
+        }
       }
     }
 

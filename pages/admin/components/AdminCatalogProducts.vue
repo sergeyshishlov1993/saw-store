@@ -14,7 +14,7 @@
     </div>
 
     <div class="catalog_sub_menu">
-      <sub-menu-card
+      <sub-category
         v-for="sub in filterSubCategory"
         :key="sub.sub_category_id"
         :src="sub.pictures"
@@ -32,7 +32,7 @@ import { ref, reactive, onBeforeMount, computed } from "vue";
 import { useProductsByDubCategory } from "~/stores/productsBySubCategory";
 import axios from "axios";
 import UiTextH6 from "~/components/Ui/UiTextH6.vue";
-import SubMenuCard from "~/components/Block/SubMenuCard.vue";
+import SubCategory from "~/components/Block/SubCategory.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();

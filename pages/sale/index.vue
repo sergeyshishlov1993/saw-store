@@ -3,7 +3,8 @@
     <div class="action">
       <breadcrumbs :breadcrumbs="breadcrumb" />
 
-      <div class="action__wrapper">
+      <ui-loader v-if="showLoader" />
+      <div class="action__wrapper" v-else>
         <the-product-card
           v-for="product in discontProduct"
           :key="product.product_id"
@@ -33,14 +34,15 @@ import { useCartData } from "~/stores/cartData";
 import useScrollToTop from "~/utils/useScrollToTop";
 import axios from "axios";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
-import TheProductCard from "../../components/Block/TheProductCard.vue";
+import TheProductCard from "~/components/Block/TheProductCard.vue";
+import UiLoader from "~/components/Ui/UiLoader.vue";
 
 const { state } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const router = useRouter();
 const route = useRoute();
 const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
-
+const showLoader = ref(false);
 const discontProduct = ref([]);
 const breadcrumb = ref([
   { name: "Головна", path: "/" },
@@ -56,12 +58,16 @@ onMounted(async () => {
 });
 
 async function getPromotionalItem() {
+  showLoader.value = true;
   try {
     const response = await axios.get(`${apiUrl}/sale`);
 
     discontProduct.value = response.data.sale;
+
+    showLoader.value = false;
   } catch (error) {
     console.error("сталась помилка:", error);
+    showLoader.value = false;
   }
 }
 

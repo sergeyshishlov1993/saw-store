@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <div class="wrapper__catalog">
-      <div class="catalog_menu">
-        <div class="catalog_menu_name">
+    <div class="wrapper">
+      <div class="category_menu">
+        <div class="category_menu_name">
           <div
             class="category__wrapper"
             v-for="category in category"
@@ -14,8 +14,8 @@
         </div>
       </div>
 
-      <div class="catalog_sub_menu">
-        <sub-menu-card
+      <div class="category_sub_menu">
+        <sub-category
           v-for="sub in filterSubCategory"
           :key="sub.sub_category_id"
           :src="sub.pictures"
@@ -42,8 +42,7 @@ import { useProductsByDubCategory } from "~/stores/productsBySubCategory";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import UiTextH6 from "../Ui/UiTextH6.vue";
-import SubMenuCard from "./SubMenuCard.vue";
-import UiLoader from "../Ui/UiLoader.vue";
+import SubCategory from "./SubCategory.vue";
 
 const router = useRouter();
 const category = ref();
@@ -82,18 +81,19 @@ const goToCatalog = (parentId, id, name) => {
 </script>
 
 <style lang="scss" scoped>
-.wrapper__catalog {
+.wrapper {
   display: flex;
   border-right: 1px solid rgba(144, 5, 5, 1);
 }
 
-.catalog_menu {
+.category_menu {
   padding: 10px 20px 20px 0;
   display: flex;
 
   flex-direction: column;
   background-color: #fff;
   border-right: 1px solid rgba(144, 5, 5, 1);
+
   &_name {
     display: flex;
     flex-direction: column;
@@ -121,7 +121,7 @@ const goToCatalog = (parentId, id, name) => {
   }
 }
 
-.catalog_sub_menu {
+.category_sub_menu {
   padding: 20px 20px;
   width: 100%;
   height: 800px;
@@ -134,7 +134,7 @@ const goToCatalog = (parentId, id, name) => {
 }
 
 @media screen and (max-width: 991px) {
-  .catalog_sub_menu {
+  .category_sub_menu {
     padding: 30px;
   }
 }

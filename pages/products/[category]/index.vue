@@ -3,8 +3,10 @@
     <div class="sub_category">
       <breadcrumbs :breadcrumbs="breadcrumb" />
 
-      <div class="sub_category_wrapper">
-        <sub-menu-card
+      <ui-loader v-if="showLoader" />
+
+      <div class="sub_category_wrapper" v-else>
+        <sub-category
           v-for="sub in subCategory"
           :key="sub.sub_category_id"
           :src="sub.pictures"
@@ -29,13 +31,15 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
-import SubMenuCard from "~/components/Block/SubMenuCard.vue";
+import SubCategory from "~/components/Block/SubCategory.vue";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
+import UiLoader from "~/components/Ui/UiLoader.vue";
 
 const subCategory = ref();
 const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 const route = useRoute();
 const router = useRouter();
+const showLoader = ref(false);
 
 const breadcrumb = ref([
   { name: "Головна", path: "/" },
@@ -47,11 +51,7 @@ const breadcrumb = ref([
 ]);
 
 onMounted(async () => {
-  const response = await axios.get(
-    `${apiUrl}/products/category/${route.params.category}`
-  );
-
-  subCategory.value = response.data.subCategory;
+  await getSubCategory();
 
   useHead({
     title: `${route.query.category} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент`,
@@ -71,6 +71,22 @@ onMounted(async () => {
     ],
   });
 });
+
+async function getSubCategory() {
+  showLoader.value = true;
+  try {
+    const response = await axios.get(
+      `${apiUrl}/products/category/${route.params.category}`
+    );
+
+    subCategory.value = response.data.subCategory;
+
+    showLoader.value = false;
+  } catch (error) {
+    console.error("сталась помилка", error);
+    showLoader.value = false;
+  }
+}
 
 const goToProducts = (parentId, id, name) => {
   router.push(

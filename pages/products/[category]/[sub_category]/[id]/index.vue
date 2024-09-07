@@ -4,7 +4,9 @@
       <breadcrumbs :breadcrumbs="validBreadcrumbs" />
 
       <!-- обвертка основная  -->
+      <ui-loader v-if="showLoader" />
       <div
+        v-else
         class="product__wrapper"
         v-for="product in productById"
         :key="product.product_id"
@@ -18,7 +20,7 @@
 
           <ui-text-h5 class="title_review"
             >Відгуків
-            <span>({{ product.review.length }})</span>
+            <span>({{ counReviews || product.review.length }})</span>
           </ui-text-h5>
         </div>
 
@@ -53,10 +55,11 @@
                 @moreParam="changeTab"
               />
 
-              <the-review-product
+              <the-reviews
                 :reviews="product.review.slice(0, 2)"
                 :id="id"
                 @moreReviews="changeTab"
+                @counReviews="changeCountReviews"
               />
             </div>
           </div>
@@ -67,10 +70,11 @@
             :tab="currentTab"
           />
 
-          <the-review-product
+          <the-reviews
             v-if="currentTab == 'Відгуки'"
             :id="id"
             :currentTab="currentTab"
+            @counReviews="changeCountReviews"
           />
 
           <the-smal-card
@@ -99,11 +103,12 @@ import UiTextH5 from "~/components/Ui/UiTextH5.vue";
 import TheTabs from "~/components/Block/TheTabs.vue";
 import ImgTabs from "./section/ImgTabs.vue";
 import TheParamsProduct from "./section/TheParamsProduct.vue";
-import TheReviewProduct from "./section/TheReviewProduct.vue";
-import TheStarCounter from "./components/TheStarCounter.vue";
+import TheReviews from "./section/TheReviews.vue";
+import TheStarCounter from "~/components/Block/TheStarCounter.vue";
 import TheSmalCard from "./components/TheSmalCard.vue";
 import useScrollToTop from "~/utils/useScrollToTop";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
+import UiLoader from "~/components/Ui/UiLoader.vue";
 
 const route = useRoute();
 const { addProductToCart } = useCartData();
@@ -113,6 +118,8 @@ const id = route.params.id;
 const category = route.params.category;
 const currentTab = ref("Все про товар");
 const rating = ref(0);
+const counReviews = ref();
+const showLoader = ref(false);
 const tabs = [
   { name: "Все про товар" },
   { name: "Властивості" },
@@ -146,10 +153,17 @@ function changeTab(name) {
   scrollToTop();
 }
 
+function changeCountReviews(value) {
+  return (counReviews.value = value);
+}
+
 onMounted(async () => {
+  showLoader.value = true;
   try {
     const response = await axios.get(`${apiUrl}/products/${category}/${id}`);
     productById.value = response.data.product;
+
+    showLoader.value = false;
 
     await calculateAverageRating();
 
@@ -214,6 +228,7 @@ onMounted(async () => {
     });
   } catch (error) {
     console.error("Ошибка:", error);
+    showLoader.value = false;
   }
 });
 

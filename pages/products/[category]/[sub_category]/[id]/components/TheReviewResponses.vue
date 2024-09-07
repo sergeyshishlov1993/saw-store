@@ -137,13 +137,15 @@ async function deleteResponse() {
   line-height: 30px;
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 1199px) {
   .review_response {
+    width: 100%;
     padding-top: 50px;
     width: 100%;
 
     .person {
       align-items: center;
+      gap: 20px;
 
       &__wrapper {
         justify-content: space-between;
@@ -152,6 +154,10 @@ async function deleteResponse() {
         svg {
           width: 25px;
         }
+      }
+
+      &__title {
+        gap: 20px;
       }
     }
   }

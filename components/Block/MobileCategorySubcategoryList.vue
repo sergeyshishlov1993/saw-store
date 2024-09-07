@@ -1,11 +1,11 @@
 <template>
   <div class="wrapper">
-    <the-drop-down-mobile-item name="catalog" @state="changeState">
+    <mobile-category-item name="catalog" @state="changeState">
       Каталог товарів
-    </the-drop-down-mobile-item>
+    </mobile-category-item>
 
     <div v-if="showCategory">
-      <the-drop-down-mobile-item
+      <mobile-category-item
         name="category"
         :id="category.id"
         :subCategory="filterSubCategory"
@@ -14,7 +14,7 @@
         :key="category.id"
       >
         {{ category.category_name }}
-      </the-drop-down-mobile-item>
+      </mobile-category-item>
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
 import axios from "axios";
-import TheDropDownMobileItem from "./TheDropDownMobileItem.vue";
+import MobileCategoryItem from "./MobileCategoryItem.vue";
 
 const showCategory = ref(false);
 const showSubCategory = ref(false);

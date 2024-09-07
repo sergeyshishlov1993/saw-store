@@ -3,6 +3,7 @@
     <div class="wrapper">
       <breadcrumbs :breadcrumbs="breadcrumb" />
 
+      <ui-loader v-if="showLoader" />
       <div class="product__wrapper">
         <the-product-card
           v-for="card in products"
@@ -25,11 +26,13 @@ import { useProductsByDubCategory } from "~/stores/productsBySubCategory";
 import { useCartData } from "~/stores/cartData";
 import TheProductCard from "~/components/Block/TheProductCard.vue";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
+import UiLoader from "~/components/Ui/UiLoader.vue";
 
 const route = useRoute();
 const router = useRouter();
 const category = route.params.category;
 const sub_category = route.params.sub_category;
+const showLoader = ref(false);
 const { getProductsBySubCategory } = useProductsByDubCategory();
 const { productsInСart, showModalWindow, addProductToCart } = useCartData();
 
@@ -49,8 +52,11 @@ const breadcrumb = ref([
 
 const products = ref();
 onMounted(async () => {
+  showLoader.value = true;
   try {
     products.value = await getProductsBySubCategory(sub_category);
+
+    showLoader.value = false;
 
     useHead({
       title: `${route.query.sub_category} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент`,
@@ -71,6 +77,7 @@ onMounted(async () => {
     });
   } catch (error) {
     console.error("Ошибка:", error);
+    showLoader.value = false;
   }
 });
 

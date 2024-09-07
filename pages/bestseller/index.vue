@@ -33,6 +33,7 @@ import axios from "axios";
 import { useCartData } from "~/stores/cartData";
 import useScrollToTop from "~/utils/useScrollToTop";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
+import UiLoader from "~/components/Ui/UiLoader.vue";
 
 const { state } = useCartData();
 const { scrollToTop } = useScrollToTop();
@@ -40,6 +41,7 @@ const router = useRouter();
 const route = useRoute();
 const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 const bestsellerProduct = ref([]);
+const showLoader = ref(false);
 const breadcrumb = ref([
   { name: "Головна", path: "/" },
 
@@ -54,12 +56,15 @@ onMounted(async () => {
 });
 
 async function getPromotionalItem() {
+  showLoader.value = true;
   try {
     const response = await axios.get(`${apiUrl}/bestseller`);
 
     bestsellerProduct.value = response.data.bestseller;
+    showLoader.value = false;
   } catch (error) {
     console.error("сталась помилка:", error);
+    showLoader.value = false;
   }
 }
 
