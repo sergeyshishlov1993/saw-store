@@ -5,7 +5,11 @@
         <icon-chevron-up class="next" />
       </button>
 
-      <div class="slider__wrapper">
+      <div
+        class="slider__wrapper"
+        @touchstart="handleTouchStart"
+        @touchend="handleTouchEnd"
+      >
         <div class="slider__inner" :style="sliderStyle">
           <img
             v-for="img in props.pictures"
@@ -162,6 +166,27 @@ function selectImg(p) {
 const addProductToCart = () => {
   emit("buyProduct");
 };
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+function handleTouchStart(event) {
+  touchStartX = event.changedTouches[0].screenX;
+}
+
+function handleTouchEnd(event) {
+  touchEndX = event.changedTouches[0].screenX;
+  handleSwipeGesture();
+}
+
+function handleSwipeGesture() {
+  if (touchEndX < touchStartX) {
+    goForward();
+  }
+  if (touchEndX > touchStartX) {
+    goBackward();
+  }
+}
 </script>
 
 <style lang="scss" scoped>
