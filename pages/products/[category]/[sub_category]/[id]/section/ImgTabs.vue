@@ -135,25 +135,18 @@ onMounted(() => {
   window.addEventListener("resize", updateSliderDirection);
 });
 
-function goForward() {
-  if (currentIndex.value >= props.pictures.length - 1) {
-    currentIndex.value = 0;
-  } else {
-    currentIndex.value++;
-    path.value = props.pictures[currentIndex.value].pictures_name;
-  }
-
+function goForward(steps = 1) {
+  currentIndex.value = Math.min(
+    currentIndex.value + steps,
+    props.pictures.length - 1
+  );
+  path.value = props.pictures[currentIndex.value].pictures_name;
   updateSliderDirection();
 }
 
-function goBackward() {
-  if (currentIndex.value <= 0) {
-    currentIndex.value = props.pictures.length - 1;
-  } else {
-    currentIndex.value--;
-    path.value = props.pictures[currentIndex.value].pictures_name;
-  }
-
+function goBackward(steps = 1) {
+  currentIndex.value = Math.max(currentIndex.value - steps, 0);
+  path.value = props.pictures[currentIndex.value].pictures_name;
   updateSliderDirection();
 }
 
@@ -180,11 +173,14 @@ function handleTouchEnd(event) {
 }
 
 function handleSwipeGesture() {
+  const swipeDistance = Math.abs(touchEndX - touchStartX);
+  const swipeThreshold = 50;
+  const steps = Math.floor(swipeDistance / swipeThreshold);
+
   if (touchEndX < touchStartX) {
-    goForward();
-  }
-  if (touchEndX > touchStartX) {
-    goBackward();
+    goForward(steps);
+  } else if (touchEndX > touchStartX) {
+    goBackward(steps);
   }
 }
 </script>

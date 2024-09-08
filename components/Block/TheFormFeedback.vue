@@ -194,6 +194,14 @@ const sendFeedback = async () => {
   .form__wrapper {
     form {
       gap: 15px;
+
+      input {
+        width: 160px;
+      }
+
+      button {
+        width: 160px;
+      }
     }
   }
 }
