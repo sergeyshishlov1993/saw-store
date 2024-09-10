@@ -296,6 +296,8 @@ async function changeProduct() {
         }
       );
 
+      console.log("response", response);
+
       showLoader.value = false;
     }
   } catch (error) {

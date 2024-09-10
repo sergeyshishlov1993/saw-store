@@ -7,7 +7,7 @@
             class="category__wrapper"
             v-for="category in category"
             :key="category.id"
-            @click="showSubCategory(category.id, category.category_name)"
+            @click.stop="showSubCategory(category.id, category.category_name)"
           >
             <ui-text-h6>{{ category.category_name }}</ui-text-h6>
           </div>
@@ -22,7 +22,9 @@
           :name="sub.sub_category_name"
           :id="sub.sub_category_id"
           :parentId="sub.parent_id"
-          @click="getProductsBySubCategory(sub.parent_id, sub.sub_category_id)"
+          @click.stop="
+            getProductsBySubCategory(sub.parent_id, sub.sub_category_id)
+          "
           @goToCatalog="
             goToCatalog(
               sub.parent_id,
@@ -124,10 +126,10 @@ const goToCatalog = (parentId, id, name) => {
 .category_sub_menu {
   padding: 20px 20px;
   width: 100%;
-  height: 800px;
+  max-height: 650px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(3, 150px);
+  grid-template-rows: repeat(3, 170px);
   background-color: #fff;
   gap: 5px;
 

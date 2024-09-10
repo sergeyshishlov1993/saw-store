@@ -122,11 +122,21 @@ onMounted(() => {
   window.addEventListener("resize", updateSliderDirection);
 });
 
+// function clickForward() {
+//   if (currentIndex.value < props.pictures.length - 1) {
+//     currentIndex.value += 1;
+//     path.value = props.pictures[currentIndex.value]?.pictures_name || "";
+//   }
+// }
+
 function clickForward() {
   if (currentIndex.value < props.pictures.length - 1) {
     currentIndex.value += 1;
-    path.value = props.pictures[currentIndex.value]?.pictures_name || "";
+  } else {
+    // Якщо ми на останньому слайді, переходимо на перший
+    currentIndex.value = 0;
   }
+  path.value = props.pictures[currentIndex.value]?.pictures_name || "";
 }
 
 function clickBackward() {
@@ -136,11 +146,27 @@ function clickBackward() {
   }
 }
 
+// function clickBackward() {
+//   if (currentIndex.value > 0) {
+//     currentIndex.value -= 1;
+//   } else {
+//     // Якщо ми на першому слайді, переходимо на останній
+//     currentIndex.value = props.pictures.length - 1;
+//   }
+//   path.value = props.pictures[currentIndex.value]?.pictures_name || "";
+// }
+
+// function goForward(steps = 1) {
+//   currentIndex.value = Math.min(
+//     currentIndex.value + steps,
+//     props.pictures.length - 1
+//   );
+//   path.value = props.pictures[currentIndex.value].pictures_name;
+//   updateSliderDirection();
+// }
+
 function goForward(steps = 1) {
-  currentIndex.value = Math.min(
-    currentIndex.value + steps,
-    props.pictures.length - 1
-  );
+  currentIndex.value = (currentIndex.value + steps) % props.pictures.length;
   path.value = props.pictures[currentIndex.value].pictures_name;
   updateSliderDirection();
 }
@@ -150,6 +176,14 @@ function goBackward(steps = 1) {
   path.value = props.pictures[currentIndex.value].pictures_name;
   updateSliderDirection();
 }
+
+// function goBackward(steps = 1) {
+//   currentIndex.value =
+//     (currentIndex.value - steps + props.pictures.length) %
+//     props.pictures.length;
+//   path.value = props.pictures[currentIndex.value].pictures_name;
+//   updateSliderDirection();
+// }
 
 const path = ref(props.pictures[0]?.pictures_name);
 

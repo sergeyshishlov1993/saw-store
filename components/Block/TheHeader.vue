@@ -76,12 +76,14 @@
       <mobile-header />
     </div>
 
-    <category-subcategory-list v-if="visibilityStore.showCatalogNav" />
+    <div @click="visibilityStore.showCatalogNav = false">
+      <category-subcategory-list v-if="visibilityStore.showCatalogNav" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useOtherData } from "~/stores/otherData";
 import { useCartData } from "~/stores/cartData";
 import { useRouter, useRoute } from "vue-router";
@@ -106,6 +108,17 @@ const query = ref("");
 const products = ref([]);
 const showSearchCart = ref(false);
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
+
+watch(
+  () => visibilityStore.showCatalogNav,
+  (newValue) => {
+    if (newValue) {
+      document.body.style.overflow = "hidden"; // Блокуємо скрол
+    } else {
+      document.body.style.overflow = ""; // Відновлюємо скрол
+    }
+  }
+);
 
 const searchProducts = async (event) => {
   query.value = event.target.value;
