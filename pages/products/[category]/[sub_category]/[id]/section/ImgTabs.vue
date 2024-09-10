@@ -1,5 +1,9 @@
 <template>
-  <div class="imgTabs">
+  <div
+    class="imgTabs"
+    @touchstart="handleTouchStart"
+    @touchend="handleTouchEnd"
+  >
     <div class="litleImg">
       <button @click="clickBackward" :disabled="props.pictures.length <= 1">
         <icon-chevron-up class="next" />
