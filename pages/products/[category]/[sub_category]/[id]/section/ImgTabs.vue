@@ -1,7 +1,7 @@
 <template>
   <div class="imgTabs">
     <div class="litleImg">
-      <button @click="goBackward" :disabled="props.pictures.length <= 1">
+      <button @click="clickBackward" :disabled="props.pictures.length <= 1">
         <icon-chevron-up class="next" />
       </button>
 
@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <button @click="goForward" :disabled="props.pictures.length <= 1">
+      <button @click="clickForward" :disabled="props.pictures.length <= 1">
         <icon-chevron-down class="prev" />
       </button>
     </div>
@@ -118,22 +118,23 @@ watchEffect(() => {
   }
 });
 
-function updateSliderDirection() {
-  if (typeof window !== "undefined") {
-    const newPosition = -75 * currentIndex.value;
-
-    if (window.innerWidth < 992) {
-      const newPosition = -50 * currentIndex.value;
-      sliderStyle.value.transform = `translateX(${newPosition}px)`;
-    } else {
-      sliderStyle.value.transform = `translateY(${newPosition}px)`;
-    }
-  }
-}
-
 onMounted(() => {
   window.addEventListener("resize", updateSliderDirection);
 });
+
+function clickForward() {
+  if (currentIndex.value < props.pictures.length - 1) {
+    currentIndex.value += 1;
+    path.value = props.pictures[currentIndex.value]?.pictures_name || "";
+  }
+}
+
+function clickBackward() {
+  if (currentIndex.value > 0) {
+    currentIndex.value -= 1;
+    path.value = props.pictures[currentIndex.value]?.pictures_name || "";
+  }
+}
 
 function goForward(steps = 1) {
   currentIndex.value = Math.min(
@@ -151,6 +152,19 @@ function goBackward(steps = 1) {
 }
 
 const path = ref(props.pictures[0]?.pictures_name);
+
+function updateSliderDirection() {
+  if (typeof window !== "undefined") {
+    const newPosition = -75 * currentIndex.value;
+
+    if (window.innerWidth < 992) {
+      const newPosition = -50 * currentIndex.value;
+      sliderStyle.value.transform = `translateX(${newPosition}px)`;
+    } else {
+      sliderStyle.value.transform = `translateY(${newPosition}px)`;
+    }
+  }
+}
 
 function selectImg(p) {
   path.value = p;

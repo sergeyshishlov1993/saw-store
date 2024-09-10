@@ -125,12 +125,13 @@ const goToCatalog = (parentId, id, name) => {
   padding: 20px 20px;
   width: 100%;
   height: 800px;
-
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(3, 180px);
-
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(3, 150px);
   background-color: #fff;
+  gap: 5px;
+
+  overflow-y: auto;
 }
 
 @media screen and (max-width: 991px) {

@@ -67,7 +67,7 @@ function goToCatalog() {
   cursor: pointer;
 
   img {
-    width: 100px;
+    width: 75px;
   }
 
   h2 {

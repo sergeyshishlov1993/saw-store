@@ -4,8 +4,6 @@
       <div class="positions">
         <ui-text-h3>Перелік позицій</ui-text-h3>
 
-        {{ apiUrl }}
-
         <div class="positions__btn">
           <ui-btn
             v-if="!showLoader"
@@ -13,6 +11,8 @@
             :disabled="showLoader"
             >Синхронізувати товари</ui-btn
           >
+
+          <ui-btn @click="writeProductProfitec">Завантажити Profitec</ui-btn>
         </div>
       </div>
 
@@ -200,6 +200,25 @@ async function getProduct() {
     isLoadContent.value = true;
   } catch (error) {
     console.error("сталась помилка", error);
+  }
+}
+
+async function writeProductProfitec() {
+  try {
+    showLoader.value = true;
+
+    const response = await axios.put(`${apiUrl}/admin/products/write-profitec`);
+
+    if (response.status === 200) {
+      showLoader.value = false;
+      showSuccessModal.value = true;
+    }
+
+    setTimeout(() => {
+      showSuccessModal.value = false;
+    }, 1000);
+  } catch (error) {
+    console.error("сталась помилка:", error);
   }
 }
 

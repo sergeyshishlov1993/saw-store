@@ -12,8 +12,6 @@
         >
       </div>
 
-      <ui-btn @click="syncCateogory">Синхронізувати категорії товарів</ui-btn>
-
       <table v-if="currentTab == 'Категорії'">
         <thead>
           <tr>
@@ -65,7 +63,7 @@
                   placeholder="URL картинки"
                   name="pictures"
                   :value="(pictirePath = category.pictures)"
-                  @input="getInputValue"
+                  @input="(event) => getInputValue(event, 'pictures')"
                 />
 
                 <ui-btn>Зміниити</ui-btn>
@@ -97,6 +95,41 @@
         </button>
       </div>
     </div>
+
+    <div class="features__category">
+      <form @submit.prevent="createSubCategory">
+        <h2>Додати підкатегорію</h2>
+        <select
+          v-model="selectedCategory"
+          @change="(event) => getSelecValue(event.target.value)"
+        >
+          <option disabled>Категорії</option>
+          <option
+            v-for="category in categorys"
+            :key="category.id"
+            :value="category.id"
+          >
+            {{ category.category_name }}
+          </option>
+        </select>
+
+        <ui-input
+          placeholder="імʼя"
+          :value="nameSubCategory"
+          @input="(event) => getInputValue(event, 'subCategory')"
+        />
+
+        <ui-input
+          placeholder="url категорії"
+          :value="urlCategory"
+          @input="(event) => getInputValue(event, 'urlCategory')"
+        />
+
+        <ui-btn>створити</ui-btn>
+      </form>
+
+      <ui-btn @click="syncCateogory">Синхронізувати категорії товарів</ui-btn>
+    </div>
   </div>
 </template>
 
@@ -119,6 +152,9 @@ const totalPage = ref();
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 const currentTab = ref("Категорії");
 const tabs = [{ name: "Категорії" }, { name: "Підкатегорії" }];
+const nameSubCategory = ref("");
+const urlCategory = ref("");
+const selectedCategory = ref();
 
 onMounted(async () => {
   await getCategory();
@@ -127,6 +163,11 @@ onMounted(async () => {
 function changeTab(name) {
   currentTab.value = name;
   scrollToTop();
+}
+
+function getSelecValue(event) {
+  selectedCategory.value = event;
+  console.log("selectedCategory", selectedCategory.value);
 }
 
 async function syncCateogory() {
@@ -154,8 +195,39 @@ async function getCategory() {
   }
 }
 
-function getInputValue(event) {
-  pictirePath.value = event.target.value;
+function getInputValue(event, name) {
+  switch (name) {
+    case "pictures":
+      pictirePath.value = event.target.value;
+      break;
+
+    case "subCategory":
+      nameSubCategory.value = event.target.value;
+      break;
+
+    case "urlCategory":
+      urlCategory.value = event.target.value;
+      break;
+  }
+}
+
+async function createSubCategory() {
+  try {
+    const response = await axios.post(`${apiUrl}/products/category/add`, {
+      id: crypto.randomUUID(),
+      category: selectedCategory.value,
+      categoryName: nameSubCategory.value,
+      picture: urlCategory.value,
+    });
+
+    selectedCategory.value = "";
+    nameSubCategory.value = "";
+    urlCategory.value = "";
+
+    console.log("response", response);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function changePicturesCategory(id) {
@@ -233,9 +305,34 @@ async function prevPage() {
   flex-direction: column;
   gap: 100px;
   padding-top: 100px;
+}
+
+.features__category {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
 
   button {
-    width: 100%;
+    width: 270px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  select {
+    padding: 13px 22px 13px 10px;
+    background: rgba(248, 248, 248, 1);
+    border: 1px solid rgba(248, 248, 248, 1);
+    border-radius: 20px;
+
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
   }
 }
 
