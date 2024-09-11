@@ -12,7 +12,7 @@
         title
       }}</ui-text-h6>
       <ui-text-h6
-        v-for="option in category"
+        v-for="option in sortCategory"
         :key="option.sub_category_id"
         @click.stop="
           selectValue(option.sub_category_name, option.sub_category_id)
@@ -34,6 +34,12 @@ const emit = defineEmits(["update-select"]);
 const props = defineProps({
   category: Array,
   selectCategory: String,
+});
+
+const sortCategory = computed(() => {
+  return props.category.slice().sort((a, b) => {
+    return a.sub_category_name.localeCompare(b.sub_category_name);
+  });
 });
 
 const isOpenSelect = ref(false);

@@ -13,6 +13,8 @@
           >
 
           <ui-btn @click="writeProductProfitec">Завантажити Profitec</ui-btn>
+
+          <ui-btn @click="removeAllProducts">Видалити всі продукти</ui-btn>
         </div>
       </div>
 
@@ -84,7 +86,12 @@
                     alt=""
                   />
                 </td>
-                <td>{{ product.product_name }}</td>
+
+                <td>
+                  <a :href="`/admin/${product.product_id}`" target="_blank">
+                    {{ product.product_name }}
+                  </a>
+                </td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.sale_price }}</td>
                 <td>
@@ -185,6 +192,10 @@ async function getSubCategory() {
   } catch (error) {
     console.error(error);
   }
+}
+
+async function removeAllProducts() {
+  products.value.forEach((el) => removeProduct(el.product_id));
 }
 
 async function getProduct() {
@@ -306,6 +317,7 @@ async function removeProduct(id, url, custom) {
     products.value.splice(idx, 1);
 
     const response = await axios.delete(`${apiUrl}/admin/products/${id}`);
+    console.log("response remove", response);
 
     if (custom) {
       url.forEach(async (el) => await deleteFileByUrl(el.pictures_name));

@@ -113,9 +113,9 @@ watch(
   () => visibilityStore.showCatalogNav,
   (newValue) => {
     if (newValue) {
-      document.body.style.overflow = "hidden"; // Блокуємо скрол
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = ""; // Відновлюємо скрол
+      document.body.style.overflow = "";
     }
   }
 );
@@ -127,6 +127,8 @@ const searchProducts = async (event) => {
     const response = await axios.get(`${apiUrl}/products/search`, {
       params: { search: query.value },
     });
+
+    console.log("response", response);
 
     products.value = await response.data.products;
     showSearchCart.value = true;
