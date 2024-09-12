@@ -1,30 +1,32 @@
 <template>
   <div class="slider__wrapper">
-    <Swiper
-      :modules="[SwiperAutoplay, SwiperEffectCreative]"
-      :slides-per-view="1"
-      :loop="true"
-      :effect="'creative'"
-      :autoplay="{
-        delay: 7000,
-        disableOnInteraction: true,
-      }"
-      :creative-effect="{
-        prev: {
-          shadow: false,
-          translate: ['-20%', 0, -1],
-        },
+    <div :class="{ skeleton: !isLoad }">
+      <Swiper
+        :modules="[SwiperAutoplay, SwiperEffectCreative]"
+        :slides-per-view="1"
+        :loop="true"
+        :effect="'creative'"
+        :autoplay="{
+          delay: 7000,
+          disableOnInteraction: true,
+        }"
+        :creative-effect="{
+          prev: {
+            shadow: false,
+            translate: ['-20%', 0, -1],
+          },
 
-        next: {
-          translate: ['100%', 0, 0],
-        },
-      }"
-    >
-      <SwiperSlide v-for="slide in slider" :key="slide.id">
-        <div v-if="!slide.loaded" class="skeleton"></div>
-        <img :src="slide.name" :alt="slide.name" />
-      </SwiperSlide>
-    </Swiper>
+          next: {
+            translate: ['100%', 0, 0],
+          },
+        }"
+      >
+        <SwiperSlide v-for="slide in slider" :key="slide.id">
+          <!-- <div v-if="!slide.loaded" class="skeleton"></div> -->
+          <img :src="slide.name" :alt="slide.name" @load="isLoad = true" />
+        </SwiperSlide>
+      </Swiper>
+    </div>
   </div>
 </template>
 
@@ -33,6 +35,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 
 const slider = ref([]);
+const isLoad = ref(false);
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
@@ -72,7 +75,7 @@ async function getSliderImg() {
 
   .skeleton {
     width: 100%;
-    height: 100%;
+    min-height: 500px;
     background-color: #e0e0e0;
     animation: pulse 1.5s infinite;
   }
@@ -95,6 +98,14 @@ async function getSliderImg() {
     .swiper-slide {
       padding-top: 30px;
       height: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .slider__wrapper {
+    .skeleton {
+      min-height: 200px;
     }
   }
 }
