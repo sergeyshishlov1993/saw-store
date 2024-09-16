@@ -60,19 +60,21 @@ const checkLoadImg = () => {
     line-height: 30px;
   }
 
-  &:hover {
-    background: rgb(238, 238, 238);
-    box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.5);
-    border: none;
-    cursor: pointer;
+  @media (hover: hover) {
+    &:hover {
+      background: rgb(238, 238, 238);
+      box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.5);
+      border: none;
+      cursor: pointer;
 
-    button {
-      color: white;
-      background: rgba(144, 5, 5, 1);
+      button {
+        color: white;
+        background: rgba(144, 5, 5, 1);
 
-      svg {
-        path {
-          fill: white !important;
+        svg {
+          path {
+            fill: white !important;
+          }
         }
       }
     }
@@ -127,13 +129,6 @@ const checkLoadImg = () => {
 @media screen and (max-width: 424px) {
   .search_card {
     width: 320px;
-  }
-}
-
-@media (hover: none) {
-  .search_card:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 </style>
