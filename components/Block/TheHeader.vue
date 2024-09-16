@@ -286,6 +286,18 @@ function goToCart() {
     }
   }
 
+  &_card_wrapper {
+    position: absolute;
+    top: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    overflow-y: auto;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+  }
+
   .cart__wrapper {
     position: relative;
 
@@ -315,18 +327,6 @@ function goToCart() {
 
 .logo {
   width: 250px;
-}
-
-.search_card_wrapper {
-  position: absolute;
-  top: 220px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  overflow-y: auto;
-  width: 100%;
-  height: 100vh;
-  align-items: center;
 }
 
 .burger__wrapper {
@@ -399,6 +399,10 @@ function goToCart() {
     &__btn_catalog {
       display: none;
     }
+
+    &_card_wrapper {
+      top: 190px;
+    }
   }
 }
 
@@ -417,6 +421,10 @@ function goToCart() {
 
   .search {
     padding: 0 10px;
+
+    &_card_wrapper {
+      top: 146px;
+    }
 
     .cart__wrapper {
       .cart__counter {

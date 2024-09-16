@@ -218,8 +218,6 @@ async function removeAllProducts() {
       `${apiUrl}/admin/products/destroy-product-by-brand?brand=${brand.value}`
     );
 
-    console.log("resonse remove", response);
-
     await getProduct();
   } catch (error) {
     console.error(error);
