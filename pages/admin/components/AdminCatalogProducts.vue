@@ -91,9 +91,11 @@ const goToProduct = (parentId, id) => {
 
       cursor: pointer;
 
-      &:hover {
-        background: rgba(144, 5, 5, 1);
-        color: #fff;
+      @media (hover: hover) {
+        &:hover {
+          background: rgba(144, 5, 5, 1);
+          color: #fff;
+        }
       }
     }
 
@@ -113,12 +115,5 @@ const goToProduct = (parentId, id) => {
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(3, 180px);
   background-color: #fff;
-}
-
-@media (hover: none) {
-  .category__wrapper:hover {
-    background-color: initial;
-    color: initial;
-  }
 }
 </style>

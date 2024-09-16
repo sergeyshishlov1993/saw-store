@@ -78,8 +78,10 @@ function goToCatalog() {
     cursor: inherit;
   }
 
-  &:hover h2 {
-    color: rgba(144, 5, 5, 1);
+  @media (hover: hover) {
+    &:hover h2 {
+      color: rgba(144, 5, 5, 1);
+    }
   }
 }
 
@@ -88,20 +90,8 @@ function goToCatalog() {
 }
 
 @media screen and (max-width: 991px) {
-  .sub_menu_card {
-    &:hover h2 {
-      pointer-events: none;
-    }
-  }
   .main {
     width: 100px !important;
-  }
-}
-
-@media (hover: none) {
-  .sub_menu_card h2:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 </style>

@@ -90,9 +90,11 @@ function goToBuyersPage() {
     h2 {
       cursor: pointer;
 
-      &:hover {
-        color: darkred;
-        font-weight: 500;
+      @media (hover: hover) {
+        &:hover {
+          color: darkred;
+          font-weight: 500;
+        }
       }
     }
   }
@@ -109,17 +111,13 @@ function goToBuyersPage() {
 
     a {
       color: black;
-      &:hover {
-        color: darkred;
+
+      @media (hover: hover) {
+        &:hover {
+          color: darkred;
+        }
       }
     }
-  }
-}
-
-@media (hover: none) {
-  .mobile__navigation:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 

@@ -153,9 +153,11 @@ const backToShopping = () => {
         transition: font-size 0.3s ease, font-weight 0.3s ease;
         color: blue;
 
-        &:hover {
-          font-size: 17px;
-          font-weight: 700;
+        @media (hover: hover) {
+          &:hover {
+            font-size: 17px;
+            font-weight: 700;
+          }
         }
       }
     }
@@ -193,8 +195,11 @@ const backToShopping = () => {
 
         .btnToCatalog {
           font-size: 14px;
-          &:hover {
-            font-size: 14px;
+
+          @media (hover: hover) {
+            &:hover {
+              font-size: 14px;
+            }
           }
         }
       }
@@ -205,13 +210,6 @@ const backToShopping = () => {
 @media screen and (max-width: 374px) {
   .wrapper__modal {
     margin: 0;
-  }
-}
-
-@media (hover: none) {
-  .btnToCatalog:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 </style>

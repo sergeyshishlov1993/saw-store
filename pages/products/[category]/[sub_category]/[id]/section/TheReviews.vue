@@ -198,8 +198,10 @@ function deleteReviewClient(id) {
   cursor: pointer;
   text-decoration: underline;
   transition: font-weight 0.3s ease;
-  &:hover {
-    font-weight: 700;
+  @media (hover: hover) {
+    &:hover {
+      font-weight: 700;
+    }
   }
 }
 
@@ -261,13 +263,6 @@ function deleteReviewClient(id) {
     h2 {
       font-size: 14px;
     }
-  }
-}
-
-@media (hover: none) {
-  .show_more_reviews:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 </style>

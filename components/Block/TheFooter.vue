@@ -142,17 +142,13 @@ import IconPhone from "~/assets/icons/IconPhone.vue";
 
     a {
       color: white;
-      &:hover {
-        color: darkred;
+
+      @media (hover: hover) {
+        &:hover {
+          color: darkred;
+        }
       }
     }
-  }
-}
-
-@media (hover: none) {
-  .mobile__footer a:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 </style>

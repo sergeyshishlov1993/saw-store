@@ -182,8 +182,10 @@ const sendFeedback = async () => {
       color: #fff;
       font-size: 14px;
 
-      &:hover {
-        color: rgb(203, 24, 24);
+      @media (hover: hover) {
+        &:hover {
+          color: rgb(203, 24, 24);
+        }
       }
     }
   }
@@ -247,13 +249,6 @@ const sendFeedback = async () => {
 @media screen and (max-width: 991px) {
   .feedback {
     display: none;
-  }
-}
-
-@media (hover: none) {
-  .feedback__phone a:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 </style>

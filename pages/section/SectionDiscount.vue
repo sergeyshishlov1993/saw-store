@@ -92,10 +92,12 @@ const goToDiscountProposable = () => {
     border-radius: 20px;
     box-shadow: 0px 2px 6px rgb(0 0 0 / 8%);
 
-    &:hover {
-      box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
-      background: darkred;
-      color: white;
+    @media (hover: hover) {
+      &:hover {
+        box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
+        background: darkred;
+        color: white;
+      }
     }
   }
 }
@@ -132,13 +134,6 @@ const goToDiscountProposable = () => {
 @media screen and (max-width: 767px) {
   .action {
     margin-top: 40px;
-  }
-}
-
-@media (hover: none) {
-  button:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 </style>

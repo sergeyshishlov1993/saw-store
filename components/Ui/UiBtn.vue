@@ -33,21 +33,16 @@ button {
   text-align: center;
   border-radius: 20px;
 
-  &:hover {
-    color: white;
-    background: rgba(144, 5, 5, 1);
-    svg {
-      path {
-        fill: white !important;
+  @media (hover: hover) {
+    &:hover {
+      color: white;
+      background: rgba(144, 5, 5, 1);
+      svg {
+        path {
+          fill: white !important;
+        }
       }
     }
-  }
-}
-
-@media (hover: none) {
-  button:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 </style>

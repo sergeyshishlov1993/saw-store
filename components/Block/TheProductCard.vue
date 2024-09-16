@@ -109,8 +109,10 @@ const buyProduct = () => {
     justify-content: space-between;
   }
 
-  &:hover button {
-    display: block;
+  @media (hover: hover) {
+    &:hover button {
+      display: block;
+    }
   }
 }
 
@@ -164,13 +166,6 @@ const buyProduct = () => {
 @media screen and (max-width: 426px) {
   .product-card__wrapper {
     width: 300px;
-  }
-}
-
-@media (hover: none) {
-  .product-card__wrapper button:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 </style>

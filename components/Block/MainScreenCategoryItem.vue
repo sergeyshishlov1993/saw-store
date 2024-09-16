@@ -76,24 +76,19 @@ const componentsIcon = computed(() => {
     line-height: 19px;
   }
 
-  &:hover {
-    transform: scale(1.1);
-    h2 {
-      font-weight: 700;
-      color: darkred;
-      cursor: pointer;
-    }
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.1);
+      h2 {
+        font-weight: 700;
+        color: darkred;
+        cursor: pointer;
+      }
 
-    svg {
-      filter: contrast(200%) brightness(3%);
+      svg {
+        filter: contrast(200%) brightness(3%);
+      }
     }
-  }
-}
-
-@media (hover: none) {
-  .main_card__wrapper:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 

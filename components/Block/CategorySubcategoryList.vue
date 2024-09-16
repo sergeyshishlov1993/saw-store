@@ -110,9 +110,11 @@ const goToCatalog = (parentId, id, name) => {
 
       cursor: pointer;
 
-      &:hover {
-        background: rgba(144, 5, 5, 1);
-        color: #fff;
+      @media (hover: hover) {
+        &:hover {
+          background: rgba(144, 5, 5, 1);
+          color: #fff;
+        }
       }
     }
 
@@ -140,13 +142,6 @@ const goToCatalog = (parentId, id, name) => {
 @media screen and (max-width: 991px) {
   .category_sub_menu {
     padding: 30px;
-  }
-}
-
-@media (hover: none) {
-  .category__wrapper:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 </style>

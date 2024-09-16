@@ -94,8 +94,10 @@ function showMoreParam() {
   text-decoration: underline;
   transition: font-weight 0.3s ease;
 
-  &:hover {
-    font-weight: 700;
+  @media (hover: hover) {
+    &:hover {
+      font-weight: 700;
+    }
   }
 }
 
@@ -123,13 +125,6 @@ function showMoreParam() {
 @media screen and (max-width: 767px) {
   .title {
     font-size: 16px;
-  }
-}
-
-@media (hover: none) {
-  .show_more_param:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 </style>

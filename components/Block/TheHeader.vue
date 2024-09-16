@@ -226,10 +226,12 @@ function goToCart() {
       cursor: pointer;
       transition: color 0.3s ease, font-weight 0.3s ease, font-size 0.3s ease;
 
-      &:hover {
-        color: rgb(203, 24, 24);
-        font-weight: 600;
-        font-size: 16px;
+      @media (hover: hover) {
+        &:hover {
+          color: rgb(203, 24, 24);
+          font-weight: 600;
+          font-size: 16px;
+        }
       }
     }
   }
@@ -470,12 +472,5 @@ function goToCart() {
 
 .mobile__wrapper {
   width: 100%;
-}
-
-@media (hover: none) {
-  .header__wrapper h2:hover {
-    background-color: initial;
-    color: initial;
-  }
 }
 </style>

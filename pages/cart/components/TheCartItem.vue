@@ -69,9 +69,11 @@ function emptyTrash() {
       transition: color 0.3s ease, font-weight 0.3s ease;
     }
 
-    &:hover > h2 {
-      font-weight: 700;
-      color: rgb(144, 5, 5);
+    @media (hover: hover) {
+      &:hover > h2 {
+        font-weight: 700;
+        color: rgb(144, 5, 5);
+      }
     }
   }
 
@@ -144,13 +146,6 @@ function emptyTrash() {
         font-size: 13px;
       }
     }
-  }
-}
-
-@media (hover: none) {
-  button h2:hover {
-    background-color: initial;
-    color: initial;
   }
 }
 </style>
