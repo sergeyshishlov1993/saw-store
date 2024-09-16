@@ -109,11 +109,16 @@ const goToProduct = (parentId, id) => {
   padding: 20px 20px;
   width: 100%;
   height: 800px;
-
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(3, 180px);
-
   background-color: #fff;
+}
+
+@media (hover: none) {
+  .category__wrapper:hover {
+    background-color: initial;
+    color: initial;
+  }
 }
 </style>

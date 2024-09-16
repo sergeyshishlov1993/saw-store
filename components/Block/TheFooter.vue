@@ -148,4 +148,11 @@ import IconPhone from "~/assets/icons/IconPhone.vue";
     }
   }
 }
+
+@media (hover: none) {
+  .mobile__footer a:hover {
+    background-color: initial;
+    color: initial;
+  }
+}
 </style>

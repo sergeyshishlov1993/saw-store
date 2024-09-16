@@ -97,4 +97,11 @@ function goToCatalog() {
     width: 100px !important;
   }
 }
+
+@media (hover: none) {
+  .sub_menu_card h2:hover {
+    background-color: initial;
+    color: initial;
+  }
+}
 </style>

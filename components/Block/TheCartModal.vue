@@ -207,4 +207,11 @@ const backToShopping = () => {
     margin: 0;
   }
 }
+
+@media (hover: none) {
+  .btnToCatalog:hover {
+    background-color: initial;
+    color: initial;
+  }
+}
 </style>

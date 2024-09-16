@@ -116,6 +116,13 @@ function goToBuyersPage() {
   }
 }
 
+@media (hover: none) {
+  .mobile__navigation:hover {
+    background-color: initial;
+    color: initial;
+  }
+}
+
 @media screen and (max-width: 374px) {
   .mobile {
     width: 100%;

@@ -134,4 +134,11 @@ const goToDiscountProposable = () => {
     margin-top: 40px;
   }
 }
+
+@media (hover: none) {
+  button:hover {
+    background-color: initial;
+    color: initial;
+  }
+}
 </style>

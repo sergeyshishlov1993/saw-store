@@ -146,4 +146,11 @@ function emptyTrash() {
     }
   }
 }
+
+@media (hover: none) {
+  button h2:hover {
+    background-color: initial;
+    color: initial;
+  }
+}
 </style>

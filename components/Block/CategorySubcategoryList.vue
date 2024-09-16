@@ -142,4 +142,11 @@ const goToCatalog = (parentId, id, name) => {
     padding: 30px;
   }
 }
+
+@media (hover: none) {
+  .category__wrapper:hover {
+    background-color: initial;
+    color: initial;
+  }
+}
 </style>

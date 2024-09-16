@@ -263,4 +263,11 @@ function deleteReviewClient(id) {
     }
   }
 }
+
+@media (hover: none) {
+  .show_more_reviews:hover {
+    background-color: initial;
+    color: initial;
+  }
+}
 </style>

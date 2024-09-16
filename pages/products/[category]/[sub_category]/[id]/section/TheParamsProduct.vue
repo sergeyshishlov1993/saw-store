@@ -125,4 +125,11 @@ function showMoreParam() {
     font-size: 16px;
   }
 }
+
+@media (hover: none) {
+  .show_more_param:hover {
+    background-color: initial;
+    color: initial;
+  }
+}
 </style>

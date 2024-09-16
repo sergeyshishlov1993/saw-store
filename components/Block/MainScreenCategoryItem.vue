@@ -65,7 +65,6 @@ const componentsIcon = computed(() => {
   gap: 20px;
   height: 210px;
   border-radius: 20px;
-  // box-shadow: -2px 6px 12px 0px rgba(0, 0, 0, 0.39);
   box-shadow: 0px 2px 6px rgb(0 0 0 / 8%);
 
   transition: transform 0.3s ease;
@@ -88,6 +87,13 @@ const componentsIcon = computed(() => {
     svg {
       filter: contrast(200%) brightness(3%);
     }
+  }
+}
+
+@media (hover: none) {
+  .main_card__wrapper:hover {
+    background-color: initial;
+    color: initial;
   }
 }
 

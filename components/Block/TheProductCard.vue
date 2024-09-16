@@ -166,4 +166,11 @@ const buyProduct = () => {
     width: 300px;
   }
 }
+
+@media (hover: none) {
+  .product-card__wrapper button:hover {
+    background-color: initial;
+    color: initial;
+  }
+}
 </style>
