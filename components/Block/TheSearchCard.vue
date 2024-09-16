@@ -40,12 +40,14 @@ const props = defineProps({
   align-items: center;
   justify-content: center;
   gap: 20px;
-
   background: white;
   border-radius: 15px;
   transition: background 0.3s ease;
-
   width: 500px;
+
+  button {
+    line-height: 30px;
+  }
 
   &:hover {
     background: rgb(238, 238, 238);
@@ -56,6 +58,7 @@ const props = defineProps({
     button {
       color: white;
       background: rgba(144, 5, 5, 1);
+
       svg {
         path {
           fill: white !important;
@@ -65,7 +68,7 @@ const props = defineProps({
   }
 
   img {
-    width: 120px;
+    width: 100px;
   }
 
   &-text {

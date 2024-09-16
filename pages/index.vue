@@ -11,10 +11,17 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from "vue";
 import SectionMainCategorie from "./section/SectionMainCategorie.vue";
 import SectionBestseller from "./section/SectionBestseller.vue";
 import SectionDiscount from "./section/SectionDiscount.vue";
 import TheSwiper from "../components/Block/TheSwiper.vue";
+import { useSearchData } from "~/stores/searchData";
+const search = useSearchData();
+
+onMounted(() => {
+  search.query = "";
+});
 </script>
 
 <style lang="scss" scoped>

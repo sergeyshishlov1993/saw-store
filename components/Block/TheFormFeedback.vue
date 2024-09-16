@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <div class="form__wrapper">
+    <the-modal-sucses notificationText="feedback" v-if="showSuccessModal" />
+
+    <div class="form__wrapper" v-else>
       <div>
         <ui-text-h2 id="title">{{ props.titleForm }}</ui-text-h2>
         <ui-text-h5 id="text"
@@ -63,6 +65,8 @@ import UiTextH5 from "../Ui/UiTextH5.vue";
 import UiInput from "../Ui/UiInput.vue";
 import UiError from "../Ui/UiError.vue";
 import UiBtn from "../Ui/UiBtn.vue";
+
+import TheModalSucses from "~/components/Block/TheModalSucses.vue";
 import {
   errorsFormData,
   validateField,
@@ -77,6 +81,7 @@ const props = defineProps({
   },
 });
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
+const showSuccessModal = ref(false);
 
 function handleFocus(event, name) {
   createErrorObj(name);
@@ -140,6 +145,12 @@ const sendFeedback = async () => {
       name.value = "";
       phone.value = "";
     }
+
+    showSuccessModal.value = true;
+
+    setTimeout(() => {
+      showSuccessModal.value = false;
+    }, 1000);
   } catch (error) {
     console.error("Ошибка:", error);
   }

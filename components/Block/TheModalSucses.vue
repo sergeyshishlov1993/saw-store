@@ -1,14 +1,21 @@
 <template>
   <div class="modal__sucses">
-    <ui-text-h3
+    <ui-text-h3 v-if="notificationText == 'cart'"
       >Дякуємо за замовлення ! <br />
       Cкоро наш менеджер з Вами звʼяжеться для підтвердження</ui-text-h3
+    >
+
+    <ui-text-h3 v-if="notificationText == 'feedback'">
+      Cкоро наш менеджер з Вами звʼяжеться</ui-text-h3
     >
   </div>
 </template>
 
 <script setup>
 import UiTextH3 from "~/components/Ui/UiTextH3.vue";
+const props = defineProps({
+  notificationText: String,
+});
 </script>
 
 <style lang="scss" scoped>

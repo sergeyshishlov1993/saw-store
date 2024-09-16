@@ -81,7 +81,6 @@ const buyProduct = () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   padding: 20px;
   width: 100%;
   height: 500px;
@@ -91,7 +90,9 @@ const buyProduct = () => {
   &_img {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
   }
 
   button {
@@ -125,6 +126,7 @@ const buyProduct = () => {
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: flex-end;
   width: 40px;
   height: 40px;
   border-radius: 100%;

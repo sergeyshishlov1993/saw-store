@@ -91,10 +91,11 @@ const goToCatalog = (parentId, id, name) => {
 .category_menu {
   padding: 10px 20px 20px 0;
   display: flex;
-
   flex-direction: column;
   background-color: #fff;
   border-right: 1px solid rgba(144, 5, 5, 1);
+  max-height: 650px;
+  overflow-y: auto;
 
   &_name {
     display: flex;

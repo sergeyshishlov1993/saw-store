@@ -14,7 +14,9 @@
 
           <ui-btn @click="writeProductProfitec">Завантажити Profitec</ui-btn>
 
-          <ui-btn @click="removeAllProducts">Видалити всі продукти</ui-btn>
+          <ui-btn @click.stop="removeAllProducts"
+            >Видалити всі товари {{ brand }}
+          </ui-btn>
         </div>
       </div>
 
@@ -29,6 +31,15 @@
             :selectCategory="selectedCategory"
             @update-select="getSelectValue"
           />
+
+          <select
+            style="font-size: 12px; font-weight: 700"
+            @change="(event) => getSelectValue('brand', event.target.value)"
+          >
+            <option value=" ">Бренд</option>
+            <option value="Procraft">Procraft</option>
+            <option value="Profitec">Profitec</option>
+          </select>
 
           <div class="checkbox">
             <input
@@ -68,6 +79,7 @@
                 <th>Акційна ціна</th>
                 <th>Наявності</th>
                 <th>Хіт продажу</th>
+                <th>Бренд</th>
                 <th>Дії</th>
               </tr>
             </thead>
@@ -104,6 +116,10 @@
 
                 <td>
                   {{ product.bestseller == "true" ? "так" : "ні" }}
+                </td>
+
+                <td>
+                  {{ product.brand }}
                 </td>
 
                 <td>
@@ -150,6 +166,7 @@ import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
 import { app } from "~/firebaseConfig";
 
 import UiTextH3 from "~/components/Ui/UiTextH3.vue";
+import UiTextH5 from "~/components/Ui/UiTextH5.vue";
 import UiTextH6 from "~/components/Ui/UiTextH6.vue";
 import UiInput from "~/components/Ui/UiInput.vue";
 import UiBtn from "~/components/Ui/UiBtn.vue";
@@ -178,6 +195,7 @@ const isLoadContent = ref(true);
 const showSuccessModal = ref(false);
 const sale = ref(false);
 const bestseller = ref(false);
+const brand = ref("");
 
 onMounted(async () => {
   await getSubCategory();
@@ -195,14 +213,24 @@ async function getSubCategory() {
 }
 
 async function removeAllProducts() {
-  products.value.forEach((el) => removeProduct(el.product_id));
+  try {
+    const response = await axios.delete(
+      `${apiUrl}/admin/products/destroy-product-by-brand?brand=${brand.value}`
+    );
+
+    console.log("resonse remove", response);
+
+    await getProduct();
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function getProduct() {
   isLoadContent.value = false;
   try {
     const response = await axios.get(
-      `${apiUrl}/admin/products?page=${currentPage.value}&search=${search.value}&sub_category=${selectedCategoryValue.value}&sale=${sale.value}&bestseller=${bestseller.value}`
+      `${apiUrl}/admin/products?page=${currentPage.value}&search=${search.value}&sub_category=${selectedCategoryValue.value}&sale=${sale.value}&bestseller=${bestseller.value}&brand=${brand.value}`
     );
 
     products.value = response.data.products;
@@ -255,8 +283,12 @@ async function downloadProductsFromLink() {
 }
 
 async function getSelectValue(name, value) {
-  selectedCategory.value = name;
-  selectedCategoryValue.value = value;
+  if (name === "brand") {
+    brand.value = value;
+  } else {
+    selectedCategory.value = name;
+    selectedCategoryValue.value = value;
+  }
 
   setTimeout(async () => {
     await getProduct();
@@ -360,11 +392,11 @@ function goToProduct(id) {
     gap: 5%;
 
     .select {
-      width: 25%;
+      width: 15%;
     }
 
     input {
-      width: 50%;
+      width: 30%;
     }
   }
 

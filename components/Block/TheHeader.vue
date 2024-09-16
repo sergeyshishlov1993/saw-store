@@ -22,7 +22,7 @@
     </div>
 
     <div class="search" v-if="!isAdmin">
-      <button @click="showMenu">
+      <button @click="showMenu" class="search__btn_catalog">
         <icon-catalog />
         Каталог товарів
       </button>
@@ -31,19 +31,30 @@
         <input
           type="search"
           placeholder="Пошук"
-          :value="query"
-          @input="(event) => searchProducts(event)"
+          @input="handleInputValue"
+          :value="search.query"
         />
-        <icon-search />
+
+        <button @click="goToSearchPage" :disabled="!search.query">
+          <icon-search />
+        </button>
       </div>
 
       <div
         class="search_card_wrapper"
-        v-if="showSearchCart"
-        @click="closeSearchCart"
+        v-if="search.showSearchCart"
+        @click="search.closeSearchCart"
       >
+        <ui-text-h3>
+          Результат пошуку
+          <span style="font-size: 18px; font-weight: 600">{{
+            search.totalItems
+          }}</span>
+          товарів</ui-text-h3
+        >
+
         <the-search-card
-          v-for="product in products"
+          v-for="product in search.products.slice(0, 5)"
           :key="product.product_id"
           :name="product.product_name"
           :price="product.price"
@@ -87,7 +98,7 @@ import { ref, watch } from "vue";
 import { useOtherData } from "~/stores/otherData";
 import { useCartData } from "~/stores/cartData";
 import { useRouter, useRoute } from "vue-router";
-import axios from "axios";
+import UiTextH3 from "../Ui/UiTextH3.vue";
 import UiTextH5 from "../Ui/UiTextH5.vue";
 import IconLogo from "~/assets/icons/IconLogo.vue";
 import IconCart from "~/assets/icons/IconCart.vue";
@@ -99,15 +110,13 @@ import TheSearchCard from "./TheSearchCard.vue";
 import TheDropDownFeedback from "./TheDropDownFeedback.vue";
 import MobileHeader from "./MobileHeader.vue";
 
+import { useSearchData } from "~/stores/searchData";
+const search = useSearchData();
 const { state } = useCartData();
 const { visibilityStore } = useOtherData();
 const router = useRouter();
 const route = useRoute();
 const isAdmin = ref(route.path.startsWith("/admin"));
-const query = ref("");
-const products = ref([]);
-const showSearchCart = ref(false);
-const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
 watch(
   () => visibilityStore.showCatalogNav,
@@ -120,33 +129,10 @@ watch(
   }
 );
 
-const searchProducts = async (event) => {
-  query.value = event.target.value;
+async function handleInputValue(event) {
+  search.query = event.target.value;
 
-  try {
-    const response = await axios.get(`${apiUrl}/products/search`, {
-      params: { search: query.value },
-    });
-
-    console.log("response", response);
-
-    products.value = await response.data.products;
-    showSearchCart.value = true;
-
-    if (!query.value.length) {
-      products.value = [];
-
-      showSearchCart.value = false;
-    }
-  } catch (error) {
-    console.error("сталась помилка");
-  }
-};
-
-function closeSearchCart() {
-  products.value = [];
-  showSearchCart.value = false;
-  query.value = "";
+  await search.searchProducts();
 }
 
 function showMenu() {
@@ -169,13 +155,13 @@ function closeVisibilityMenu() {
 
 function goToProduct(sub, id, name) {
   router.push(`/products/tools/${sub}/${id}?product=${name}`);
-  query.value = "";
-  products.value = [];
+  search.closeSearchCart();
 }
 
 function goHome() {
   router.push("/");
   visibilityStore.showCatalogNav = false;
+  search.closeSearchCart();
 }
 
 function goToBestseller() {
@@ -196,6 +182,10 @@ function goToAbout() {
 function goToBuyersPage() {
   router.push("/buyer?buyer=Покупцям");
   visibilityStore.showCatalogNav = false;
+}
+
+function goToSearchPage() {
+  router.push("/search?category=Пошук");
 }
 
 function goToCart() {
@@ -230,6 +220,7 @@ function goToCart() {
     align-items: center;
     justify-content: space-between;
     gap: 68px;
+
     h2 {
       width: 150px;
       text-align: center;
@@ -258,10 +249,12 @@ function goToCart() {
   background: rgba(255, 255, 255, 1);
   height: 76px;
   z-index: 100;
+
   svg {
     height: 30px;
   }
-  button {
+
+  &__btn_catalog {
     padding: 16px 45px 16px 25px;
     background: rgba(144, 5, 5, 1);
     width: 220px;
@@ -275,6 +268,7 @@ function goToCart() {
     font-weight: 600;
     color: white;
   }
+
   .input {
     padding: 16px;
     display: flex;
@@ -324,13 +318,12 @@ function goToCart() {
 }
 
 .search_card_wrapper {
+  position: absolute;
+  top: 220px;
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding-top: 100px;
   overflow-y: auto;
-  position: absolute;
-  top: 100px;
   width: 100%;
   height: 100vh;
   align-items: center;
@@ -403,7 +396,7 @@ function goToCart() {
   }
 
   .search {
-    button {
+    &__btn_catalog {
       display: none;
     }
   }

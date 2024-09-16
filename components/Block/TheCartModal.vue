@@ -26,7 +26,7 @@
 
       <div class="wrapper__modal_total">
         <ui-text-h4 class="btnToCatalog" @click="backToShopping">
-          продовжите покупки
+          продовжити покупки
         </ui-text-h4>
         <ui-text-h4>всьго:</ui-text-h4>
         <ui-text-h4 class="price">{{ state.totalPriceCart }} грн</ui-text-h4>

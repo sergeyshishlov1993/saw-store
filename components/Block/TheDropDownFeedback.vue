@@ -1,5 +1,10 @@
 <template>
-  <div class="feedback" :class="{ open: openDrop }">
+  <the-modal-sucses
+    notificationText="feedback"
+    v-if="showSuccessModal"
+    class="message"
+  />
+  <div class="feedback" :class="{ open: openDrop }" v-else>
     <div class="feedback__phone">
       <icon-phone />
       <a href="tel:+380999999999">+380999999999</a>
@@ -63,6 +68,7 @@ import UiBtn from "../Ui/UiBtn.vue";
 import IconChevronUp from "~/assets/icons/IconChevronUp.vue";
 import IconChewronDown from "~/assets/icons/IconChewronDown.vue";
 import IconPhone from "~/assets/icons/IconPhone.vue";
+import TheModalSucses from "./TheModalSucses.vue";
 import {
   errorsFormData,
   validateField,
@@ -73,6 +79,7 @@ const name = ref("");
 const phone = ref("+380");
 const openDrop = ref(false);
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
+const showSuccessModal = ref(false);
 
 function handleFocus(event, name) {
   createErrorObj(name);
@@ -136,6 +143,13 @@ const sendFeedback = async () => {
       name.value = "";
       phone.value = "";
     }
+
+    showSuccessModal.value = true;
+
+    setTimeout(() => {
+      showSuccessModal.value = false;
+      openDrop.value = false;
+    }, 1000);
   } catch (error) {
     console.error("Ошибка:", error);
   }
@@ -208,6 +222,12 @@ const sendFeedback = async () => {
     color: white;
     width: 100%;
   }
+}
+
+.message {
+  padding: 15px 20px;
+  font-size: 16px;
+  line-height: 25px;
 }
 
 @media screen and (max-width: 1439px) {

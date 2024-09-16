@@ -5,7 +5,11 @@
 
       <ui-text-h1>Оформлення замовлення</ui-text-h1>
 
-      <the-cart-modal-sucses class="message" v-if="showSuccessModal" />
+      <the-modal-sucses
+        class="message"
+        notificationText="cart"
+        v-if="showSuccessModal"
+      />
 
       <div class="cart__wrapper" v-else>
         <the-cart-form @show="showMessage" />
@@ -22,8 +26,8 @@ import useScrollToTop from "~/utils/useScrollToTop";
 import UiTextH1 from "~/components/Ui/UiTextH1.vue";
 import TheCartForm from "./components/TheCartForm.vue";
 import TheCartItem from "./components/TheCartItem.vue";
-import TheCartModalSucses from "./components/TheCartModalSucses.vue";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
+import TheModalSucses from "~/components/Block/TheModalSucses.vue";
 
 const { scrollToTop } = useScrollToTop();
 const route = useRoute();
