@@ -50,8 +50,9 @@
           <span style="font-size: 18px; font-weight: 600">{{
             search.totalItems
           }}</span>
-          товарів</ui-text-h3
-        >
+          товарів
+          <icon-close @click="search.closeSearchCart" />
+        </ui-text-h3>
 
         <the-search-card
           v-for="product in search.products.slice(0, 5)"
@@ -105,6 +106,7 @@ import IconCart from "~/assets/icons/IconCart.vue";
 import IconSearch from "~/assets/icons/IconSearch.vue";
 import IconCatalog from "~/assets/icons/IconCatalog.vue";
 import IconBurger from "~/assets/icons/IconBurger.vue";
+import IconClose from "~/assets/icons/IconClose.vue";
 import CategorySubcategoryList from "./CategorySubcategoryList.vue";
 import TheSearchCard from "./TheSearchCard.vue";
 import TheDropDownFeedback from "./TheDropDownFeedback.vue";
@@ -119,7 +121,7 @@ const route = useRoute();
 const isAdmin = ref(route.path.startsWith("/admin"));
 
 watch(
-  () => visibilityStore.showCatalogNav,
+  () => visibilityStore.showCatalogNav || search.showSearchCart,
   (newValue) => {
     if (newValue) {
       document.body.style.overflow = "hidden";
@@ -288,7 +290,7 @@ function goToCart() {
 
   &_card_wrapper {
     position: absolute;
-    top: 220px;
+    top: 210px;
     display: flex;
     flex-direction: column;
     gap: 3px;
