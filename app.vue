@@ -38,6 +38,11 @@ useHead({
       name: "robots",
       content: "index, follow",
     },
+
+    {
+      name: "google-site-verification",
+      content: "BRdJswll0IhW3sfNzGK-VpvdxKlYKmU0bfiHjXajdCU",
+    },
   ],
 });
 </script>
