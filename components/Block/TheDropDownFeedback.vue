@@ -7,7 +7,7 @@
   <div class="feedback" :class="{ open: openDrop }" v-else>
     <div class="feedback__phone">
       <icon-phone />
-      <a href="tel:+380999999999">+380999999999</a>
+      <a href="tel:+380682363071">+380-68-236-30-71</a>
 
       <icon-chevron-up v-if="openDrop" @click="openDrop = !openDrop" />
       <icon-chewron-down v-else @click="openDrop = !openDrop" />

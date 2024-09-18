@@ -1,6 +1,6 @@
 <template>
   <div class="modal__empty">
-    <ui-text-h2> Замовленнь немає ! </ui-text-h2>
+    <ui-text-h2> <slot /> </ui-text-h2>
   </div>
 </template>
 

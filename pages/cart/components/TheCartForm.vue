@@ -564,7 +564,7 @@ async function buyOrder() {
         order_id: random,
         orderName: el.product_name,
         count: el.count,
-        img: el.pictures[0].pictures_name,
+        img: el.pictures[el.pictures.length - 1].pictures_name,
         product_id: el.product_id,
         discount: el.discount,
         discountProduct: el.sale,

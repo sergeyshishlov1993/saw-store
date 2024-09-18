@@ -17,7 +17,7 @@
           :id="product.product_id"
           :title="product.product_name"
           :count="product.count"
-          :path="product.pictures[0].pictures_name"
+          :path="product.pictures[product.pictures.length - 1].pictures_name"
           :price="product.price"
           :itemTotalPrice="product.itemTotalPrice"
           :salePrice="product.sale_price"

@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="orders">
-      <the-modal-not-found v-if="notFound" />
-      <the-empty-modal v-else-if="!orders.length" />
+      <the-empty-modal v-if="notFound">
+        Замовлення не знайдено
+      </the-empty-modal>
 
       <transition name="fade" v-else>
         <div class="orders__wrapper" v-if="showLoader">
@@ -145,15 +146,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeMount } from "vue";
+import { ref, onMounted, onBeforeMount, computed } from "vue";
 import axios from "axios";
 import ThePagination from "~/components/Block/ThePagination.vue";
 import TheEmptyModal from "~/components/Block/TheEmptyModal.vue";
-import TheModalNotFound from "~/components/Block/TheModalNotFound.vue";
-
 import UiTextH6 from "~/components/Ui/UiTextH6.vue";
 import UiInput from "~/components/Ui/UiInput.vue";
-
 import IconClose from "~/assets/icons/IconClose.vue";
 import IconChevronLeft from "~/assets/icons/IconChevronLeft.vue";
 import IconChevronNext from "~/assets/icons/IconChevronNext.vue";
@@ -173,8 +171,14 @@ onBeforeMount(async () => {
   await getOrders();
 });
 
+const isSearching = ref(false);
+
 async function getOrders() {
+  if (isSearching.value) return;
+
   showLoader.value = false;
+  isSearching.value = true;
+
   try {
     const response = await axios.get(
       `${apiUrl}/order/all-orders?page=${currentPage.value}&search=${search.value}`
@@ -182,21 +186,23 @@ async function getOrders() {
 
     orders.value = response.data.orders;
     totalPage.value = response.data.totalPages;
-
     notFound.value = response.data.notFound;
 
-    if (notFound.value) {
+    if (notFound.value && !search.value) {
+    } else if (notFound.value) {
       setTimeout(async () => {
         notFound.value = false;
         search.value = "";
 
         await getOrders();
-      }, 500);
+      }, 2000);
+    } else {
+      showLoader.value = true;
     }
-
-    showLoader.value = true;
   } catch (error) {
-    console.error("error", error);
+    console.error("Помилка при отриманні замовлень", error);
+  } finally {
+    isSearching.value = false;
   }
 }
 
