@@ -96,7 +96,8 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    siteUrl: "https://sawstore.com.ua",
+    hostname: "https://sawstore.com.ua",
+    gzip: true,
     urls: async () => {
       try {
         const categoriesResponse = await axios.get(
