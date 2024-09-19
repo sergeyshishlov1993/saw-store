@@ -1,8 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["~/assets/css/app.scss"],
-  modules: ["@pinia/nuxt", "nuxt-swiper"],
+  modules: ["@pinia/nuxt", "nuxt-swiper", "@nuxtjs/sitemap"],
 
   app: {
     head: {
@@ -91,4 +94,59 @@ export default defineNuxtConfig({
       ],
     },
   },
+
+  sitemap: {
+    siteUrl: "https://sawstore.com.ua",
+    urls: async () => {
+      try {
+        const categoriesResponse = await axios.get(
+          `${apiUrl}/products/category`
+        );
+        const categories = categoriesResponse.data.category;
+        const subCategories = categoriesResponse.data.subCategory;
+
+        const productsResponse = await axios.get(`${apiUrl}/products`);
+        const products = productsResponse.data.products;
+
+        const productRoutes = products
+          .map((product) => {
+            const subCategory = subCategories.find(
+              (sub) => sub.sub_category_id === product.sub_category_id
+            );
+
+            if (subCategory) {
+              const category = categories.find(
+                (cat) => cat.id === subCategory.parent_id
+              );
+
+              if (category) {
+                const route = `/products/${category.id}/${subCategory.sub_category_id}/${product.product_id}`;
+
+                return route;
+              }
+            }
+
+            return null;
+          })
+          .filter(Boolean);
+
+        const staticRoutes = [
+          "/",
+          "/about",
+          "/bestseller",
+          "/buyer",
+          "/cart",
+          "/sale",
+          "/search",
+        ];
+
+        return [...staticRoutes, ...productRoutes];
+      } catch (error) {
+        console.error("Помилка при отриманні даних з API:", error);
+        return [];
+      }
+    },
+  },
+
+  compatibilityDate: "2024-09-19",
 });

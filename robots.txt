@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /admin
+Allow: /
+Sitemap: https://sawstore.com.ua/sitemap.xml

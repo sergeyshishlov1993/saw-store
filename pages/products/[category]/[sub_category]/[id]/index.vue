@@ -225,6 +225,51 @@ onMounted(async () => {
           content: window.location.href,
         },
       ],
+
+      script: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            name: productById.value[0]?.product_name,
+            image: productById.value[0]?.pictures[0]?.pictures_name,
+            description: productById.value[0]?.description,
+            sku: productById.value[0]?.sku,
+            brand: {
+              "@type": "Brand",
+              name: "SAW Store",
+            },
+            offers: {
+              "@type": "Offer",
+              priceCurrency: "UAH",
+              price: productById.value[0]?.price,
+              itemCondition: "https://schema.org/NewCondition",
+              availability: "https://schema.org/InStock",
+              url: window.location.href,
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: rating.value,
+              reviewCount:
+                counReviews.value || productById.value[0]?.review.length,
+            },
+            review: productById.value[0]?.review.slice(0, 2).map((review) => ({
+              "@type": "Review",
+              reviewRating: {
+                "@type": "Rating",
+                ratingValue: review.rating,
+                bestRating: "5",
+              },
+              author: {
+                "@type": "Person",
+                name: review.author,
+              },
+              reviewBody: review.text,
+            })),
+          }),
+        },
+      ],
     });
   } catch (error) {
     console.error("Ошибка:", error);
