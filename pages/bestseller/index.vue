@@ -106,6 +106,55 @@ useHead({
         "SAW STORE, хіт продажу, професійний електроінструмент, надійний інструмент, популярний інструмент, найкраща ціна, якість, купити електроінструмент",
     },
   ],
+
+  script: [
+    {
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        name: bestsellerProduct.value[0]?.product_name,
+        image:
+          bestsellerProduct.value[0]?.pictures[
+            bestsellerProduct.value[0]?.pictures.length - 1
+          ]?.pictures_name,
+        description:
+          bestsellerProduct.value[0]?.description || "Опис відсутній",
+        sku: bestsellerProduct.value[0]?.sku || "Немає артикулу",
+        brand: {
+          "@type": "Brand",
+          name: "SAW Store",
+        },
+        offers: {
+          "@type": "Offer",
+          priceCurrency: "UAH",
+          price: bestsellerProduct.value[0]?.price,
+          itemCondition: "https://schema.org/NewCondition",
+          availability: "https://schema.org/InStock",
+          url: window.location.href,
+        },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: bestsellerProduct.value[0]?.rating || 4.5,
+          reviewCount: bestsellerProduct.value[0]?.review_count || 10,
+        },
+        review:
+          bestsellerProduct.value[0]?.reviews?.slice(0, 2).map((review) => ({
+            "@type": "Review",
+            reviewRating: {
+              "@type": "Rating",
+              ratingValue: review.rating,
+              bestRating: "5",
+            },
+            author: {
+              "@type": "Person",
+              name: review.author,
+            },
+            reviewBody: review.text,
+          })) || [],
+      }),
+    },
+  ],
 });
 </script>
 

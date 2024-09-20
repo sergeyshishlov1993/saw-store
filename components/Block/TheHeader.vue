@@ -45,7 +45,7 @@
         v-if="search.showSearchCart"
         @click="search.closeSearchCart"
       >
-        <ui-text-h3>
+        <ui-text-h3 :class="{ pl: search.showSearchCart }">
           Результат пошуку
           <span style="font-size: 18px; font-weight: 600">{{
             search.totalItems
@@ -54,20 +54,22 @@
           <icon-close @click="search.closeSearchCart" />
         </ui-text-h3>
 
-        <the-search-card
-          v-for="product in search.products.slice(0, 5)"
-          :key="product.product_id"
-          :name="product.product_name"
-          :price="product.price"
-          :path="product.pictures"
-          @click="
-            goToProduct(
-              product.sub_category_id,
-              product.product_id,
-              product.product_name
-            )
-          "
-        />
+        <div :class="{ pl: search.showSearchCart }">
+          <the-search-card
+            v-for="product in search.products.slice(0, 5)"
+            :key="product.product_id"
+            :name="product.product_name"
+            :price="product.price"
+            :path="product.pictures"
+            @click="
+              goToProduct(
+                product.sub_category_id,
+                product.product_id,
+                product.product_name
+              )
+            "
+          />
+        </div>
       </div>
 
       <div class="cart__wrapper" @click="goToCart">
@@ -134,11 +136,18 @@ watch(
 async function handleInputValue(event) {
   search.query = event.target.value;
 
+  if (event.target.value.length) {
+    visibilityStore.showCatalogNav = false;
+  }
+
   await search.searchProducts();
 }
 
 function showMenu() {
   visibilityStore.showCatalogNav = !visibilityStore.showCatalogNav;
+  search.showSearchCart = false;
+
+  search.query = "";
 }
 
 function openMobileMenu() {
@@ -187,6 +196,7 @@ function goToBuyersPage() {
 }
 
 function goToSearchPage() {
+  visibilityStore.showCatalogNav = false;
   router.push("/search?category=Пошук");
 }
 
@@ -293,11 +303,12 @@ function goToCart() {
     top: 210px;
     display: flex;
     flex-direction: column;
-    gap: 3px;
     overflow-y: auto;
     width: 100%;
     height: 100vh;
     align-items: center;
+
+    background: rgb(29 25 30 / 50%);
 
     h2 {
       padding: 5px;
@@ -367,6 +378,10 @@ function goToCart() {
   z-index: 1;
 }
 
+.pl {
+  padding-left: 50px;
+}
+
 @media screen and (max-width: 1439px) {
   .logo {
     width: 200px;
@@ -388,7 +403,6 @@ function goToCart() {
 
   .search_card_wrapper {
     top: 189px;
-    gap: 2px;
     line-height: 20px;
   }
 }
@@ -417,6 +431,12 @@ function goToCart() {
   }
 
   .search {
+    justify-content: center;
+
+    .input {
+      width: 400px !important;
+    }
+
     &__btn_catalog {
       display: none;
     }
@@ -425,6 +445,10 @@ function goToCart() {
       top: 190px;
       gap: 0;
     }
+  }
+
+  .pl {
+    padding-left: 0;
   }
 }
 

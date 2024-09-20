@@ -235,7 +235,7 @@ const sendFeedback = async () => {
 
 @media screen and (max-width: 1439px) {
   .feedback {
-    width: 200px;
+    width: 230px;
     top: 24px;
   }
 }

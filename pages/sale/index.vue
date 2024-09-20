@@ -90,26 +90,78 @@ const goToProducts = (category, id, name) => {
   );
 };
 
-useHead({
-  title:
-    "Акції - SAW STORE - Спеціальні пропозиції на професійний електроінструмент - Знижки та вигідні умови на найкращий інструмент",
-  meta: [
-    {
-      name: "robots",
-      content: "index, follow",
-    },
-    {
-      name: "description",
-      content:
-        "Не пропустіть акції від SAW STORE! Спеціальні пропозиції, знижки та вигідні умови на професійний електроінструмент. Обирайте якість за найкращою ціною.",
-    },
-    {
-      name: "keywords",
-      content:
-        "SAW STORE, акції, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови, купити інструмент зі знижкою",
-    },
-  ],
-});
+if (discontProduct.value.length > 0) {
+  const firstProduct = discontProduct.value[0];
+  const discountPercentage = firstProduct.discount;
+  const productName = firstProduct.product_name;
+
+  useHead({
+    title:
+      "Акції - SAW STORE - Спеціальні пропозиції на професійний електроінструмент - Знижки та вигідні умови на найкращий інструмент" -
+      `Знижка - ${discountPercentage}% на ${productName} - SAW STORE`,
+    meta: [
+      {
+        name: "robots",
+        content: "index, follow",
+      },
+      {
+        name: "description",
+        content: `Не пропустіть акції від SAW STORE! Спеціальні пропозиції, знижки та вигідні умови на професійний електроінструмент. Обирайте якість за найкращою ціною. - Купуйте ${productName} зі знижкою ${discountPercentage}% у SAW STORE. Спеціальні пропозиції на професійний електроінструмент.`,
+      },
+      {
+        name: "keywords",
+        content: `SAW STORE, акції, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови, купити інструмент зі знижкою - ${productName}, знижка ${discountPercentage}%, SAW STORE, акції, професійний електроінструмент, спеціальні пропозиції`,
+      },
+    ],
+    script: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org/",
+          "@type": "Product",
+          name: discontProduct.value[0]?.product_name,
+          image:
+            discontProduct.value[0]?.pictures[
+              discontProduct.value[0]?.pictures.length - 1
+            ]?.pictures_name,
+          description: discontProduct.value[0]?.description || "Опис відсутній",
+          sku: discontProduct.value[0]?.sku || "Немає артикулу",
+          brand: {
+            "@type": "Brand",
+            name: "SAW Store",
+          },
+          offers: {
+            "@type": "Offer",
+            priceCurrency: "UAH",
+            price: discontProduct.value[0]?.price,
+            itemCondition: "https://schema.org/NewCondition",
+            availability: "https://schema.org/InStock",
+            url: window.location.href,
+          },
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: discontProduct.value[0]?.rating || 4.5,
+            reviewCount: discontProduct.value[0]?.review_count || 10,
+          },
+          review:
+            discontProduct.value[0]?.reviews?.slice(0, 2).map((review) => ({
+              "@type": "Review",
+              reviewRating: {
+                "@type": "Rating",
+                ratingValue: review.rating,
+                bestRating: "5",
+              },
+              author: {
+                "@type": "Person",
+                name: review.author,
+              },
+              reviewBody: review.text,
+            })) || [],
+        }),
+      },
+    ],
+  });
+}
 </script>
 
 <style lang="scss" scoped>

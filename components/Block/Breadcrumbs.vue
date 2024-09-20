@@ -37,6 +37,7 @@ const props = defineProps({
 .breadcrumbs {
   margin-top: 50px;
   list-style: none;
+  flex-wrap: wrap;
   padding: 0;
   display: flex;
   align-items: center;
@@ -52,11 +53,5 @@ const props = defineProps({
 
 .disabled-crumb {
   cursor: default;
-}
-
-@media screen and (max-width: 991px) {
-  .breadcrumbs {
-    flex-wrap: wrap;
-  }
 }
 </style>

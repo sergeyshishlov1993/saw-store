@@ -46,15 +46,17 @@ const checkLoadImg = () => {
 
 <style lang="scss" scoped>
 .search_card {
-  padding: 8px;
+  padding: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
+  gap: 50px;
   background: white;
   border-radius: 15px;
   transition: background 0.3s ease;
+  border-bottom: 1px solid gray;
   width: 500px;
+
+  margin-top: 1px;
 
   button {
     line-height: 30px;
@@ -116,7 +118,7 @@ const checkLoadImg = () => {
 
 @media screen and (max-width: 767px) {
   .search_card {
-    width: 400px;
+    width: 100%;
 
     &-text {
       button {

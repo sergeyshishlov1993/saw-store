@@ -14,7 +14,7 @@
     <div class="mobile__footer">
       <icon-phone />
       <ui-text-h5>
-        <a href="tel:+380999999999">+380999999999</a>
+        <a href="tel:+380682363071">+380-68-236-30-71</a>
       </ui-text-h5>
     </div>
   </div>
