@@ -65,6 +65,21 @@ useHead({
       type: "text/javascript",
       charset: "utf-8",
     },
+
+    {
+      src: "https://www.googletagmanager.com/gtag/js?id=G-5SQKZ924ND",
+      async: true,
+    },
+
+    {
+      hid: "google-analytics",
+      innerHTML: `window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5SQKZ924ND');`,
+      type: "text/javascript",
+      charset: "utf-8",
+    },
   ],
   __dangerouslyDisableSanitizers: ["script"],
 });
