@@ -52,6 +52,11 @@ useHead({
       name: "google-site-verification",
       content: "BRdJswll0IhW3sfNzGK-VpvdxKlYKmU0bfiHjXajdCU",
     },
+
+    {
+      name: "facebook-domain-verification",
+      content: "ctgeid5xnf8et9zw0ord9fbku332ar",
+    },
   ],
 
   script: [
