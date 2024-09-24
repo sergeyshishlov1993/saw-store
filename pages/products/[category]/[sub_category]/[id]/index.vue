@@ -237,7 +237,7 @@ onMounted(async () => {
               productById.value[0]?.pictures[0]?.pictures_name ||
               "https://example.com/placeholder.jpg",
             description: productById.value[0]?.description || "Опис відсутній",
-            sku: productById.value[0]?.sku || "Немає артикулу",
+            sku: productById.value[0]?.product_id || "Немає артикулу",
             brand: {
               "@type": "Brand",
               name: "SAW Store",
@@ -246,11 +246,11 @@ onMounted(async () => {
               "@type": "Offer",
               priceCurrency: "UAH",
               price: productById.value[0]?.price || "0",
-              priceValidUntil: "2025-12-31",
+              priceValidUntil: "2027-12-31",
               itemCondition: "https://schema.org/NewCondition",
               availability: "https://schema.org/InStock",
               url: window.location.href,
-              nasMerchantReturnPolicy: {
+              hasMerchantReturnPolicy: {
                 "@type": "MerchantReturnPolicy",
                 returnPolicyCategory: "https://schema.org/Refund",
                 returnPolicyCountry: "UA",
