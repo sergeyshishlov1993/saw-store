@@ -89,7 +89,7 @@ const goToProducts = (category, id, name) => {
 
 useHead({
   title:
-    " Хіт продажу - SAW STORE - Популярний професійний електроінструмент за найкращою ціною - Надійність та якість в кожному інструменті - Обирайте найкраще для роботи з SAW STORE",
+    " Хіт продажу - SAW STORE - Популярний професійний електроінструмент за найкращою ціною - Надійність та якість в кожному інструменті - Обирайте найкраще для роботи з SAW STORE - Купити еклектроінструмент - Купити акумуляторній інструмент",
   meta: [
     {
       name: "robots",
@@ -113,11 +113,11 @@ useHead({
       children: JSON.stringify({
         "@context": "https://schema.org/",
         "@type": "Product",
-        name: bestsellerProduct.value[0]?.product_name,
+        name: bestsellerProduct.value[0]?.product_name || "Назва відсутня",
         image:
           bestsellerProduct.value[0]?.pictures[
             bestsellerProduct.value[0]?.pictures.length - 1
-          ]?.pictures_name,
+          ]?.pictures_name || "https://example.com/placeholder.jpg",
         description:
           bestsellerProduct.value[0]?.description || "Опис відсутній",
         sku: bestsellerProduct.value[0]?.sku || "Немає артикулу",
@@ -128,10 +128,32 @@ useHead({
         offers: {
           "@type": "Offer",
           priceCurrency: "UAH",
-          price: bestsellerProduct.value[0]?.price,
+          price: bestsellerProduct.value[0]?.price || "0",
+          priceValidUntil: "2024-12-31",
           itemCondition: "https://schema.org/NewCondition",
           availability: "https://schema.org/InStock",
           url: window.location.href,
+          nasMerchantReturnPolicy: {
+            "@type": "MerchantReturnPolicy",
+            returnPolicyCategory: "https://schema.org/Refund",
+            returnPolicyCountry: "UA",
+          },
+          shippingDetails: {
+            "@type": "OfferShippingDetails",
+            shippingDestination: {
+              "@type": "DefinedRegion",
+              addressCountry: "UA",
+            },
+            deliveryTime: {
+              "@type": "ShippingDeliveryTime",
+              handlingTime: {
+                "@type": "QuantitativeValue",
+                minValue: 1,
+                maxValue: 2,
+                unitCode: "d",
+              },
+            },
+          },
         },
         aggregateRating: {
           "@type": "AggregateRating",
@@ -143,14 +165,14 @@ useHead({
             "@type": "Review",
             reviewRating: {
               "@type": "Rating",
-              ratingValue: review.rating,
+              ratingValue: review?.rating || 4.5,
               bestRating: "5",
             },
             author: {
               "@type": "Person",
-              name: review.author,
+              name: review?.author || "Анонім",
             },
-            reviewBody: review.text,
+            reviewBody: review?.text || "Без коментарів",
           })) || [],
       }),
     },

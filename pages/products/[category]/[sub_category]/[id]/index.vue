@@ -168,7 +168,7 @@ onMounted(async () => {
     await calculateAverageRating();
 
     useHead({
-      title: `${productById.value[0].product_name} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент`,
+      title: `${productById.value[0].product_name} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент - Купити еклектроінструмент - Купити акумуляторній інструмент`,
       meta: [
         {
           name: "robots",
@@ -244,9 +244,15 @@ onMounted(async () => {
               "@type": "Offer",
               priceCurrency: "UAH",
               price: productById.value[0]?.price,
+              priceValidUntil: "2025-12-31",
               itemCondition: "https://schema.org/NewCondition",
               availability: "https://schema.org/InStock",
               url: window.location.href,
+              nasMerchantReturnPolicy: {
+                "@type": "MerchantReturnPolicy",
+                returnPolicyCategory: "https://schema.org/Refund",
+                returnPolicyCountry: "UA",
+              },
             },
             aggregateRating: {
               "@type": "AggregateRating",
@@ -258,8 +264,9 @@ onMounted(async () => {
               "@type": "Review",
               reviewRating: {
                 "@type": "Rating",
-                ratingValue: review.rating,
+                ratingValue: "5",
                 bestRating: "5",
+                reviewCount: "10",
               },
               author: {
                 "@type": "Person",

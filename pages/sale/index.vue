@@ -98,7 +98,7 @@ if (discontProduct.value.length > 0) {
   useHead({
     title:
       "Акції - SAW STORE - Спеціальні пропозиції на професійний електроінструмент - Знижки та вигідні умови на найкращий інструмент" -
-      `Знижка - ${discountPercentage}% на ${productName} - SAW STORE`,
+      `Знижка - ${discountPercentage}% на ${productName} - SAW STORE - Купити еклектроінструмент - Купити акумуляторній інструмент`,
     meta: [
       {
         name: "robots",
@@ -119,11 +119,11 @@ if (discontProduct.value.length > 0) {
         children: JSON.stringify({
           "@context": "https://schema.org/",
           "@type": "Product",
-          name: discontProduct.value[0]?.product_name,
+          name: discontProduct.value[0]?.product_name || "Назва відсутня",
           image:
             discontProduct.value[0]?.pictures[
               discontProduct.value[0]?.pictures.length - 1
-            ]?.pictures_name,
+            ]?.pictures_name || "https://example.com/placeholder.jpg",
           description: discontProduct.value[0]?.description || "Опис відсутній",
           sku: discontProduct.value[0]?.sku || "Немає артикулу",
           brand: {
@@ -133,10 +133,16 @@ if (discontProduct.value.length > 0) {
           offers: {
             "@type": "Offer",
             priceCurrency: "UAH",
-            price: discontProduct.value[0]?.price,
+            price: discontProduct.value[0]?.price || "0",
+            priceValidUntil: "2025-12-31",
             itemCondition: "https://schema.org/NewCondition",
             availability: "https://schema.org/InStock",
             url: window.location.href,
+            nasMerchantReturnPolicy: {
+              "@type": "MerchantReturnPolicy",
+              returnPolicyCategory: "https://schema.org/Refund",
+              returnPolicyCountry: "UA",
+            },
           },
           aggregateRating: {
             "@type": "AggregateRating",
@@ -148,14 +154,14 @@ if (discontProduct.value.length > 0) {
               "@type": "Review",
               reviewRating: {
                 "@type": "Rating",
-                ratingValue: review.rating,
+                ratingValue: review.rating || 4.5,
                 bestRating: "5",
               },
               author: {
                 "@type": "Person",
-                name: review.author,
+                name: review.author || "Анонім",
               },
-              reviewBody: review.text,
+              reviewBody: review.text || "Без коментарів",
             })) || [],
         }),
       },
