@@ -85,6 +85,16 @@ useHead({
       type: "text/javascript",
       charset: "utf-8",
     },
+
+    {
+      hid: "google-ads",
+      innerHTML: `window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-16713078315');`,
+      type: "text/javascript",
+      charset: "utf-8",
+    },
   ],
   __dangerouslyDisableSanitizers: ["script"],
 });
