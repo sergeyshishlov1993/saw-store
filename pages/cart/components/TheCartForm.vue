@@ -586,6 +586,13 @@ async function buyOrder() {
         totalPrice: state.totalPriceCart,
       });
 
+      if (typeof gtag !== "undefined") {
+        gtag("event", "conversion", {
+          send_to: "AW-16713078315/CLedCMub09UZEKustaE-",
+          transaction_id: random,
+        });
+      }
+
       firstName.value = "";
       secondName.value = "";
       phone.value = "";
