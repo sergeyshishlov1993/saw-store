@@ -232,10 +232,12 @@ onMounted(async () => {
           children: JSON.stringify({
             "@context": "https://schema.org/",
             "@type": "Product",
-            name: productById.value[0]?.product_name,
-            image: productById.value[0]?.pictures[0]?.pictures_name,
-            description: productById.value[0]?.description,
-            sku: productById.value[0]?.sku,
+            name: productById.value[0]?.product_name || "Назва відсутня",
+            image:
+              productById.value[0]?.pictures[0]?.pictures_name ||
+              "https://example.com/placeholder.jpg",
+            description: productById.value[0]?.description || "Опис відсутній",
+            sku: productById.value[0]?.sku || "Немає артикулу",
             brand: {
               "@type": "Brand",
               name: "SAW Store",
@@ -243,7 +245,7 @@ onMounted(async () => {
             offers: {
               "@type": "Offer",
               priceCurrency: "UAH",
-              price: productById.value[0]?.price,
+              price: productById.value[0]?.price || "0",
               priceValidUntil: "2025-12-31",
               itemCondition: "https://schema.org/NewCondition",
               availability: "https://schema.org/InStock",
@@ -256,24 +258,24 @@ onMounted(async () => {
             },
             aggregateRating: {
               "@type": "AggregateRating",
-              ratingValue: rating.value,
+              ratingValue: rating.value || 5,
               reviewCount:
-                counReviews.value || productById.value[0]?.review.length,
+                counReviews.value || productById.value[0]?.review.length || 1,
             },
-            review: productById.value[0]?.review.slice(0, 2).map((review) => ({
-              "@type": "Review",
-              reviewRating: {
-                "@type": "Rating",
-                ratingValue: "5",
-                bestRating: "5",
-                reviewCount: "10",
-              },
-              author: {
-                "@type": "Person",
-                name: review.author,
-              },
-              reviewBody: review.text,
-            })),
+            review:
+              productById.value[0]?.review?.slice(0, 2).map((review) => ({
+                "@type": "Review",
+                reviewRating: {
+                  "@type": "Rating",
+                  ratingValue: review.rating || 5,
+                  bestRating: "5",
+                },
+                author: {
+                  "@type": "Person",
+                  name: review.author || "Анонім",
+                },
+                reviewBody: review.text || "Без коментарів",
+              })) || [],
           }),
         },
       ],

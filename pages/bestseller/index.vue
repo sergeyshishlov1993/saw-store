@@ -158,7 +158,7 @@ useHead({
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: bestsellerProduct.value[0]?.rating || 4.5,
-          reviewCount: bestsellerProduct.value[0]?.review_count || 10,
+          reviewCount: bestsellerProduct.value[0]?.review_count || 1,
         },
         review:
           bestsellerProduct.value[0]?.reviews?.slice(0, 2).map((review) => ({

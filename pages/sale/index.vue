@@ -143,25 +143,41 @@ if (discontProduct.value.length > 0) {
               returnPolicyCategory: "https://schema.org/Refund",
               returnPolicyCountry: "UA",
             },
+            shippingDetails: {
+              "@type": "OfferShippingDetails",
+              shippingDestination: {
+                "@type": "DefinedRegion",
+                addressCountry: "UA",
+              },
+              deliveryTime: {
+                "@type": "ShippingDeliveryTime",
+                handlingTime: {
+                  "@type": "QuantitativeValue",
+                  minValue: 1,
+                  maxValue: 2,
+                  unitCode: "d",
+                },
+              },
+            },
           },
           aggregateRating: {
             "@type": "AggregateRating",
             ratingValue: discontProduct.value[0]?.rating || 4.5,
-            reviewCount: discontProduct.value[0]?.review_count || 10,
+            reviewCount: discontProduct.value[0]?.review_count || 1,
           },
           review:
             discontProduct.value[0]?.reviews?.slice(0, 2).map((review) => ({
               "@type": "Review",
               reviewRating: {
                 "@type": "Rating",
-                ratingValue: review.rating || 4.5,
+                ratingValue: review?.rating || 4.5,
                 bestRating: "5",
               },
               author: {
                 "@type": "Person",
-                name: review.author || "Анонім",
+                name: review?.author || "Анонім",
               },
-              reviewBody: review.text || "Без коментарів",
+              reviewBody: review?.text || "Без коментарів",
             })) || [],
         }),
       },
