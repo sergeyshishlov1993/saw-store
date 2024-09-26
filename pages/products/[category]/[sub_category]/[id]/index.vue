@@ -175,6 +175,10 @@ onMounted(async () => {
           content: "index, follow",
         },
         {
+          property: "og:site_name",
+          content: "SAW STORE",
+        },
+        {
           name: "description",
           content: `Купити ${productById.value[0].product_name} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент. Обирайте якість за найкращою ціною.`,
         },
@@ -191,9 +195,35 @@ onMounted(async () => {
           property: "og:description",
           content: `Купити ${productById.value[0].product_name} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент.`,
         },
+
         {
           property: "og:image",
           content: productById.value[0].pictures[0].pictures_name,
+        },
+
+        {
+          property: "og:image:width",
+          content: "1280",
+        },
+        {
+          property: "og:image:height",
+          content: "720",
+        },
+        {
+          property: "og:image:width",
+          content: "800",
+        },
+        {
+          property: "og:image:height",
+          content: "800",
+        },
+        {
+          property: "og:image:width",
+          content: "200",
+        },
+        {
+          property: "og:image:height",
+          content: "200",
         },
         {
           property: "og:url",
@@ -219,6 +249,31 @@ onMounted(async () => {
         {
           name: "twitter:image",
           content: productById.value[0].pictures[0].pictures_name,
+        },
+
+        {
+          name: "twitter:image:width",
+          content: "1280",
+        },
+        {
+          name: "twitter:image:height",
+          content: "720",
+        },
+        {
+          name: "twitter:image:width",
+          content: "800",
+        },
+        {
+          name: "twitter:image:height",
+          content: "800",
+        },
+        {
+          name: "twitter:image:width",
+          content: "200",
+        },
+        {
+          name: "twitter:image:height",
+          content: "200",
         },
         {
           name: "twitter:url",
