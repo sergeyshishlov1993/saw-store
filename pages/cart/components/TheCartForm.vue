@@ -542,7 +542,7 @@ async function getWarehousesNovaPoshta() {
 async function buyOrder() {
   doValidateForm();
 
-  if (!state.productsInСart || !state.productsInСart.length) {
+  if (!state.productsInСart.length) {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
