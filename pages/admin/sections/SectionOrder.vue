@@ -447,8 +447,8 @@ table {
 }
 
 select {
-  padding: 4px;
-  border-radius: 20px;
+  padding: 10px;
+  border-radius: 15px;
 }
 
 .new {
@@ -493,6 +493,10 @@ select {
         select,
         h2 {
           width: 100%;
+        }
+
+        select {
+          padding: 10px;
         }
 
         .person__title {
