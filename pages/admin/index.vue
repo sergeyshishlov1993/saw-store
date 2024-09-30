@@ -15,7 +15,7 @@
             :name="tab.name"
             >{{ tab.name }}
 
-            <span v-if="tab.count" class="tab-count">({{ tab.count }})</span>
+            <span v-if="tab.count">({{ tab.count }})</span>
           </the-tabs>
         </div>
 
@@ -49,20 +49,20 @@ import axios from "axios";
 
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 const isAuth = ref(false);
-const currentTab = ref("Зворотній звʼязок");
+const currentTab = ref("Замовлення");
 const tabs = ref([
   { name: "Зворотній звʼязок", count: 0 },
   { name: "Товари" },
   { name: "Додати товар" },
   { name: "Категоріі товару" },
   { name: "Замовлення", count: 0 },
-  { name: "Відгуки", count: 0 },
+  { name: "Відгуки" },
   { name: "Головний слайдер" },
 ]);
 
-onMounted(() => {
+onMounted(async () => {
   calcScrinWidth();
-  getCountChangeableValue();
+  await getCountChangeableValue();
 });
 
 const calcScrinWidth = () => {
@@ -71,8 +71,8 @@ const calcScrinWidth = () => {
 
     if (screenWidth < 992) {
       tabs.value = [
-        { name: "Зворотній звʼязок" },
-        { name: "Замовлення" },
+        { name: "Зворотній звʼязок", count: 0 },
+        { name: "Замовлення", count: 0 },
         { name: "Відгуки" },
       ];
     }
@@ -85,32 +85,43 @@ function changeTab(name) {
 
 async function getCountChangeableValue() {
   try {
-    const [feedbackResponse, ordersResponse, reviews, reviewResponses] =
-      await Promise.all([
-        axios.get(`${apiUrl}/feedback/all`),
-        axios.get(`${apiUrl}/order/all-orders`),
-      ]);
+    const [feedbackResponse, ordersResponse] = await Promise.all([
+      axios.get(`${apiUrl}/feedback/all`),
+      axios.get(`${apiUrl}/order/all-orders`),
+    ]);
 
-    tabs.value[0].count = feedbackResponse.data.feedback.reduce(
-      (acc, el) => (el.status === "Нове" ? acc + 1 : acc),
-      0
+    const feedbackTabIndex = tabs.value.findIndex(
+      (tab) => tab.name === "Зворотній звʼязок"
     );
+    if (feedbackTabIndex !== -1) {
+      tabs.value[feedbackTabIndex].count =
+        feedbackResponse.data.feedback.reduce(
+          (acc, el) => (el.status === "Нове" ? acc + 1 : acc),
+          0
+        );
+    }
 
-    tabs.value[4].count = ordersResponse.data.orders.reduce(
-      (acc, el) => (el.status === "нове" ? acc + 1 : acc),
-      0
+    const ordersTabIndex = tabs.value.findIndex(
+      (tab) => tab.name === "Замовлення"
     );
+    if (ordersTabIndex !== -1) {
+      tabs.value[ordersTabIndex].count = ordersResponse.data.orders.reduce(
+        (acc, el) => (el.status === "нове" ? acc + 1 : acc),
+        0
+      );
+    }
   } catch (error) {
     console.error("Помилка отримання даних:", error);
   }
 }
 
 function calcCount(name, countValue) {
-  const tabIndex = name === "feedback" ? 0 : name === "orders" ? 4 : null;
-  if (tabIndex !== null) {
+  const tabIndex = tabs.value.findIndex(
+    (tab) => tab.name.toLowerCase() === name.toLowerCase()
+  );
+  if (tabIndex !== -1) {
     tabs.value[tabIndex].count = countValue;
   }
-  console.log("name", name, "count", countValue);
 }
 
 function checkAuthAdmin(value) {
