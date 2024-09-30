@@ -39,7 +39,7 @@
             </table>
           </transition>
 
-          <div class="wrapper__pagination">
+          <div class="wrapper__pagination" v-if="totalPage > 1">
             <button @click="prevPage" :disabled="currentPage === 1">
               <icon-chevron-left />
             </button>
@@ -61,28 +61,36 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import useScrollToTop from "~/utils/useScrollToTop";
-
 import ThePagination from "~/components/Block/ThePagination.vue";
-
 import UiBtn from "~/components/Ui/UiBtn.vue";
-
 import IconClose from "~/assets/icons/IconClose.vue";
 import IconChevronLeft from "~/assets/icons/IconChevronLeft.vue";
 import IconChevronNext from "~/assets/icons/IconChevronNext.vue";
 
+const emit = defineEmits(["count"]);
 const feedback = ref();
 const currentPage = ref(1);
 const totalPage = ref();
 const isLoading = ref(true);
+const count = ref(0);
 const { scrollToTop } = useScrollToTop();
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   await getFeedback();
 });
+
+function calcCount() {
+  count.value = 0;
+  feedback.value.forEach((el) => {
+    el.status === "Нове" ? (count.value += 1) : count.value;
+  });
+
+  return emit("count", "feedback", count.value);
+}
 
 async function getFeedback() {
   isLoading.value = false;
@@ -93,6 +101,8 @@ async function getFeedback() {
 
     feedback.value = response.data.feedback;
     totalPage.value = response.data.totalPages;
+
+    calcCount();
 
     isLoading.value = true;
   } catch (error) {}
@@ -105,6 +115,7 @@ async function changeStatus(id) {
     const idx = feedback.value.findIndex((el) => el.id === id);
 
     feedback.value[idx].status = "Виконано";
+    calcCount();
   } catch (error) {
     console.error(error);
   }
@@ -117,6 +128,7 @@ async function removeFeedback(id) {
     const idx = feedback.value.findIndex((el) => el.id === id);
 
     feedback.value.splice(idx, 1);
+    calcCount();
   } catch (error) {
     console.error(error);
   }

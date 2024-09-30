@@ -44,7 +44,7 @@
             </table>
           </transition>
 
-          <div class="wrapper__pagination">
+          <div class="wrapper__pagination" v-if="totalPageReviews > 1">
             <button @click="prevPage" :disabled="currentPage === 1">
               <icon-chevron-left />
             </button>
@@ -105,7 +105,7 @@
           </table>
         </transition>
 
-        <div class="wrapper__pagination">
+        <div class="wrapper__pagination" v-if="totalPageResponse > 1">
           <button @click="prevPage" :disabled="currentPage === 1">
             <icon-chevron-left />
           </button>

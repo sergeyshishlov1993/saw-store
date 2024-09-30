@@ -124,7 +124,7 @@
             </table>
           </transition>
 
-          <div class="wrapper__pagination">
+          <div class="wrapper__pagination" v-if="totalPage > 1">
             <button @click="prevPage" :disabled="currentPage === 1">
               <icon-chevron-left />
             </button>
@@ -157,6 +157,7 @@ import IconChevronLeft from "~/assets/icons/IconChevronLeft.vue";
 import IconChevronNext from "~/assets/icons/IconChevronNext.vue";
 
 const { scrollToTop } = useScrollToTop();
+const emit = defineEmits(["count"]);
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 const orders = ref([]);
 const currentPage = ref(1);
@@ -166,12 +167,21 @@ const updatedTotalPrice = ref(null);
 const search = ref("");
 const showLoader = ref(true);
 const notFound = ref(false);
+const isSearching = ref(false);
+const count = ref(0);
 
 onBeforeMount(async () => {
   await getOrders();
 });
 
-const isSearching = ref(false);
+function calcCount() {
+  count.value = 0;
+  orders.value.forEach((el) => {
+    el.status === "нове" ? (count.value += 1) : count.value;
+  });
+
+  return emit("count", "orders", count.value);
+}
 
 async function getOrders() {
   if (isSearching.value) return;
@@ -187,6 +197,8 @@ async function getOrders() {
     orders.value = response.data.orders;
     totalPage.value = response.data.totalPages;
     notFound.value = response.data.notFound;
+
+    calcCount();
 
     if (notFound.value && !search.value) {
     } else if (notFound.value) {
@@ -215,6 +227,8 @@ async function getSelectValue(event, id) {
     const response = await axios.put(
       `${apiUrl}/order/change-status/${id}?status=${status.value}`
     );
+
+    calcCount();
   } catch (error) {
     console.error(error);
   }
@@ -272,6 +286,7 @@ async function removeOrder(id) {
 
   try {
     const response = await axios.delete(`${apiUrl}/order/delete/${id}`);
+    calcCount();
   } catch (error) {
     console.error("Error updating the order:", error);
   }
