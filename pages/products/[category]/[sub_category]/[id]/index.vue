@@ -167,6 +167,15 @@ onMounted(async () => {
 
     await calculateAverageRating();
 
+    console.log(
+      "title",
+      productById.value[0].product_name,
+      "description",
+      productById.value[0].product_description,
+      "img",
+      productById.value[0].pictures[0].pictures_name
+    );
+
     useHead({
       title: `${productById.value[0].product_name} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент - Купити еклектроінструмент - Купити акумуляторній інструмент`,
       meta: [
@@ -193,7 +202,7 @@ onMounted(async () => {
         },
         {
           property: "og:description",
-          content: `Купити ${productById.value[0].product_name} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент.`,
+          content: `Купити ${productById.value[0].product_description} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент.`,
         },
 
         {
@@ -209,22 +218,7 @@ onMounted(async () => {
           property: "og:image:height",
           content: "720",
         },
-        {
-          property: "og:image:width",
-          content: "800",
-        },
-        {
-          property: "og:image:height",
-          content: "800",
-        },
-        {
-          property: "og:image:width",
-          content: "200",
-        },
-        {
-          property: "og:image:height",
-          content: "200",
-        },
+
         {
           property: "og:url",
           content: window.location.href,
@@ -244,7 +238,7 @@ onMounted(async () => {
         },
         {
           name: "twitter:description",
-          content: `Купити ${productById.value[0].product_name} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент.`,
+          content: `Купити ${productById.value[0].product_description} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент.`,
         },
         {
           name: "twitter:image",
@@ -259,22 +253,7 @@ onMounted(async () => {
           name: "twitter:image:height",
           content: "720",
         },
-        {
-          name: "twitter:image:width",
-          content: "800",
-        },
-        {
-          name: "twitter:image:height",
-          content: "800",
-        },
-        {
-          name: "twitter:image:width",
-          content: "200",
-        },
-        {
-          name: "twitter:image:height",
-          content: "200",
-        },
+
         {
           name: "twitter:url",
           content: window.location.href,
@@ -291,7 +270,8 @@ onMounted(async () => {
             image:
               productById.value[0]?.pictures[0]?.pictures_name ||
               "https://example.com/placeholder.jpg",
-            description: productById.value[0]?.description || "Опис відсутній",
+            description:
+              productById.value[0]?.product_description || "Опис відсутній",
             sku: productById.value[0]?.product_id || "Немає артикулу",
             brand: {
               "@type": "Brand",
