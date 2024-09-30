@@ -542,14 +542,12 @@ async function getWarehousesNovaPoshta() {
 async function buyOrder() {
   doValidateForm();
 
-  if (!state.productsInСart.length) {
-    // Прокрутка вгору
+  if (!state.productsInСart || !state.productsInСart.length) {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
 
-    // Додаємо повідомлення про помилку
     errorsFormData.form = {
       errors: ["Кошик не може бути порожнім!"],
     };
@@ -604,6 +602,8 @@ async function buyOrder() {
       state.productsInСart.length = 0;
 
       emit("show", true);
+
+      fbq("track", "Purchase");
     } catch (error) {
       console.error(error);
     }
