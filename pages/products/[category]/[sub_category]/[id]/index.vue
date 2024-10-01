@@ -216,7 +216,7 @@ onMounted(async () => {
         },
         {
           property: "og:image:height",
-          content: "720",
+          content: "628",
         },
 
         {
