@@ -178,86 +178,137 @@ onMounted(async () => {
 
     useHead({
       title: `${productById.value[0].product_name} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент - Купити еклектроінструмент - Купити акумуляторній інструмент`,
+      // meta: [
+      //   {
+      //     name: "robots",
+      //     content: "index, follow",
+      //   },
+      //   {
+      //     property: "og:site_name",
+      //     content: "SAW STORE",
+      //   },
+      //   {
+      //     name: "description",
+      //     content: `Купити ${productById.value[0].product_name} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент. Обирайте якість за найкращою ціною.`,
+      //   },
+      //   {
+      //     name: "keywords",
+      //     content: `${productById.value[0].product_name}, SAW STORE, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови`,
+      //   },
+
+      //   {
+      //     property: "og:title",
+      //     content: `${productById.value[0].product_name} - Купити у SAW STORE`,
+      //   },
+      //   {
+      //     property: "og:description",
+      //     content: `Купити ${productById.value[0].product_description} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент.`,
+      //   },
+
+      //   {
+      //     property: "og:image",
+      //     content: productById.value[0].pictures[0].pictures_name,
+      //   },
+
+      //   {
+      //     property: "og:image:width",
+      //     content: "1280",
+      //   },
+      //   {
+      //     property: "og:image:height",
+      //     content: "628",
+      //   },
+
+      //   {
+      //     property: "og:url",
+      //     content: window.location.href,
+      //   },
+      //   {
+      //     property: "og:type",
+      //     content: "website",
+      //   },
+
+      //   {
+      //     name: "twitter:card",
+      //     content: "summary_large_image",
+      //   },
+      //   {
+      //     name: "twitter:title",
+      //     content: `${productById.value[0].product_name} - Купити у SAW STORE`,
+      //   },
+      //   {
+      //     name: "twitter:description",
+      //     content: `Купити ${productById.value[0].product_description} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент.`,
+      //   },
+      //   {
+      //     name: "twitter:image",
+      //     content: productById.value[0].pictures[0].pictures_name,
+      //   },
+
+      //   {
+      //     name: "twitter:image:width",
+      //     content: "1280",
+      //   },
+      //   {
+      //     name: "twitter:image:height",
+      //     content: "720",
+      //   },
+
+      //   {
+      //     name: "twitter:url",
+      //     content: window.location.href,
+      //   },
+      // ],
+
       meta: [
         {
           name: "robots",
           content: "index, follow",
         },
+
         {
-          property: "og:site_name",
-          content: "SAW STORE",
-        },
-        {
-          name: "description",
-          content: `Купити ${productById.value[0].product_name} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент. Обирайте якість за найкращою ціною.`,
-        },
-        {
-          name: "keywords",
-          content: `${productById.value[0].product_name}, SAW STORE, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови`,
+          name: "google-site-verification",
+          content: "BRdJswll0IhW3sfNzGK-VpvdxKlYKmU0bfiHjXajdCU",
         },
 
         {
+          name: "facebook-domain-verification",
+          content: "ctgeid5xnf8et9zw0ord9fbku332ar",
+        },
+
+        { name: "robots", content: "index, follow" },
+        {
+          name: "google-site-verification",
+          content: "BRdJswll0IhW3sfNzGK-VpvdxKlYKmU0bfiHjXajdCU",
+        },
+        {
+          name: "facebook-domain-verification",
+          content: "ctgeid5xnf8et9zw0ord9fbku332ar",
+        },
+        {
           property: "og:title",
-          content: `${productById.value[0].product_name} - Купити у SAW STORE`,
+          content: "SAW STORE - Професійний електроінструмент",
         },
         {
           property: "og:description",
-          content: `Купити ${productById.value[0].product_description} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент.`,
+          content:
+            "Вибір професіоналів - Надійний електроінструмент для будь-яких задач",
         },
-
         {
           property: "og:image",
-          content: productById.value[0].pictures[0].pictures_name,
+          content: new URL("assets/img/IMG_8377.jpg", import.meta.url).href,
         },
 
         {
           property: "og:image:width",
-          content: "1280",
+          content: "300",
         },
         {
           property: "og:image:height",
-          content: "628",
+          content: "300",
         },
-
-        {
-          property: "og:url",
-          content: window.location.href,
-        },
-        {
-          property: "og:type",
-          content: "website",
-        },
-
-        {
-          name: "twitter:card",
-          content: "summary_large_image",
-        },
-        {
-          name: "twitter:title",
-          content: `${productById.value[0].product_name} - Купити у SAW STORE`,
-        },
-        {
-          name: "twitter:description",
-          content: `Купити ${productById.value[0].product_description} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент.`,
-        },
-        {
-          name: "twitter:image",
-          content: productById.value[0].pictures[0].pictures_name,
-        },
-
-        {
-          name: "twitter:image:width",
-          content: "1280",
-        },
-        {
-          name: "twitter:image:height",
-          content: "720",
-        },
-
-        {
-          name: "twitter:url",
-          content: window.location.href,
-        },
+        { property: "og:url", content: "https://sawstore.com.ua/" },
+        { property: "og:type", content: "website" },
       ],
 
       script: [
