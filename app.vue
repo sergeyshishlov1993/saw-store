@@ -102,6 +102,13 @@ useHead({
     { property: "og:type", content: "website" },
   ],
 
+  link: [
+    {
+      rel: "image_src",
+      href: new URL("assets/img/IMG_8377.jpg", import.meta.url).href,
+    },
+  ],
+
   script: [
     {
       hid: "gtm-script",
