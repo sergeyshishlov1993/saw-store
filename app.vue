@@ -89,6 +89,15 @@ useHead({
       property: "og:image",
       content: new URL("assets/img/IMG_8377.jpg", import.meta.url).href,
     },
+
+    {
+      property: "og:image:width",
+      content: "300",
+    },
+    {
+      property: "og:image:height",
+      content: "300",
+    },
     { property: "og:url", content: "https://sawstore.com.ua/" },
     { property: "og:type", content: "website" },
   ],
