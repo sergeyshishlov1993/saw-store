@@ -66,6 +66,31 @@ useHead({
       name: "facebook-domain-verification",
       content: "ctgeid5xnf8et9zw0ord9fbku332ar",
     },
+
+    { name: "robots", content: "index, follow" },
+    {
+      name: "google-site-verification",
+      content: "BRdJswll0IhW3sfNzGK-VpvdxKlYKmU0bfiHjXajdCU",
+    },
+    {
+      name: "facebook-domain-verification",
+      content: "ctgeid5xnf8et9zw0ord9fbku332ar",
+    },
+    {
+      property: "og:title",
+      content: "SAW STORE - Професійний електроінструмент",
+    },
+    {
+      property: "og:description",
+      content:
+        "Вибір професіоналів - Надійний електроінструмент для будь-яких задач",
+    },
+    {
+      property: "og:image",
+      content: new URL("assets/img/IMG_8377.jpg", import.meta.url).href,
+    },
+    { property: "og:url", content: "https://sawstore.com.ua/" },
+    { property: "og:type", content: "website" },
   ],
 
   script: [
