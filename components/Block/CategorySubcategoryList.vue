@@ -41,44 +41,37 @@
 <script setup>
 import { ref, onBeforeMount, computed } from "vue";
 import { useProductsByDubCategory } from "~/stores/productsBySubCategory";
+import { useCategorySubCategory } from "~/stores/category_subCategory";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import UiTextH6 from "../Ui/UiTextH6.vue";
 import SubCategory from "./SubCategory.vue";
 
 const router = useRouter();
-const category = ref();
+const {
+  category,
+  subCategory,
+  fetchCategoriesAndSubCategories,
+  resetBreadcrumb,
+} = useCategorySubCategory();
 const categoryName = ref();
-const subCategory = ref();
 const filterSubCategory = ref();
 const { getProductsBySubCategory } = useProductsByDubCategory();
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
 onBeforeMount(async () => {
-  try {
-    const response = await axios.get(`${apiUrl}/products/category`);
-
-    category.value = await response.data.category;
-    subCategory.value = await response.data.subCategory;
-
-    showSubCategory(2);
-  } catch (error) {
-    console.error("Ошибка:", error);
-  }
+  showSubCategory(73);
 });
 
 const showSubCategory = (id, name) => {
   categoryName.value = name || "Електроінструмент";
 
-  filterSubCategory.value = subCategory.value.filter(
-    (el) => el.parent_id == id
-  );
+  filterSubCategory.value = subCategory.filter((el) => el.parent_id == id);
 };
 
 const goToCatalog = (parentId, id, name) => {
-  router.push(
-    `/products/${parentId}/${id}?category=${categoryName.value}&category_path=/products/${parentId}&sub_category=${name}&sub_category_path=/products/${parentId}/${id}`
-  );
+  resetBreadcrumb();
+  router.push(`/products/${parentId}/${id}`);
 };
 </script>
 

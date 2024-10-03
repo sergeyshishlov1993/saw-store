@@ -30,31 +30,30 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useCategorySubCategory } from "./stores/category_subCategory";
 import axios from "axios";
 import SubCategory from "~/components/Block/SubCategory.vue";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 import UiLoader from "~/components/Ui/UiLoader.vue";
 
 const subCategory = ref();
+const { breadcrumb, addCategoryToBreadcrumb, fetchCategoriesAndSubCategories } =
+  useCategorySubCategory();
 const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 const route = useRoute();
 const router = useRouter();
 const showLoader = ref(false);
 
-const breadcrumb = ref([
-  { name: "Головна", path: "/" },
-
-  {
-    name: route.query.category,
-    path: `${route.path}?category=${route.query.category}`,
-  },
-]);
-
 onMounted(async () => {
+  if (breadcrumb.length < 2) {
+    await fetchCategoriesAndSubCategories();
+    await addCategoryToBreadcrumb(route.params.category);
+  }
+
   await getSubCategory();
 
   useHead({
-    title: `${route.query.category} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент`,
+    title: `${breadcrumb[1].name} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент`,
     meta: [
       {
         name: "robots",
@@ -62,11 +61,11 @@ onMounted(async () => {
       },
       {
         name: "description",
-        content: `Купити ${route.query.category} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент. Обирайте якість за найкращою ціною.`,
+        content: `Купити ${breadcrumb[1].name} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент. Обирайте якість за найкращою ціною.`,
       },
       {
         name: "keywords",
-        content: `${route.query.category}, SAW STORE, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови`,
+        content: `${breadcrumb[1].name}, SAW STORE, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови`,
       },
     ],
   });
@@ -89,9 +88,7 @@ async function getSubCategory() {
 }
 
 const goToProducts = (parentId, id, name) => {
-  router.push(
-    `/products/${parentId}/${id}?category=${route.query.category}&category_path=${route.path}&sub_category=${name}`
-  );
+  router.push(`/products/${parentId}/${id}`);
 };
 </script>
 

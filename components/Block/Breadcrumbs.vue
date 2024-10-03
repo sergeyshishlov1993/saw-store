@@ -1,7 +1,12 @@
 <template>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumbs">
-      <li v-for="(crumb, index) in breadcrumbs" :key="index" class="crumb">
+      <li
+        v-for="(crumb, index) in breadcrumbs"
+        :key="index"
+        class="crumb"
+        @click="removeBredcrumb(index)"
+      >
         <router-link
           v-if="index !== breadcrumbs.length - 1"
           :to="crumb.path"
@@ -23,7 +28,7 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+const { removeBredcrumb } = useCategorySubCategory();
 
 const props = defineProps({
   breadcrumbs: {

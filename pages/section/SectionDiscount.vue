@@ -55,9 +55,7 @@ async function getPromotionalItem() {
 }
 
 const goToProducts = (category, id, name) => {
-  router.push(
-    `/products/sale/${category}/${id}?category=Акція&category_path=/sale&product=${name}`
-  );
+  router.push(`/products/sale/${category}/${id}`);
 };
 
 const goToDiscountProposable = () => {

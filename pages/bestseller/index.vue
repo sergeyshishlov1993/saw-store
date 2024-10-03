@@ -82,9 +82,7 @@ const addProductToCart = (product, id) => {
 };
 
 const goToProducts = (category, id, name) => {
-  router.push(
-    `/products/bestseller/${category}/${id}?category=${route.query.category}&category_path=/bestseller&product=${name}`
-  );
+  router.push(`/products/bestseller/${category}/${id}`);
 };
 
 useHead({

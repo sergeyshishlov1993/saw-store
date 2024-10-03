@@ -20,21 +20,25 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref } from "vue";
 import axios from "axios";
 import MobileCategoryItem from "./MobileCategoryItem.vue";
-
+import { useCategorySubCategory } from "~/stores/category_subCategory";
 const showCategory = ref(false);
 const showSubCategory = ref(false);
-
-const category = ref();
-const subCategory = ref();
 const filterSubCategory = ref();
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
+const {
+  fetchCategoriesAndSubCategories,
+  resetBreadcrumb,
+  category,
+  subCategory,
+} = useCategorySubCategory();
 
 function changeState(state, name, id) {
   switch (name) {
     case "catalog":
+      resetBreadcrumb();
       showCategory.value = state;
 
       break;
@@ -48,21 +52,8 @@ function changeState(state, name, id) {
   }
 }
 
-onBeforeMount(async () => {
-  try {
-    const response = await axios.get(`${apiUrl}/products/category`);
-
-    category.value = await response.data.category;
-    subCategory.value = await response.data.subCategory;
-  } catch (error) {
-    console.error("Ошибка:", error);
-  }
-});
-
 const filterCategory = (id) => {
-  filterSubCategory.value = subCategory.value.filter(
-    (el) => el.parent_id == id
-  );
+  filterSubCategory.value = subCategory.filter((el) => el.parent_id == id);
 };
 </script>
 

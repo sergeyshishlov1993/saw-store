@@ -18,6 +18,7 @@ import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import UiTextH1 from "../../components/Ui/UiTextH1.vue";
 import MainScreenCategoryItem from "../../components/Block/MainScreenCategoryItem.vue";
+import { useCategorySubCategory } from "~/stores/category_subCategory";
 
 const router = useRouter();
 
@@ -32,8 +33,12 @@ const categogiesMain = reactive([
   ["Будівельна техніка та обладнання", 187],
 ]);
 
+const { addCategoryToBreadcrumb } = useCategorySubCategory();
+
 async function goToCategory(category, name) {
-  router.push(`/products/${category}?category=${name}`);
+  router.push(`/products/${category}`);
+
+  addCategoryToBreadcrumb(category);
 }
 </script>
 

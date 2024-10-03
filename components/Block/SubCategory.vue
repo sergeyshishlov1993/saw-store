@@ -1,11 +1,10 @@
 <template>
   <div class="sub_menu_card" @click="goToCatalog">
-    <ui-loader v-if="!imageLoaded" />
     <img
       @load="onImageLoad"
       :src="props.src"
       :alt="props.name"
-      :class="{ main: props.isMainMenu == 'main' }"
+      :class="{ main: props.isMainMenu == 'main', skeleton: !imageLoaded }"
     />
 
     <ui-text-h5 v-if="props.isMainMenu == 'main'">{{ props.name }}</ui-text-h5>
@@ -82,6 +81,26 @@ function goToCatalog() {
     &:hover h2 {
       color: rgba(144, 5, 5, 1);
     }
+  }
+}
+
+.skeleton {
+  width: 100%;
+  min-height: 75px;
+  border-radius: 20px;
+  background-color: white;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: white;
+  }
+  100% {
+    background-color: white;
   }
 }
 

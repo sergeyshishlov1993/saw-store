@@ -165,7 +165,7 @@ function closeVisibilityMenu() {
 }
 
 function goToProduct(sub, id, name) {
-  router.push(`/products/tools/${sub}/${id}?product=${name}`);
+  router.push(`/products/tools/${sub}/${id}`);
   search.closeSearchCart();
 }
 

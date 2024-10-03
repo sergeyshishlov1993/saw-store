@@ -17,10 +17,13 @@ import SectionBestseller from "./section/SectionBestseller.vue";
 import SectionDiscount from "./section/SectionDiscount.vue";
 import TheSwiper from "../components/Block/TheSwiper.vue";
 import { useSearchData } from "~/stores/searchData";
+const { resetBreadcrumb } = useCategorySubCategory();
 const search = useSearchData();
 
 onMounted(() => {
   search.query = "";
+
+  resetBreadcrumb();
 });
 </script>
 

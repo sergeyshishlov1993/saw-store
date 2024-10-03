@@ -168,9 +168,7 @@ function goBackward(steps = 1) {
 }
 
 const goToProducts = (category, id, name) => {
-  router.push(
-    `/products/bestseller/${category}/${id}?category=Хіт продажу&category_path=/bestseller&product=${name}`
-  );
+  router.push(`/products/bestseller/${category}/${id}`);
 };
 </script>
 

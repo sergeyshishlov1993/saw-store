@@ -27,6 +27,7 @@ import { useCartData } from "~/stores/cartData";
 import TheProductCard from "~/components/Block/TheProductCard.vue";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 import UiLoader from "~/components/Ui/UiLoader.vue";
+import { useCategorySubCategory } from "~/stores/category_subCategory";
 
 const route = useRoute();
 const router = useRouter();
@@ -36,19 +37,12 @@ const showLoader = ref(false);
 const { getProductsBySubCategory } = useProductsByDubCategory();
 const { productsInСart, showModalWindow, addProductToCart } = useCartData();
 
-const breadcrumb = ref([
-  { name: "Головна", path: "/" },
-
-  {
-    name: route.query.category,
-    path: `${route.query.category_path}?category=${route.query.category}`,
-  },
-
-  {
-    name: route.query.sub_category,
-    path: `${route.path}?category=${route.query.category}&category_path=${route.query.category_path}&sub_category=${route.query.sub_category}`,
-  },
-]);
+const {
+  breadcrumb,
+  addCategoryToBreadcrumb,
+  addSubCategoryToBreadcrumb,
+  fetchCategoriesAndSubCategories,
+} = useCategorySubCategory();
 
 const products = ref();
 onMounted(async () => {
@@ -56,10 +50,12 @@ onMounted(async () => {
   try {
     products.value = await getProductsBySubCategory(sub_category);
 
+    addCategoryToBreadcrumb(category);
+    addSubCategoryToBreadcrumb(sub_category);
     showLoader.value = false;
 
     useHead({
-      title: `${route.query.sub_category} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент`,
+      title: `${breadcrumb[2].name} - Купити у SAW STORE - Спеціальні пропозиції на професійний електроінструмент`,
       meta: [
         {
           name: "robots",
@@ -67,11 +63,11 @@ onMounted(async () => {
         },
         {
           name: "description",
-          content: `Купити ${route.query.sub_category} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент. Обирайте якість за найкращою ціною.`,
+          content: `Купити ${breadcrumb[2].name} у SAW STORE. Спеціальні пропозиції та знижки на професійний електроінструмент. Обирайте якість за найкращою ціною.`,
         },
         {
           name: "keywords",
-          content: `${route.query.sub_category}, SAW STORE, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови`,
+          content: `${breadcrumb[2].name}, SAW STORE, знижки, професійний електроінструмент, спеціальні пропозиції, вигідні умови`,
         },
       ],
     });
@@ -82,9 +78,7 @@ onMounted(async () => {
 });
 
 async function goToProduct(productId, name) {
-  router.push(
-    `/products/${category}/${sub_category}/${productId}?category=${route.query.category}&category_path=${route.query.category_path}&sub_category=${route.query.sub_category}&sub_category_path=${route.path}&product=${name}`
-  );
+  router.push(`/products/${category}/${sub_category}/${productId}`);
 }
 </script>
 

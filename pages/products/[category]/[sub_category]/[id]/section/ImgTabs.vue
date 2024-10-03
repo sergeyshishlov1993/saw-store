@@ -21,6 +21,7 @@
             :src="img.pictures_name"
             :alt="props.alt"
             @click="selectImg(img.pictures_name)"
+            :class="{ skeleton: !imageLoaded }"
           />
         </div>
       </div>
@@ -30,8 +31,13 @@
       </button>
     </div>
 
-    <ui-loader v-if="!imageLoaded" />
-    <img class="bigImg" :src="path" :alt="path" @load="onImageLoad" />
+    <img
+      class="bigImg"
+      :src="path"
+      :alt="path"
+      @load="onImageLoad"
+      :class="{ skeleton: !imageLoaded }"
+    />
 
     <div style="order: 3">
       <div class="title__wrapper">
@@ -85,7 +91,6 @@ import UiTextH1 from "~/components/Ui/UiTextH1.vue";
 import UiTextH2 from "~/components/Ui/UiTextH2.vue";
 import UiTextH6 from "~/components/Ui/UiTextH6.vue";
 import iconNewPost from "~/assets/icons/iconNewPost.vue";
-import UiLoader from "~/components/Ui/UiLoader.vue";
 
 const emit = defineEmits(["buyProduct"]);
 const props = defineProps({
@@ -204,6 +209,7 @@ function handleSwipeGesture() {
 
 <style lang="scss" scoped>
 .imgTabs {
+  padding-top: 50px;
   display: flex;
   gap: 10%;
 }
@@ -296,6 +302,25 @@ img {
 
 .discount {
   color: darkred;
+}
+
+.skeleton {
+  width: 50%;
+  border-radius: 20px;
+  background-color: white;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: white;
+  }
+  100% {
+    background-color: white;
+  }
 }
 
 @media screen and (max-width: 1199px) {

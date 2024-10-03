@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <div class="wrapper">
-      <breadcrumbs :breadcrumbs="validBreadcrumbs" />
+      <breadcrumbs :breadcrumbs="breadcrumb" />
 
       <!-- обвертка основная  -->
-      <ui-loader v-if="showLoader" />
+
       <div
-        v-else
         class="product__wrapper"
+        :class="{ skeleton: showLoader }"
         v-for="product in productById"
         :key="product.product_id"
       >
@@ -111,6 +111,13 @@ import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 import UiLoader from "~/components/Ui/UiLoader.vue";
 
 const route = useRoute();
+const {
+  breadcrumb,
+  addProductToBreadcrumb,
+  restoreBreadcrumbFromSubCategory,
+  fetchCategoriesAndSubCategories,
+} = useCategorySubCategory();
+
 const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
@@ -127,53 +134,29 @@ const tabs = [
 ];
 const productById = ref();
 
-const breadcrumb = ref([
-  { name: "Головна", path: "/" },
-
-  {
-    name: route.query.category,
-    path: `${route.query.category_path}?category=${route.query.category}`,
-  },
-
-  {
-    name: route.query.sub_category,
-    path: `${route.query.sub_category_path}?category=${route.query.category}&category_path=${route.query.category_path}&sub_category=${route.query.sub_category}`,
-  },
-
-  {
-    name: route.query.product,
-    path: `${route.query.sub_category_path}?sub_category=${route.query.sub_category}`,
-  },
-]);
-
-const validBreadcrumbs = breadcrumb.value.filter((el) => el.name);
-
-function changeTab(name) {
-  currentTab.value = name;
-  scrollToTop();
-}
-
-function changeCountReviews(value) {
-  return (counReviews.value = value);
-}
-
 onMounted(async () => {
   showLoader.value = true;
+
   try {
-    const response = await axios.get(`${apiUrl}/products/${category}/${id}`);
+    const response = await axios.get(`${apiUrl}/products/1/${id}`);
     productById.value = response.data.product;
 
     showLoader.value = false;
 
     await calculateAverageRating();
 
-    console.log(
-      "title",
-      productById.value[0].product_name,
-      "description",
-      productById.value[0].product_description,
-      "img",
-      productById.value[0].pictures[0].pictures_name
+    if (breadcrumb.length < 4) {
+      await restoreBreadcrumbFromSubCategory(
+        productById.value[0].sub_category_id,
+        route.params.id,
+        productById.value[0].product_name
+      );
+    }
+
+    await addProductToBreadcrumb(
+      route.params.id,
+      productById.value[0].sub_category_id,
+      productById.value[0].product_name
     );
 
     useHead({
@@ -321,9 +304,14 @@ onMounted(async () => {
   }
 });
 
-definePageMeta({
-  breadcrumb: [{ name: "Головна", path: "/" }],
-});
+function changeTab(name) {
+  currentTab.value = name;
+  scrollToTop();
+}
+
+function changeCountReviews(value) {
+  return (counReviews.value = value);
+}
 
 const calculateAverageRating = () => {
   productById.value.forEach((el) => {
@@ -382,6 +370,25 @@ const calculateAverageRating = () => {
   .title {
     font-weight: 700;
     font-size: 30px;
+  }
+}
+
+.skeleton {
+  width: 100%;
+  border-radius: 20px;
+  background-color: white;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: white;
+  }
+  100% {
+    background-color: white;
   }
 }
 

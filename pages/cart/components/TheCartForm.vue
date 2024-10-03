@@ -13,7 +13,8 @@
         </span>
         Контактні дані</ui-text-h3
       >
-
+      <a id="firstNameAnchor"></a>
+      <!-- Якір для прокрутки -->
       <ui-input
         type="text"
         name="firstName"
@@ -342,6 +343,13 @@ async function handleFocus(name, event) {
   errorsFormData[name].isDirty = true;
 
   switch (name) {
+    case "firstName":
+      document.getElementById("firstNameAnchor").scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      break;
+
     case "city":
       showDropCity.value = true;
 

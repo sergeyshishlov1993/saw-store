@@ -50,11 +50,7 @@ function changeState() {
 }
 
 const goToCatalog = (parentId, id, name) => {
-  router.push(
-    `/products/${parentId}/${id}?category=${
-      slots.default()[0].children
-    }&category_path=/products/${parentId}&sub_category=${name}&sub_category_path=/products/${parentId}/${id}`
-  );
+  router.push(`/products/${parentId}/${id}`);
   visibilityStore.showMobileMenu = false;
   document.body.style.overflow = "auto";
   document.body.style.height = "auto";

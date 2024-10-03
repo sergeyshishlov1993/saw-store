@@ -1,8 +1,12 @@
 <template>
   <div class="product-card__wrapper">
     <div class="product-card__wrapper_img">
-      <ui-loader v-if="!imageLoaded" />
-      <img :src="props.path" :alt="props.title" @load="onImageLoad" />
+      <img
+        :src="props.path"
+        :alt="props.title"
+        @load="onImageLoad"
+        :class="{ skeleton: !imageLoaded }"
+      />
 
       <div
         class="discount"
@@ -36,7 +40,6 @@ import UiTextH4 from "../Ui/UiTextH4.vue";
 import UiTextH5 from "../Ui/UiTextH5.vue";
 import UiBtn from "../Ui/UiBtn.vue";
 import IconFire from "~/assets/icons/IconFire.vue";
-import UiLoader from "../Ui/UiLoader.vue";
 
 const emit = defineEmits(["buyProduct"]);
 const props = defineProps({
@@ -146,6 +149,26 @@ const buyProduct = () => {
   svg {
     width: 20px;
     margin-left: 5px;
+  }
+}
+
+.skeleton {
+  width: 100%;
+  min-height: 75px;
+  border-radius: 20px;
+  background-color: white;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: white;
+  }
+  100% {
+    background-color: white;
   }
 }
 

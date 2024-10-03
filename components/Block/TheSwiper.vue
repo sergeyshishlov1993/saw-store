@@ -22,7 +22,6 @@
         }"
       >
         <SwiperSlide v-for="slide in slider" :key="slide.id">
-          <!-- <div v-if="!slide.loaded" class="skeleton"></div> -->
           <img :src="slide.name" :alt="slide.name" @load="isLoad = true" />
         </SwiperSlide>
       </Swiper>

@@ -85,9 +85,7 @@ const addProductToCart = (product, id) => {
 };
 
 const goToProducts = (category, id, name) => {
-  router.push(
-    `/products/sale/${category}/${id}?category=Акція&category_path=/sale&product=${name}`
-  );
+  router.push(`/products/sale/${category}/${id}`);
 };
 
 if (discontProduct.value.length > 0) {

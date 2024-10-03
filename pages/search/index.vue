@@ -119,9 +119,7 @@ async function prevPage() {
 }
 
 const goToProducts = (category, id, name) => {
-  router.push(
-    `/products/search/${category}/${id}?category=Пошук&category_path=/search&product=${name}`
-  );
+  router.push(`/products/search/${category}/${id}`);
 };
 
 useHead({

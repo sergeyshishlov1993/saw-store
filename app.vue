@@ -32,8 +32,10 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import TheHeader from "./components/Block/TheHeader.vue";
+import { useCategorySubCategory } from "./stores/category_subCategory";
 import { useCartData } from "~/stores/cartData";
 import TheFooter from "./components/Block/TheFooter.vue";
 import IconChevron from "./assets/icons/IconChevron.vue";
@@ -46,6 +48,15 @@ import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 const router = useRouter();
 const { showScrollToTop, scrollToTop } = useScrollToTop();
 const { closeModal, state } = useCartData();
+const {
+  fetchCategoriesAndSubCategories,
+  subCategory,
+  addCategoryToBreadcrumb,
+} = useCategorySubCategory();
+
+onMounted(async () => {
+  await fetchCategoriesAndSubCategories();
+});
 
 useHead({
   title:
