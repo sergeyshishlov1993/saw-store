@@ -41,7 +41,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { onMounted } from "vue";
 import UiTextH3 from "~/components/Ui/UiTextH3.vue";
 import UiTextH4 from "~/components/Ui/UiTextH4.vue";
@@ -52,6 +52,7 @@ import UiBtn from "../Ui/UiBtn.vue";
 
 const { calcTotal, blockScroll, state } = useCartData();
 const router = useRouter();
+const route = useRoute();
 
 const emit = defineEmits(["changeState"]);
 const filterProducts = ref(state.productsInСart);
@@ -67,7 +68,7 @@ onMounted(async () => {
 });
 
 const goToCart = () => {
-  router.push("/cart?cart=Оформлення замовлення");
+  router.push(`/cart?cart=Оформлення замовлення&pixel=${route.query.pixel}`);
   state.showModalWindow = false;
   blockScroll();
 };

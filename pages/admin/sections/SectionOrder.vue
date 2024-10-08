@@ -28,6 +28,7 @@
                   <th>Сумма</th>
                   <th>Доставка і оплата</th>
                   <th>Дaта</th>
+                  <th>Pixel</th>
                   <th>Статус</th>
                 </tr>
               </thead>
@@ -97,6 +98,12 @@
                           year: "numeric",
                         })
                       }}
+                    </ui-text-h6>
+                  </td>
+
+                  <td>
+                    <ui-text-h6>
+                      {{ order.qwery }}
                     </ui-text-h6>
                   </td>
 

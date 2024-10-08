@@ -254,6 +254,14 @@ img {
   order: 2;
 }
 
+.v-img {
+  display: inline-block;
+  width: 40%;
+  // min-height: auto;
+  object-fit: contain;
+  order: 2;
+}
+
 .title__wrapper {
   padding-top: 181px;
   display: flex;

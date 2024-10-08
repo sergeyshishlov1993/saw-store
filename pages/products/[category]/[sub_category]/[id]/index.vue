@@ -108,7 +108,6 @@ import TheStarCounter from "~/components/Block/TheStarCounter.vue";
 import TheSmalCard from "./components/TheSmalCard.vue";
 import useScrollToTop from "~/utils/useScrollToTop";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
-import UiLoader from "~/components/Ui/UiLoader.vue";
 
 const route = useRoute();
 const {

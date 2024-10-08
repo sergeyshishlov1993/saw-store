@@ -133,7 +133,7 @@ function checkTokenExpiration() {
     refreshAccessToken();
   } else if (new Date() > refreshTokenExpires) {
     console.log("Refresh token expired. Need to login again.");
-    // Тут можна реалізувати вихід з системи або показати сповіщення
+
     emit("logout");
   } else {
     emit("auth", true);

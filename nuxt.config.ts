@@ -1,11 +1,34 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import axios from "axios";
+import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["~/assets/css/app.scss"],
-  modules: ["@pinia/nuxt", "nuxt-swiper", "@nuxtjs/sitemap"],
+
+  build: {
+    transpile: ["vuetify"],
+  },
+  modules: [
+    "@pinia/nuxt",
+    "nuxt-swiper",
+    "@nuxtjs/sitemap",
+    (_options, nuxt) => {
+      nuxt.hooks.hook("vite:extendConfig", (config) => {
+        // @ts-expect-error
+        config.plugins.push(vuetify({ autoImport: true }));
+      });
+    },
+  ],
+
+  vite: {
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
+    },
+  },
 
   app: {
     head: {

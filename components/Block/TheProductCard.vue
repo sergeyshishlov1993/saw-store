@@ -1,12 +1,22 @@
 <template>
   <div class="product-card__wrapper">
     <div class="product-card__wrapper_img">
-      <img
+      <v-img
+        class="mx-auto"
+        height="300"
+        :lazy-src="props.path"
+        max-width="500"
         :src="props.path"
-        :alt="props.title"
-        @load="onImageLoad"
-        :class="{ skeleton: !imageLoaded }"
-      />
+      >
+        <template v-slot:placeholder>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-progress-circular
+              color="grey-lighten-4"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </template>
+      </v-img>
 
       <div
         class="discount"
@@ -96,6 +106,13 @@ const buyProduct = () => {
     align-items: center;
     justify-content: center;
     min-height: 200px;
+  }
+
+  .v-img {
+    width: 100%;
+    height: auto;
+    flex-grow: 1;
+    min-height: 300px;
   }
 
   button {

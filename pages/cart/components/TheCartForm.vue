@@ -265,6 +265,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 import axios from "axios";
 import UiInput from "~/components/Ui/UiInput.vue";
 import UiError from "~/components/Ui/UiError.vue";
@@ -284,6 +285,7 @@ import { useCartData } from "~/stores/cartData";
 const { state } = useCartData();
 const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 const emit = defineEmits(["show"]);
+const route = useRoute();
 
 const firstName = ref("");
 const secondName = ref("");
@@ -439,13 +441,11 @@ async function handleBlur(name, event) {
       validateField(city.value, "city");
 
       if (city.value.length >= 3) {
-        // Очистимо попередній таймер, якщо користувач продовжує вводити
         clearTimeout(citySearchTimeout);
 
-        // Додамо затримку перед викликом API
         citySearchTimeout = setTimeout(async () => {
           await getCityNovaPoshta();
-        }, 500); // 500 мс затримка для очікування перед викликом API
+        }, 500);
       }
 
       break;
@@ -453,7 +453,6 @@ async function handleBlur(name, event) {
     case "warehouses":
       warehouses.value = event;
 
-      // Запит до API для отримання відділень
       await getWarehousesNovaPoshta();
 
       break;
@@ -543,7 +542,7 @@ async function getWarehousesNovaPoshta() {
     loadDataNovaPoshta.value = false;
   } catch (error) {
     console.error("помилка", error);
-    loadDataNovaPoshta.value = false; // Зупинити лоадер навіть у разі помилки
+    loadDataNovaPoshta.value = false;
   }
 }
 
@@ -590,6 +589,7 @@ async function buyOrder() {
         warehouses: warehouses.value,
         courierDeliveryAddress: courierDeliveryAddress.value,
         totalPrice: state.totalPriceCart,
+        qwery: route.query.pixel,
       });
 
       if (typeof gtag !== "undefined") {
