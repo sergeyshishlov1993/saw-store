@@ -102,22 +102,35 @@ function isFormValid() {
 }
 
 async function refreshAccessToken() {
+  const refreshToken = localStorage.getItem("refreshToken");
+
   try {
-    const refreshToken = localStorage.getItem("refreshToken");
-    const response = await axios.post(`${apiUrl}/admin/token`, {
+    const response = await axios.post(`${apiUrl}/admin/login/token`, {
       token: refreshToken,
     });
 
+    console.log("response", response);
+
     if (response.status === 200) {
       localStorage.setItem("accessToken", response.data.accessToken);
+
+      const newAccessTokenExpires = new Date(
+        new Date().getTime() + 3600 * 1000
+      );
+      localStorage.setItem(
+        "accessTokenExpires",
+        newAccessTokenExpires.toISOString()
+      );
+
       console.log("Access token has been refreshed.");
+      emit("auth", true);
       return response.data.accessToken;
     }
   } catch (error) {
-    console.error("Failed to refresh access token:", error);
-    // Обробка помилок або видалення токенів, якщо рефреш токен не дійсний
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+
+    console.log("Error occurred during token refresh");
   }
 }
 
@@ -130,6 +143,7 @@ function checkTokenExpiration() {
   );
 
   if (new Date() > accessTokenExpires) {
+    console.log("время вышло обновить");
     refreshAccessToken();
   } else if (new Date() > refreshTokenExpires) {
     console.log("Refresh token expired. Need to login again.");
@@ -137,6 +151,8 @@ function checkTokenExpiration() {
     emit("logout");
   } else {
     emit("auth", true);
+
+    console.log("Зареган");
   }
 }
 

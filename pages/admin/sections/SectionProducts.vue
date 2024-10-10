@@ -77,6 +77,7 @@
                 <th>Назва</th>
                 <th>Ціна</th>
                 <th>Акційна ціна</th>
+                <th>%</th>
                 <th>Наявності</th>
                 <th>Хіт продажу</th>
                 <th>Бренд</th>
@@ -105,7 +106,25 @@
                   </a>
                 </td>
                 <td>{{ product.price }}</td>
-                <td>{{ product.sale_price }}</td>
+                <td style="color: darkred; font-weight: 700">
+                  {{ product.sale_price || 0 }}
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    placeholder="%"
+                    :value="product.discount || saleProcent"
+                    @input="
+                      (event) =>
+                        calcDiscountPrice(event, product.product_id, 'input')
+                    "
+                    @keyup.enter="
+                      (event) =>
+                        calcDiscountPrice(event, product.product_id, 'enter')
+                    "
+                    @click.stop
+                  />
+                </td>
                 <td>
                   {{
                     product.available == "true"
@@ -196,11 +215,50 @@ const showSuccessModal = ref(false);
 const sale = ref(false);
 const bestseller = ref(false);
 const brand = ref("");
+const saleProcent = ref(0);
+const salePrice = ref(0);
 
 onMounted(async () => {
   await getSubCategory();
   await getProduct();
 });
+
+function calcDiscountPrice(event, id, eventType) {
+  const idx = products.value.findIndex((el) => el.product_id === id);
+  const discount = parseFloat(event.target.value);
+
+  products.value[idx].discount = discount;
+
+  const salePrice =
+    products.value[idx].price - (products.value[idx].price * discount) / 100;
+  products.value[idx].sale_price = salePrice;
+
+  if (eventType === "enter") {
+    updateDiscountProcent(id, discount, salePrice, "true");
+  }
+
+  if (eventType === "enter" && discount === 0) {
+    products.value[idx].sale_price = 0.0;
+    updateDiscountProcent(id, discount, 0, "false");
+  }
+}
+
+async function updateDiscountProcent(id, procent, salePrice, isSale) {
+  try {
+    const response = await axios.put(
+      `${apiUrl}/admin/products/update-discount/${id}`,
+      {
+        discount: procent,
+        sale_price: salePrice,
+        sale: isSale,
+      }
+    );
+
+    console.log("response", response);
+  } catch (error) {
+    console.error("ошибка", error);
+  }
+}
 
 async function getSubCategory() {
   try {
