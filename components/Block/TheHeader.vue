@@ -176,12 +176,12 @@ function goHome() {
 }
 
 function goToBestseller() {
-  router.push("/bestseller?category=Хіт продажу");
+  router.push(`/bestseller?pixel=${route.query.pixel}&category=Хіт продажу`);
   visibilityStore.showCatalogNav = false;
 }
 
 function goToSales() {
-  router.push("/sale?category=Акція");
+  router.push(`/sale?pixel=${route.query.pixel}&category=Акція`);
   visibilityStore.showCatalogNav = false;
 }
 

@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { ref, onBeforeMount } from "vue";
+import { ref } from "vue";
+import { useRoute } from "vue-router";
 
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 const category = ref();
@@ -61,6 +62,14 @@ export const useCategorySubCategory = defineStore("categorySubCategory", () => {
   }
 
   function addProductToBreadcrumb(productId, subCategoryId, name) {
+    const subCategoryIndex = breadcrumb.value.findIndex(
+      (crumb) => crumb.path === `/products/${subCategoryId}`
+    );
+
+    if (subCategoryIndex !== -1) {
+      breadcrumb.value.splice(subCategoryIndex + 1);
+    }
+
     const isProductInBreadcrumb = breadcrumb.value.some(
       (crumb) => crumb.path === `/products/${subCategoryId}/${productId}`
     );

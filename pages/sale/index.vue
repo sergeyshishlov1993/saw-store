@@ -85,7 +85,9 @@ const addProductToCart = (product, id) => {
 };
 
 const goToProducts = (category, id, name) => {
-  router.push(`/products/sale/${category}/${id}`);
+  router.push(
+    `/products/sale/${category}/${id}?category=${route.query.category}&pixel=${route.query.pixel}`
+  );
 };
 
 if (discontProduct.value.length > 0) {

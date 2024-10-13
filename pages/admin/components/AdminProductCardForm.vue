@@ -239,10 +239,6 @@ function handleBlur(event, name) {
       validateField((productName.value = event.target.value), name);
       break;
 
-    case "name_description":
-      validateField((productDescription.value = event.target.value), name);
-      break;
-
     case "price":
       validateField(
         (price.value = event.target.value.replace(/[^0-9+]/g)),
@@ -254,11 +250,9 @@ function handleBlur(event, name) {
 
 function doValidateForm() {
   createErrorObj("productName");
-  createErrorObj("name_description");
   createErrorObj("price");
 
   validateField(productName.value, "productName");
-  validateField(productDescription.value, "name_description");
   validateField(price.value, "price");
 }
 

@@ -47,7 +47,7 @@ const breadcrumb = ref([
 
   {
     name: route.query.category,
-    path: `${route.path}?category=${route.query.category}`,
+    path: `${route.path}?pixel=${route.query.pixel}&category=${route.query.category}}`,
   },
 ]);
 
@@ -82,7 +82,9 @@ const addProductToCart = (product, id) => {
 };
 
 const goToProducts = (category, id, name) => {
-  router.push(`/products/bestseller/${category}/${id}`);
+  router.push(
+    `/products/bestseller/${category}/${id}?pixel=${route.query.pixel}`
+  );
 };
 
 useHead({

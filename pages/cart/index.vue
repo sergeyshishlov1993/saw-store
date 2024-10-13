@@ -44,6 +44,8 @@ const breadcrumb = ref([
 
 onMounted(() => {
   blockScroll();
+
+  console.log("route", route.query);
 });
 
 const showSuccessModal = ref(false);
