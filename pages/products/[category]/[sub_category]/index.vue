@@ -78,7 +78,9 @@ onMounted(async () => {
 });
 
 async function goToProduct(productId, name) {
-  router.push(`/products/${category}/${sub_category}/${productId}`);
+  router.push(
+    `/products/${category}/${sub_category}/${productId}?pixel=${route.query.pixel}`
+  );
 }
 </script>
 

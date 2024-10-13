@@ -42,12 +42,13 @@
 import { ref, onBeforeMount, computed } from "vue";
 import { useProductsByDubCategory } from "~/stores/productsBySubCategory";
 import { useCategorySubCategory } from "~/stores/category_subCategory";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
 import UiTextH6 from "../Ui/UiTextH6.vue";
 import SubCategory from "./SubCategory.vue";
 
 const router = useRouter();
+const route = useRoute();
 const {
   category,
   subCategory,
@@ -71,7 +72,7 @@ const showSubCategory = (id, name) => {
 
 const goToCatalog = (parentId, id, name) => {
   resetBreadcrumb();
-  router.push(`/products/${parentId}/${id}`);
+  router.push(`/products/${parentId}/${id}?pixel=${route.query.pixel}`);
 };
 </script>
 

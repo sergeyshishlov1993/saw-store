@@ -88,7 +88,7 @@ async function getSubCategory() {
 }
 
 const goToProducts = (parentId, id, name) => {
-  router.push(`/products/${parentId}/${id}`);
+  router.push(`/products/${parentId}/${id}?pixel=${route.query.pixel}`);
 };
 </script>
 

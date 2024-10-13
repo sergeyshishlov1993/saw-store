@@ -15,12 +15,13 @@
 
 <script setup>
 import { reactive } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import UiTextH1 from "../../components/Ui/UiTextH1.vue";
 import MainScreenCategoryItem from "../../components/Block/MainScreenCategoryItem.vue";
 import { useCategorySubCategory } from "~/stores/category_subCategory";
 
 const router = useRouter();
+const route = useRoute();
 
 const categogiesMain = reactive([
   ["Електроінструмент", 2],
@@ -36,7 +37,7 @@ const categogiesMain = reactive([
 const { addCategoryToBreadcrumb } = useCategorySubCategory();
 
 async function goToCategory(category, name) {
-  router.push(`/products/${category}`);
+  router.push(`/products/${category}?pixel=${route.query.pixel}`);
 
   addCategoryToBreadcrumb(category);
 }
