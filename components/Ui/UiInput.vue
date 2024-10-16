@@ -28,15 +28,14 @@ input {
   background: rgba(248, 248, 248, 1);
   border: 1px solid rgba(248, 248, 248, 1);
   border-radius: 20px;
-
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 17px;
 }
 
-@media screen and (max-width: 767px) {
-  input {
-    font-size: 13px;
-  }
-}
+// @media screen and (max-width: 767px) {
+//   input {
+//     font-size: 13px;
+//   }
+// }
 </style>

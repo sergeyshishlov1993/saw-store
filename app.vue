@@ -67,6 +67,7 @@ useHead({
       name: "robots",
       content: "index, follow",
     },
+    { name: "viewport", content: "width=device-width, initial-scale=1" },
 
     {
       name: "google-site-verification",
