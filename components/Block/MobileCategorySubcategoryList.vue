@@ -61,6 +61,6 @@ const filterCategory = (id) => {
 .wrapper__items {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
 }
 </style>
