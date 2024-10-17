@@ -72,7 +72,7 @@ const goToCatalog = (parentId, id, name) => {
 }
 
 .subCategory {
-  padding-left: 15px;
+  padding: 10px 0 15px 15px;
   display: flex;
   flex-direction: column;
   gap: 15px;
