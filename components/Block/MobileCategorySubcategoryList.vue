@@ -4,7 +4,7 @@
       Каталог товарів
     </mobile-category-item>
 
-    <div v-if="showCategory">
+    <div class="wrapper__items" v-if="showCategory">
       <mobile-category-item
         name="category"
         :id="category.id"
@@ -57,4 +57,10 @@ const filterCategory = (id) => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.wrapper__items {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+</style>

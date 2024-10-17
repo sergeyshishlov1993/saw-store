@@ -1,11 +1,11 @@
 <template>
-  <div class="catalog">
-    <h2 @click="changeState">
+  <div class="catalog" @click="changeState">
+    <h2>
       <slot />
     </h2>
 
-    <icon-chevron-up v-if="isOpen" @click="changeState" />
-    <icon-chewron-down v-else @click="changeState" />
+    <icon-chevron-up v-if="isOpen" />
+    <icon-chewron-down v-else />
   </div>
 
   <div class="subCategory" v-if="showSubCategory">
@@ -79,7 +79,7 @@ const goToCatalog = (parentId, id, name) => {
   padding-left: 15px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
 
   h2 {
     padding-top: 5px;
