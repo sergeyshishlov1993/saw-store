@@ -5,17 +5,17 @@
     </div>
 
     <div class="mobile__navigation">
-      <ui-text-h5 style="color: red" @click="goToSales">Акція</ui-text-h5>
-      <ui-text-h5 @click="goToBestseller">Хіт продажу</ui-text-h5>
-      <ui-text-h5 @click="goToAbout">Про нас</ui-text-h5>
-      <ui-text-h5 @click="goToBuyersPage">Покупцям</ui-text-h5>
+      <ui-text-h4 style="color: red" @click="goToSales">Акція</ui-text-h4>
+      <ui-text-h4 @click="goToBestseller">Хіт продажу</ui-text-h4>
+      <ui-text-h4 @click="goToAbout">Про нас</ui-text-h4>
+      <ui-text-h4 @click="goToBuyersPage">Покупцям</ui-text-h4>
     </div>
 
     <div class="mobile__footer">
       <icon-phone />
-      <ui-text-h5>
+      <ui-text-h4>
         <a href="tel:+380682363071">+380-68-236-30-71</a>
-      </ui-text-h5>
+      </ui-text-h4>
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@
 import { useRouter } from "vue-router";
 import { useOtherData } from "~/stores/otherData";
 import MobileCategorySubcategoryList from "./MobileCategorySubcategoryList.vue";
-import UiTextH5 from "../Ui/UiTextH5.vue";
+import UiTextH4 from "../Ui/UiTextH4.vue";
 import IconPhone from "~/assets/icons/IconPhone.vue";
 
 const { visibilityStore } = useOtherData();
@@ -74,7 +74,7 @@ function goToBuyersPage() {
   &__category {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 
     border-bottom: 1px solid rgb(214, 203, 203);
   }

@@ -9,7 +9,7 @@
   </div>
 
   <div class="subCategory" v-if="showSubCategory">
-    <ui-text-h6
+    <ui-text-h4
       v-for="sub in props.subCategory"
       :key="sub.sub_category_id"
       @click="
@@ -17,7 +17,7 @@
       "
     >
       {{ sub.sub_category_name }}
-    </ui-text-h6>
+    </ui-text-h4>
   </div>
 </template>
 
@@ -27,7 +27,7 @@ import { useRouter } from "vue-router";
 import { useOtherData } from "~/stores/otherData";
 import IconChevronUp from "~/assets/icons/IconChevronUp.vue";
 import IconChewronDown from "~/assets/icons/IconChewronDown.vue";
-import UiTextH6 from "../Ui/UiTextH6.vue";
+import UiTextH4 from "../Ui/UiTextH4.vue";
 
 const { visibilityStore } = useOtherData();
 const slots = useSlots();
@@ -65,11 +65,6 @@ const goToCatalog = (parentId, id, name) => {
   align-items: center;
   justify-content: space-between;
 
-  h2 {
-    font-size: 14px;
-    font-weight: 500;
-  }
-
   svg {
     width: 25px;
     filter: brightness(0.5);
@@ -77,11 +72,10 @@ const goToCatalog = (parentId, id, name) => {
 }
 
 .subCategory {
-  font-size: 13px;
   padding-left: 15px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 
   h2 {
     cursor: pointer;
