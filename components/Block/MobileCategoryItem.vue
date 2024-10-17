@@ -10,7 +10,6 @@
 
   <div class="subCategory" v-if="showSubCategory">
     <ui-text-h4
-      style="padding-top: 10px"
       v-for="sub in props.subCategory"
       :key="sub.sub_category_id"
       @click="
@@ -66,6 +65,10 @@ const goToCatalog = (parentId, id, name) => {
   align-items: center;
   justify-content: space-between;
 
+  h2 {
+    font-weight: 600;
+  }
+
   svg {
     width: 25px;
     filter: brightness(0.5);
@@ -76,9 +79,11 @@ const goToCatalog = (parentId, id, name) => {
   padding-left: 15px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 5px;
 
   h2 {
+    padding-top: 5px;
+    padding-bottom: 10px;
     cursor: pointer;
   }
 }
