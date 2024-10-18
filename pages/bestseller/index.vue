@@ -10,6 +10,7 @@
           :path="product.pictures[product.pictures.length - 1].pictures_name"
           :title="product.product_name"
           :price="product.price"
+          promotionalPrice="0.00"
           :bestseller="product.bestseller"
           @buy-product="addProductToCart(product, product.product_id)"
           @click="
@@ -33,7 +34,6 @@ import axios from "axios";
 import { useCartData } from "~/stores/cartData";
 import useScrollToTop from "~/utils/useScrollToTop";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
-import UiLoader from "~/components/Ui/UiLoader.vue";
 
 const { state } = useCartData();
 const { scrollToTop } = useScrollToTop();
@@ -44,10 +44,11 @@ const bestsellerProduct = ref([]);
 const showLoader = ref(false);
 const breadcrumb = ref([
   { name: "Головна", path: "/" },
-
   {
-    name: route.query.category,
-    path: `${route.path}?pixel=${route.query.pixel}&category=${route.query.category}}`,
+    name: route.query.category || "Категорія відсутня",
+    path: `${route.path}?pixel=${route.query.pixel || ""}&category=${
+      route.query.category || ""
+    }`,
   },
 ]);
 
@@ -132,7 +133,7 @@ useHead({
           priceValidUntil: "2027-12-31",
           itemCondition: "https://schema.org/NewCondition",
           availability: "https://schema.org/InStock",
-          url: window.location.href,
+          url: !import.meta.env.SSR ? window.location.href : "",
           hasMerchantReturnPolicy: {
             "@type": "MerchantReturnPolicy",
             returnPolicyCategory: "https://schema.org/Refund",

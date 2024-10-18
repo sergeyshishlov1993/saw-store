@@ -32,11 +32,11 @@
     <ui-text-h5> {{ props.title }}</ui-text-h5>
 
     <div class="product-card__wrapper_price">
-      <ui-text-h4 v-if="props.promotionalPrice" class="action"
+      <ui-text-h4 v-if="props.promotionalPrice !== '0.00'" class="action"
         >{{ props.promotionalPrice }} грн</ui-text-h4
       >
 
-      <ui-text-h4 :class="{ text: props.promotionalPrice }"
+      <ui-text-h4 :class="{ text: props.promotionalPrice !== '0.00' }"
         >{{ props.price }} грн</ui-text-h4
       >
     </div>

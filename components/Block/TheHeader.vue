@@ -176,7 +176,8 @@ function goHome() {
 }
 
 function goToBestseller() {
-  router.push(`/bestseller?pixel=${route.query.pixel}&category=Хіт продажу`);
+  const pixel = route.query.pixel || ""; // Якщо pixel не визначений, використовуй порожній рядок
+  router.push(`/bestseller?pixel=${pixel}&category=Хіт продажу`);
   visibilityStore.showCatalogNav = false;
 }
 

@@ -11,6 +11,8 @@
           :path="card.pictures[card.pictures.length - 1].pictures_name"
           :title="card.product_name"
           :price="card.price"
+          :promotionalPrice="card.sale_price"
+          :discount="card.discount"
           @click="goToProduct(card.product_id, card.product_name)"
           @buy-product="addProductToCart(card, card.product_id)"
         />

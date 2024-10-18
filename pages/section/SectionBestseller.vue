@@ -28,6 +28,7 @@
         :path="product.pictures[product.pictures.length - 1].pictures_name"
         :title="product.product_name"
         :price="product.price"
+        promotionalPrice="0.00"
         :bestseller="product.bestseller"
         @buy-product="addProductToCart(product, product.product_id)"
         @click="
