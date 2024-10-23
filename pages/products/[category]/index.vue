@@ -37,14 +37,20 @@ import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 import UiLoader from "~/components/Ui/UiLoader.vue";
 
 const subCategory = ref();
-const { breadcrumb, addCategoryToBreadcrumb, fetchCategoriesAndSubCategories } =
-  useCategorySubCategory();
+const {
+  breadcrumb,
+  addCategoryToBreadcrumb,
+  fetchCategoriesAndSubCategories,
+  initializeRouteWatcher,
+} = useCategorySubCategory();
 const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 const route = useRoute();
 const router = useRouter();
 const showLoader = ref(false);
 
 onMounted(async () => {
+  initializeRouteWatcher(route);
+
   if (breadcrumb.length < 2) {
     await fetchCategoriesAndSubCategories();
     await addCategoryToBreadcrumb(route.params.category);

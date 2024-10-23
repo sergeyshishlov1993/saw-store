@@ -24,7 +24,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useProductsByDubCategory } from "~/stores/productsBySubCategory";
+import { useProductsBySubCategory } from "~/stores/productsBySubCategory";
 import { useCartData } from "~/stores/cartData";
 import TheProductCard from "~/components/Block/TheProductCard.vue";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
@@ -36,18 +36,20 @@ const router = useRouter();
 const category = route.params.category;
 const sub_category = route.params.sub_category;
 const showLoader = ref(false);
-const { getProductsBySubCategory } = useProductsByDubCategory();
+const { getProductsBySubCategory } = useProductsBySubCategory();
 const { productsInСart, showModalWindow, addProductToCart } = useCartData();
 
 const {
   breadcrumb,
   addCategoryToBreadcrumb,
   addSubCategoryToBreadcrumb,
-  fetchCategoriesAndSubCategories,
+  initializeRouteWatcher,
 } = useCategorySubCategory();
 
 const products = ref();
+
 onMounted(async () => {
+  initializeRouteWatcher(route);
   showLoader.value = true;
   try {
     products.value = await getProductsBySubCategory(sub_category);

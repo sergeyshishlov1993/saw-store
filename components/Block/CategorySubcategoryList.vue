@@ -40,7 +40,7 @@
 
 <script setup>
 import { ref, onBeforeMount, computed } from "vue";
-import { useProductsByDubCategory } from "~/stores/productsBySubCategory";
+import { useProductsBySubCategory } from "~/stores/productsBySubCategory";
 import { useCategorySubCategory } from "~/stores/category_subCategory";
 import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
@@ -49,15 +49,10 @@ import SubCategory from "./SubCategory.vue";
 
 const router = useRouter();
 const route = useRoute();
-const {
-  category,
-  subCategory,
-  fetchCategoriesAndSubCategories,
-  resetBreadcrumb,
-} = useCategorySubCategory();
+const { category, subCategory, resetBreadcrumb } = useCategorySubCategory();
 const categoryName = ref();
 const filterSubCategory = ref();
-const { getProductsBySubCategory } = useProductsByDubCategory();
+const { getProductsBySubCategory } = useProductsBySubCategory();
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
 onBeforeMount(async () => {
@@ -131,6 +126,7 @@ const goToCatalog = (parentId, id, name) => {
   gap: 5px;
 
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 @media screen and (max-width: 991px) {

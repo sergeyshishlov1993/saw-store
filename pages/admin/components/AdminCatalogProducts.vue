@@ -29,7 +29,7 @@
 
 <script setup>
 import { ref, reactive, onBeforeMount, computed } from "vue";
-import { useProductsByDubCategory } from "~/stores/productsBySubCategory";
+import { useProductsBySubCategory } from "~/stores/productsBySubCategory";
 import axios from "axios";
 import UiTextH6 from "~/components/Ui/UiTextH6.vue";
 import SubCategory from "~/components/Block/SubCategory.vue";

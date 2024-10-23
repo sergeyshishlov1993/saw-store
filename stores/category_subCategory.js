@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { ref, watchEffect } from "vue";
 
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 const category = ref();
@@ -10,6 +9,7 @@ const breadcrumb = ref([{ path: "/", name: "Головна" }]);
 
 export const useCategorySubCategory = defineStore("categorySubCategory", () => {
   async function fetchCategoriesAndSubCategories() {
+    if (category.value && subCategory.value) return;
     try {
       const response = await axios.get(`${apiUrl}/products/category`);
       category.value = response.data.category;
@@ -19,45 +19,64 @@ export const useCategorySubCategory = defineStore("categorySubCategory", () => {
     }
   }
 
-  async function addCategoryToBreadcrumb(categoryId) {
-    await fetchCategoriesAndSubCategories();
-
-    const filteredCategory = category.value.find((el) => el.id == categoryId);
-
-    if (filteredCategory) {
-      const isCategoryInBreadcrumb = breadcrumb.value.some(
-        (crumb) => crumb.path === `/products/${filteredCategory.id}`
+  function initializeRouteWatcher(route) {
+    watchEffect(() => {
+      const newPath = route.path;
+      const existingIndex = breadcrumb.value.findIndex(
+        (crumb) => crumb.path == newPath
       );
-
-      if (!isCategoryInBreadcrumb) {
-        breadcrumb.value.push({
-          path: `/products/${filteredCategory.id}`,
-          name: filteredCategory.category_name,
-        });
+      if (existingIndex !== -1) {
+        breadcrumb.value = [...breadcrumb.value.slice(0, existingIndex + 1)];
       }
+    });
+  }
+
+  async function addCategoryToBreadcrumb(categoryId) {
+    try {
+      await fetchCategoriesAndSubCategories();
+      const filteredCategory = category.value.find((el) => el.id == categoryId);
+
+      if (filteredCategory) {
+        const isCategoryInBreadcrumb = breadcrumb.value.some(
+          (crumb) => crumb.path === `/products/${filteredCategory.id}`
+        );
+
+        if (!isCategoryInBreadcrumb) {
+          breadcrumb.value.push({
+            path: `/products/${filteredCategory.id}`,
+            name: filteredCategory.category_name,
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error adding category to breadcrumb:", error);
     }
   }
 
   async function addSubCategoryToBreadcrumb(subCategoryId) {
-    await fetchCategoriesAndSubCategories();
+    try {
+      await fetchCategoriesAndSubCategories();
 
-    const filteredSubCategory = subCategory.value.find(
-      (el) => el.sub_category_id == subCategoryId
-    );
-
-    if (filteredSubCategory) {
-      const isSubCategoryInBreadcrumb = breadcrumb.value.some(
-        (crumb) =>
-          crumb.path ===
-          `/products/${filteredSubCategory.parent_id}/${filteredSubCategory.sub_category_id}`
+      const filteredSubCategory = subCategory.value.find(
+        (el) => el.sub_category_id == subCategoryId
       );
 
-      if (!isSubCategoryInBreadcrumb) {
-        breadcrumb.value.push({
-          path: `/products/${filteredSubCategory.parent_id}/${filteredSubCategory.sub_category_id}`,
-          name: filteredSubCategory.sub_category_name,
-        });
+      if (filteredSubCategory) {
+        const isSubCategoryInBreadcrumb = breadcrumb.value.some(
+          (crumb) =>
+            crumb.path ===
+            `/products/${filteredSubCategory.parent_id}/${filteredSubCategory.sub_category_id}`
+        );
+
+        if (!isSubCategoryInBreadcrumb) {
+          breadcrumb.value.push({
+            path: `/products/${filteredSubCategory.parent_id}/${filteredSubCategory.sub_category_id}`,
+            name: filteredSubCategory.sub_category_name,
+          });
+        }
       }
+    } catch (error) {
+      console.error("Error adding sub-category to breadcrumb:", error);
     }
   }
 
@@ -87,18 +106,20 @@ export const useCategorySubCategory = defineStore("categorySubCategory", () => {
     productId,
     productName
   ) {
-    await fetchCategoriesAndSubCategories();
+    try {
+      await fetchCategoriesAndSubCategories();
 
-    const subCat = subCategory.value.find(
-      (el) => el.sub_category_id == subCategoryId
-    );
+      const subCat = subCategory.value.find(
+        (el) => el.sub_category_id == subCategoryId
+      );
 
-    if (subCat) {
-      addCategoryToBreadcrumb(subCat.parent_id);
-
-      await addSubCategoryToBreadcrumb(subCategoryId);
-
-      await addProductToBreadcrumb(productId, subCategoryId, productName);
+      if (subCat) {
+        await addCategoryToBreadcrumb(subCat.parent_id);
+        await addSubCategoryToBreadcrumb(subCategoryId);
+        addProductToBreadcrumb(productId, subCategoryId, productName);
+      }
+    } catch (error) {
+      console.error("Error restoring breadcrumb from sub-category:", error);
     }
   }
 
@@ -123,5 +144,6 @@ export const useCategorySubCategory = defineStore("categorySubCategory", () => {
     restoreBreadcrumbFromSubCategory,
     resetBreadcrumb,
     removeBredcrumb,
+    initializeRouteWatcher,
   };
 });

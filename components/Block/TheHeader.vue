@@ -100,6 +100,7 @@
 import { ref, watch } from "vue";
 import { useOtherData } from "~/stores/otherData";
 import { useCartData } from "~/stores/cartData";
+import { useCategorySubCategory } from "~/stores/category_subCategory";
 import { useRouter, useRoute } from "vue-router";
 import UiTextH3 from "../Ui/UiTextH3.vue";
 import UiTextH5 from "../Ui/UiTextH5.vue";
@@ -113,11 +114,11 @@ import CategorySubcategoryList from "./CategorySubcategoryList.vue";
 import TheSearchCard from "./TheSearchCard.vue";
 import TheDropDownFeedback from "./TheDropDownFeedback.vue";
 import MobileHeader from "./MobileHeader.vue";
-
 import { useSearchData } from "~/stores/searchData";
 const search = useSearchData();
 const { state } = useCartData();
 const { visibilityStore } = useOtherData();
+const { resetBreadcrumb } = useCategorySubCategory();
 const router = useRouter();
 const route = useRoute();
 const isAdmin = ref(route.path.startsWith("/admin"));
@@ -178,31 +179,37 @@ function goHome() {
 function goToBestseller() {
   const pixel = route.query.pixel || ""; // Якщо pixel не визначений, використовуй порожній рядок
   router.push(`/bestseller?pixel=${pixel}&category=Хіт продажу`);
+  resetBreadcrumb();
   visibilityStore.showCatalogNav = false;
 }
 
 function goToSales() {
   router.push(`/sale?pixel=${route.query.pixel}&category=Акція`);
+  resetBreadcrumb();
   visibilityStore.showCatalogNav = false;
 }
 
 function goToAbout() {
   router.push("/about?about=Про нас");
+  resetBreadcrumb();
   visibilityStore.showCatalogNav = false;
 }
 
 function goToBuyersPage() {
   router.push("/buyer?buyer=Покупцям");
+  resetBreadcrumb();
   visibilityStore.showCatalogNav = false;
 }
 
 function goToSearchPage() {
   visibilityStore.showCatalogNav = false;
+  resetBreadcrumb();
   router.push("/search?category=Пошук");
 }
 
 function goToCart() {
   router.push("/cart?cart=Кошик");
+  resetBreadcrumb();
   visibilityStore.showCatalogNav = false;
 }
 </script>
@@ -305,6 +312,7 @@ function goToCart() {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    overscroll-behavior: contain;
     width: 100%;
     height: 100vh;
     align-items: center;

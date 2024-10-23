@@ -23,16 +23,19 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useOtherData } from "~/stores/otherData";
+import { useCategorySubCategory } from "~/stores/category_subCategory";
 import MobileCategorySubcategoryList from "./MobileCategorySubcategoryList.vue";
 import UiTextH4 from "../Ui/UiTextH4.vue";
 import IconPhone from "~/assets/icons/IconPhone.vue";
 
 const { visibilityStore } = useOtherData();
+const { resetBreadcrumb } = useCategorySubCategory();
 
 const router = useRouter();
 
 function goToBestseller() {
   router.push("/bestseller?category=Хіт продажу");
+  resetBreadcrumb();
   visibilityStore.showMobileMenu = false;
   document.body.style.overflow = "auto";
   document.body.style.height = "auto";
@@ -40,6 +43,7 @@ function goToBestseller() {
 
 function goToSales() {
   router.push("/sale?category=Акція");
+  resetBreadcrumb();
   visibilityStore.showMobileMenu = false;
   document.body.style.overflow = "auto";
   document.body.style.height = "auto";
@@ -47,6 +51,7 @@ function goToSales() {
 
 function goToAbout() {
   router.push("/about?about=Про нас");
+  resetBreadcrumb();
   visibilityStore.showMobileMenu = false;
   document.body.style.overflow = "auto";
   document.body.style.height = "auto";

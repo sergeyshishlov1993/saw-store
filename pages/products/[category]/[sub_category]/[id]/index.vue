@@ -88,16 +88,35 @@
           />
         </div>
       </div>
+
+      <!-- slider -->
+
+      <slider-items
+        :item="viewedItems"
+        title="Ви раніше переглядали цей товар"
+        name="viewed"
+        v-if="viewedItems.length > 1"
+      />
+
+      <slider-items
+        :item="products"
+        title="Ще товари цієї категорії"
+        name="category"
+        v-if="products.length"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useCartData } from "~/stores/cartData";
+import { useCategorySubCategory } from "~/stores/category_subCategory";
+import { useProductsBySubCategory } from "~/stores/productsBySubCategory";
+import { useviewedItems } from "~/stores/viewedItem";
+import useScrollToTop from "~/utils/useScrollToTop";
 import axios from "axios";
-
 import UiTextH1 from "~/components/Ui/UiTextH1.vue";
 import UiTextH5 from "~/components/Ui/UiTextH5.vue";
 import TheTabs from "~/components/Block/TheTabs.vue";
@@ -106,42 +125,52 @@ import TheParamsProduct from "./section/TheParamsProduct.vue";
 import TheReviews from "./section/TheReviews.vue";
 import TheStarCounter from "~/components/Block/TheStarCounter.vue";
 import TheSmalCard from "./components/TheSmalCard.vue";
-import useScrollToTop from "~/utils/useScrollToTop";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
+import SliderItems from "./components/SliderItems.vue";
 
 const route = useRoute();
+const router = useRouter();
 const {
   breadcrumb,
   addProductToBreadcrumb,
   restoreBreadcrumbFromSubCategory,
-  fetchCategoriesAndSubCategories,
+  initializeRouteWatcher,
 } = useCategorySubCategory();
+const { products, getProductsBySubCategory } = useProductsBySubCategory();
 
 const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
+const { addviewedItems, viewedItems } = useviewedItems();
 const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 const id = route.params.id;
 const category = route.params.category;
+const subCategory = route.params.sub_category;
 const currentTab = ref("Все про товар");
 const rating = ref(0);
 const counReviews = ref();
 const showLoader = ref(false);
+const productById = ref();
+
 const tabs = [
   { name: "Все про товар" },
   { name: "Властивості" },
   { name: "Відгуки" },
 ];
-const productById = ref();
 
 onMounted(async () => {
   showLoader.value = true;
+
+  initializeRouteWatcher(route);
 
   try {
     const response = await axios.get(`${apiUrl}/products/1/${id}`);
     productById.value = response.data.product;
 
+    await addviewedItems(productById.value[0]);
+
     showLoader.value = false;
 
+    await getProductsBySubCategory(productById.value[0].sub_category_id);
     await calculateAverageRating();
 
     if (breadcrumb.length < 4) {
@@ -325,6 +354,7 @@ const calculateAverageRating = () => {
 .wrapper {
   padding: 150px 0 150px 0;
   position: relative;
+  overflow: hidden;
 
   &__tabs {
     display: flex;

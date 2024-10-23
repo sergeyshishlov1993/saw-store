@@ -134,6 +134,7 @@ const backToShopping = () => {
       border-bottom: 1px solid gray;
       overflow-y: auto;
       overflow-x: hidden;
+      overscroll-behavior: contain;
     }
 
     &_total {

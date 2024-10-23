@@ -7,6 +7,28 @@
 
       <transition name="fade" v-else>
         <div class="orders__wrapper" v-if="showLoader">
+          <div class="filters">
+            <input
+              type="date"
+              :value="filterDate"
+              @input="(event) => getCalendarDate(event)"
+              placeholder="Оберіть дату"
+            />
+
+            <select @change="(event) => handlerFilterSelectValue(event)">
+              <option value="">Всі статуси</option>
+              <option value="нове">нове</option>
+              <option value="прийнято">прийнято</option>
+              <option value="скасановано">скасановано</option>
+              <option value="повернення">повернення</option>
+              <option value="завершено">завершено</option>
+            </select>
+
+            <button @click="clearFilters">
+              <ui-text-h5>Скинути фільтри</ui-text-h5>
+            </button>
+          </div>
+
           <div class="orders__search">
             <ui-input
               placeholder="Пошук замовлення по номеру +380"
@@ -34,7 +56,12 @@
               </thead>
 
               <tbody>
-                <tr v-for="order in orders" :key="order.order_id">
+                <tr
+                  v-for="order in filterDate || filterStatus
+                    ? filterArr
+                    : orders"
+                  :key="order.order_id"
+                >
                   <td class="wrapper">
                     <div
                       class="order"
@@ -115,10 +142,14 @@
                         new: order.status == 'нове',
                         accepted: order.status == 'прийнято',
                         done: order.status == 'завершено',
+                        canceled: order.status == 'скасановано',
+                        return: order.status == 'повернення',
                       }"
                     >
                       <option value="нове">нове</option>
                       <option value="прийнято">прийнято</option>
+                      <option value="скасановано">скасановано</option>
+                      <option value="повернення">повернення</option>
                       <option value="завершено">завершено</option>
                     </select>
                   </td>
@@ -157,6 +188,7 @@ import { ref, onMounted, onBeforeMount, computed } from "vue";
 import axios from "axios";
 import ThePagination from "~/components/Block/ThePagination.vue";
 import TheEmptyModal from "~/components/Block/TheEmptyModal.vue";
+import UiTextH5 from "~/components/Ui/UiTextH5.vue";
 import UiTextH6 from "~/components/Ui/UiTextH6.vue";
 import UiInput from "~/components/Ui/UiInput.vue";
 import IconClose from "~/assets/icons/IconClose.vue";
@@ -176,6 +208,10 @@ const showLoader = ref(true);
 const notFound = ref(false);
 const isSearching = ref(false);
 const count = ref(0);
+
+const filterDate = ref("");
+const filterStatus = ref("");
+const filterArr = ref([]);
 
 onBeforeMount(async () => {
   await getOrders();
@@ -280,6 +316,39 @@ async function removeItem(id, parentId) {
   } catch (error) {
     console.error("Error updating the order:", error);
   }
+}
+
+function getCalendarDate(event) {
+  filterDate.value = event.target.value;
+  filterOrders();
+}
+
+function handlerFilterSelectValue(event) {
+  filterStatus.value = event.target.value;
+  filterOrders();
+}
+
+function filterOrders() {
+  if (filterDate.value !== "") {
+    filterArr.value = orders.value.filter((el) => {
+      return (
+        new Date(el.createdAt).toISOString().split("T")[0] === filterDate.value
+      );
+    });
+  } else {
+    filterArr.value = orders.value;
+  }
+
+  if (filterStatus.value !== "") {
+    filterArr.value = filterArr.value.filter((el) => {
+      return el.status === filterStatus.value;
+    });
+  }
+}
+
+function clearFilters() {
+  filterDate.value = "";
+  filterStatus.value = "";
 }
 
 async function removeOrder(id) {
@@ -468,6 +537,14 @@ select {
 
 .done {
   background: aliceblue;
+}
+
+.canceled {
+  background-color: yellow;
+}
+
+.return {
+  background-color: red;
 }
 
 .price {
