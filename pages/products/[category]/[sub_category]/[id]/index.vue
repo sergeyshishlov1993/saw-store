@@ -99,10 +99,9 @@
       />
 
       <slider-items
-        :item="products"
+        :item="storeSubCategory.products"
         title="Ще товари цієї категорії"
         name="category"
-        v-if="products.length"
       />
     </div>
   </div>
@@ -110,7 +109,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { useCartData } from "~/stores/cartData";
 import { useCategorySubCategory } from "~/stores/category_subCategory";
 import { useProductsBySubCategory } from "~/stores/productsBySubCategory";
@@ -129,22 +128,20 @@ import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 import SliderItems from "./components/SliderItems.vue";
 
 const route = useRoute();
-const router = useRouter();
+
 const {
   breadcrumb,
   addProductToBreadcrumb,
   restoreBreadcrumbFromSubCategory,
   initializeRouteWatcher,
 } = useCategorySubCategory();
-const { products, getProductsBySubCategory } = useProductsBySubCategory();
+const storeSubCategory = useProductsBySubCategory();
 
 const { addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const { addviewedItems, viewedItems } = useviewedItems();
 const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 const id = route.params.id;
-const category = route.params.category;
-const subCategory = route.params.sub_category;
 const currentTab = ref("Все про товар");
 const rating = ref(0);
 const counReviews = ref();
@@ -170,7 +167,9 @@ onMounted(async () => {
 
     showLoader.value = false;
 
-    await getProductsBySubCategory(productById.value[0].sub_category_id);
+    await storeSubCategory.getProductsBySubCategory(
+      productById.value[0].sub_category_id
+    );
     await calculateAverageRating();
 
     if (breadcrumb.length < 4) {
