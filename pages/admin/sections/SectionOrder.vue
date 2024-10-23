@@ -556,6 +556,12 @@ select {
   border-radius: 20px;
 }
 
+.filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 @media screen and (max-width: 991px) {
   .orders {
     padding-top: 50px;
