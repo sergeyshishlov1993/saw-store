@@ -5,7 +5,7 @@
     <div class="product-in-cart_wrapper">
       <div class="product-in-cart_wrapper-title">
         <div>
-          <ui-text-h6>{{ props.title }}</ui-text-h6>
+          <ui-text-h6 style="width: 200px">{{ props.title }}</ui-text-h6>
 
           <ui-text-h6
             style="text-decoration: none; margin-top: 4px"
@@ -13,7 +13,7 @@
               'product-in-cart_wrapper_price_discount': +props.salePrice !== 0,
             }"
           >
-            {{ priceOfOneProduct }}
+            {{ Math.round(priceOfOneProduct).toLocaleString("uk-UA") }}
             грн</ui-text-h6
           >
         </div>
@@ -25,7 +25,7 @@
               'product-in-cart_wrapper_price_old-price': +props.salePrice !== 0,
             }"
           >
-            {{ productQuantityPrice }}
+            {{ Math.round(productQuantityPrice).toLocaleString("uk-UA") }}
             грн</ui-text-h6
           >
 
@@ -33,7 +33,8 @@
             class="product-in-cart_wrapper_price_discount"
             v-if="+props.salePrice !== 0"
           >
-            {{ discountQuantityPrice }} грн</ui-text-h6
+            {{ Math.round(discountQuantityPrice).toLocaleString("uk-UA") }}
+            грн</ui-text-h6
           >
         </div>
 
@@ -56,7 +57,12 @@ import IconClose from "~/assets/icons/IconClose.vue";
 import TheCounter from "./TheCounter.vue";
 import { useCartData } from "~/stores/cartData";
 
-const { calcTotal, removeProduct, updateValuePriceProducts } = useCartData();
+const {
+  calcTotal,
+  removeProduct,
+  updateValuePriceProducts,
+  calcTotalDiscount,
+} = useCartData();
 const props = defineProps({
   id: String,
   path: String,
@@ -70,15 +76,17 @@ const props = defineProps({
 const counterProducts = ref(props.count);
 
 const priceOfOneProduct = computed(() => {
-  return !+props.salePrice ? props.price : +props.salePrice;
+  return !+props.salePrice ? props.price : +props.salePrice || 0;
 });
 
 const productQuantityPrice = computed(() => {
-  return !+props.salePrice ? props.itemTotalPrice : props.price;
+  return !+props.salePrice
+    ? Math.round(props.itemTotalPrice)
+    : Math.round(props.price) || 0;
 });
 
 const discountQuantityPrice = computed(() => {
-  return +props.salePrice !== 0 ? props.itemTotalPrice : +props.salePrice;
+  return +props.salePrice !== 0 ? props.itemTotalPrice : +props.salePrice || 0;
 });
 
 const calcTotalPrice = async (count) => {
@@ -87,6 +95,7 @@ const calcTotalPrice = async (count) => {
   updateValuePriceProducts(count, props.id);
 
   calcTotal();
+  calcTotalDiscount();
 };
 </script>
 

@@ -35,7 +35,7 @@ import { useCartData } from "~/stores/cartData";
 import useScrollToTop from "~/utils/useScrollToTop";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 
-const { state } = useCartData();
+const { state, addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const router = useRouter();
 const route = useRoute();
@@ -68,19 +68,6 @@ async function getPromotionalItem() {
     showLoader.value = false;
   }
 }
-
-const addProductToCart = (product, id) => {
-  scrollToTop();
-  let item = state.productsInСart.find((item) => item.product_id == id);
-
-  if (item) {
-    item.count += 1;
-  } else {
-    state.productsInСart.push({ ...product, count: 1 });
-  }
-
-  state.showModalWindow = true;
-};
 
 const goToProducts = (category, id, name) => {
   router.push(

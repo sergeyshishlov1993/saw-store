@@ -29,15 +29,18 @@
       </div>
     </div>
 
-    <ui-text-h5> {{ props.title }}</ui-text-h5>
+    <ui-text-h5> {{ props.title.slice(0, 50) + "..." }}</ui-text-h5>
 
     <div class="product-card__wrapper_price">
       <ui-text-h4 v-if="props.promotionalPrice !== '0.00'" class="action"
-        >{{ props.promotionalPrice }} грн</ui-text-h4
+        >{{
+          Math.round(props.promotionalPrice).toLocaleString("uk-UA")
+        }}
+        грн</ui-text-h4
       >
 
       <ui-text-h4 :class="{ text: props.promotionalPrice !== '0.00' }"
-        >{{ props.price }} грн</ui-text-h4
+        >{{ Math.round(props.price).toLocaleString("uk-UA") }} грн</ui-text-h4
       >
     </div>
 

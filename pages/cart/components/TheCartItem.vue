@@ -26,11 +26,25 @@
       />
     </div>
 
-    <div class="cart__item_total">
-      <ui-text-h5>Разом:</ui-text-h5>
-      <ui-text-h2 class="total_price"
-        >{{ state.totalPriceCart }} грн</ui-text-h2
-      >
+    <div>
+      <div v-if="state.totalDiscount != 0" class="cart__item_total">
+        <ui-text-h5>Знижка:</ui-text-h5>
+        <ui-text-h2 class="total_price" style="color: darkred"
+          >-
+          {{ Math.round(state.totalDiscount).toLocaleString("uk-UA") }}
+          грн</ui-text-h2
+        >
+      </div>
+
+      <div class="cart__item_total">
+        <ui-text-h5>Разом:</ui-text-h5>
+        <ui-text-h2 class="total_price"
+          >{{
+            Math.round(state.totalPriceCart).toLocaleString("uk-UA")
+          }}
+          грн</ui-text-h2
+        >
+      </div>
     </div>
   </div>
 </template>

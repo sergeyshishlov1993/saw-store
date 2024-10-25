@@ -14,7 +14,7 @@
         Контактні дані</ui-text-h3
       >
       <a id="firstNameAnchor"></a>
-      <!-- Якір для прокрутки -->
+
       <ui-input
         type="text"
         name="firstName"

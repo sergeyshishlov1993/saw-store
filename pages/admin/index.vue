@@ -15,7 +15,7 @@
             :name="tab.name"
             >{{ tab.name }}
 
-            <span v-if="tab.count">({{ tab.count }})</span>
+            <span class="count" v-if="tab.count">( {{ tab.count }} )</span>
           </the-tabs>
         </div>
 
@@ -165,6 +165,12 @@ function checkAuthAdmin(value) {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+.count {
+  font-size: 20px;
+  font-weight: 800;
+  color: black;
 }
 
 @media screen and (max-width: 991px) {

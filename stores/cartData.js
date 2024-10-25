@@ -8,6 +8,7 @@ export const useCartData = defineStore("cartData", () => {
     productsInСart: [],
     showModalWindow: false,
     totalPriceCart: 0,
+    totalDiscount: 0,
   });
 
   const { scrollToTop } = useScrollToTop();
@@ -15,6 +16,7 @@ export const useCartData = defineStore("cartData", () => {
   //добавление товара в корзину
   const addProductToCart = (product, id) => {
     scrollToTop();
+    calcTotalDiscount();
     let item = state.productsInСart.find((item) => item.product_id == id);
 
     if (item) {
@@ -45,16 +47,27 @@ export const useCartData = defineStore("cartData", () => {
     });
   }
 
+  function calcTotalDiscount() {
+    state.totalDiscount = 0;
+
+    state.productsInСart.forEach((el) => {
+      if (el.sale == "true") {
+        state.totalDiscount += (+el.price - +el.sale_price) * el.count;
+      }
+    });
+  }
+
   //удаление товара с корзины
   const removeProduct = (id) => {
     const index = state.productsInСart.findIndex((el) => el.product_id === id);
-    if (index === -1) return; // Якщо товар не знайдено, просто вийти з функції
+    if (index === -1) return;
 
     state.productsInСart.splice(index, 1);
     if (state.productsInСart.length === 0) {
       state.showModalWindow = false;
     }
     calcTotal();
+    calcTotalDiscount();
     removeBlockScroll();
   };
 
@@ -93,5 +106,6 @@ export const useCartData = defineStore("cartData", () => {
     addProductToCart,
     closeModal,
     state,
+    calcTotalDiscount,
   };
 });

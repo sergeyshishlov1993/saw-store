@@ -24,12 +24,25 @@
         />
       </div>
 
+      <div class="wrapper__modal_total" v-if="state.totalDiscount">
+        <ui-text-h4>Знижка:</ui-text-h4>
+        <ui-text-h4 class="price" style="color: darkred"
+          >-
+          {{ Math.round(state.totalDiscount).toLocaleString("uk-UA") }}
+          грн</ui-text-h4
+        >
+      </div>
       <div class="wrapper__modal_total">
         <ui-text-h4 class="btnToCatalog" @click="backToShopping">
           продовжити покупки
         </ui-text-h4>
-        <ui-text-h4>всьго:</ui-text-h4>
-        <ui-text-h4 class="price">{{ state.totalPriceCart }} грн</ui-text-h4>
+        <ui-text-h4>Всьго:</ui-text-h4>
+        <ui-text-h4 class="price"
+          >{{
+            Math.round(state.totalPriceCart).toLocaleString("uk-UA")
+          }}
+          грн</ui-text-h4
+        >
       </div>
 
       <div class="wrapper__modal_btn">
@@ -50,7 +63,7 @@ import { useCartData } from "~/stores/cartData";
 import TheCartCard from "~/pages/cart/components/TheCartCard.vue";
 import UiBtn from "../Ui/UiBtn.vue";
 
-const { calcTotal, blockScroll, state } = useCartData();
+const { calcTotal, blockScroll, state, calcTotalDiscount } = useCartData();
 const router = useRouter();
 const route = useRoute();
 
@@ -64,6 +77,7 @@ const changeState = () => {
 
 onMounted(async () => {
   await calcTotal();
+  calcTotalDiscount();
   blockScroll();
 });
 

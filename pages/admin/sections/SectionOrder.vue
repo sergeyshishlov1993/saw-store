@@ -52,6 +52,7 @@
                   <th>Дaта</th>
                   <th>Pixel</th>
                   <th>Статус</th>
+                  <th>Видалити</th>
                 </tr>
               </thead>
 
@@ -119,10 +120,12 @@
                   <td>
                     <ui-text-h6>
                       {{
-                        new Date(order.createdAt).toLocaleDateString("uk-UA", {
+                        new Date(order.createdAt).toLocaleString("uk-UA", {
                           day: "2-digit",
                           month: "2-digit",
                           year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
                         })
                       }}
                     </ui-text-h6>
@@ -436,10 +439,10 @@ table {
 
   th,
   td {
-    padding: 5px;
+    padding: 3px;
     text-align: left;
     vertical-align: middle;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
 
     svg {
@@ -456,7 +459,7 @@ table {
   }
 
   h2 {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   img {
@@ -466,7 +469,7 @@ table {
   }
 
   svg {
-    width: 25px;
+    width: 50px;
   }
 }
 
