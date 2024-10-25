@@ -147,7 +147,7 @@ const calcTotalPrice = async (count) => {
 }
 
 .title {
-  width: 180px;
+  width: 150px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
