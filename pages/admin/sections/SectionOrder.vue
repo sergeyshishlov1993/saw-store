@@ -83,7 +83,7 @@
 
                         <ui-text-h6>{{ item.count }} шт </ui-text-h6>
 
-                        <ui-text-h6>{{ item.price }}</ui-text-h6>
+                        <ui-text-h6>{{ Math.round(item.price) }} ₴</ui-text-h6>
                       </div>
                     </div>
                   </td>
@@ -101,7 +101,7 @@
 
                   <td>
                     <ui-text-h6 class="price">
-                      {{ updatedTotalPrice || order.total_price }} ₴
+                      {{ Math.round(updatedTotalPrice || order.total_price) }} ₴
                     </ui-text-h6>
                   </td>
 

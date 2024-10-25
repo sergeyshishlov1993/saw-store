@@ -12,7 +12,7 @@
           Відгуків</ui-text-h5
         >
 
-        <ui-text-h5 class="price">{{ props.price }} грн</ui-text-h5>
+        <ui-text-h5 class="price">{{ props.price }} ₴</ui-text-h5>
       </div>
 
       <ui-btn @click="handlerClick">Купити</ui-btn>

@@ -7,10 +7,10 @@
 
       <div class="product-card__wrapper_price">
         <ui-text-h4 v-if="props.actionPrice" class="action"
-          >{{ props.actionPrice }} грн</ui-text-h4
+          >{{ props.actionPrice }} ₴</ui-text-h4
         >
         <ui-text-h4 :class="{ text: props.actionPrice }"
-          >{{ props.price }} грн</ui-text-h4
+          >{{ props.price }} ₴</ui-text-h4
         >
       </div>
 

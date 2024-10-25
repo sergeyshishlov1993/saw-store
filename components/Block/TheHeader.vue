@@ -60,6 +60,8 @@
             :key="product.product_id"
             :name="product.product_name"
             :price="product.price"
+            :sale="product.sale_price"
+            :discount="product.discount"
             :path="product.pictures"
             @click="
               goToProduct(

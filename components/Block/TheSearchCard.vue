@@ -10,7 +10,16 @@
 
     <div class="search_card-text">
       <ui-text-h5>{{ props.name }}</ui-text-h5>
-      <ui-text-h5>{{ props.price }}</ui-text-h5>
+
+      <div class="price__wrapper">
+        <ui-text-h5 :class="{ sale_price: sale !== '0.00' }"
+          >{{ Math.round(props.price).toLocaleString("uk-UA") }} ₴</ui-text-h5
+        >
+
+        <ui-text-h5 v-if="sale !== '0.00'" style="color: darkred"
+          >{{ Math.round(props.sale).toLocaleString("uk-UA") }} ₴</ui-text-h5
+        >
+      </div>
       <ui-btn @click="goToProduct(props.id)">Перейти</ui-btn>
     </div>
   </div>
@@ -37,6 +46,14 @@ const props = defineProps({
   price: {
     type: String,
   },
+
+  sale: {
+    type: String,
+  },
+
+  discount: {
+    type: String,
+  },
 });
 
 const checkLoadImg = () => {
@@ -46,6 +63,7 @@ const checkLoadImg = () => {
 
 <style lang="scss" scoped>
 .search_card {
+  position: relative;
   padding: 10px;
   display: flex;
   align-items: center;
@@ -60,6 +78,16 @@ const checkLoadImg = () => {
 
   button {
     line-height: 30px;
+  }
+
+  .price__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .sale_price {
+    text-decoration: line-through;
   }
 
   @media (hover: hover) {

@@ -164,7 +164,7 @@
           />
 
           <ui-text-h5>
-            Ціна зі знижкою : <span>{{ finalPrice }}</span> грн
+            Ціна зі знижкою : <span>{{ finalPrice }}</span> ₴
           </ui-text-h5>
         </div>
 

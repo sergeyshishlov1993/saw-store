@@ -43,11 +43,11 @@
       <div class="title__wrapper">
         <div>
           <ui-text-h1 :class="{ isSale: props.isSale === 'true' }">
-            {{ props.price }}
+            {{ Math.round(props.price) }} ₴
           </ui-text-h1>
 
           <ui-text-h1 class="discount" v-if="props.isSale === 'true'">
-            {{ props.sale }}
+            {{ Math.round(props.sale) }} ₴
           </ui-text-h1>
         </div>
 

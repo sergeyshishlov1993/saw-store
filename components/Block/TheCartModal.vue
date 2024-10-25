@@ -29,7 +29,7 @@
         <ui-text-h4 class="price" style="color: darkred"
           >-
           {{ Math.round(state.totalDiscount).toLocaleString("uk-UA") }}
-          грн</ui-text-h4
+          ₴</ui-text-h4
         >
       </div>
       <div class="wrapper__modal_total">
@@ -41,7 +41,7 @@
           >{{
             Math.round(state.totalPriceCart).toLocaleString("uk-UA")
           }}
-          грн</ui-text-h4
+          ₴</ui-text-h4
         >
       </div>
 

@@ -14,7 +14,7 @@
             }"
           >
             {{ Math.round(priceOfOneProduct).toLocaleString("uk-UA") }}
-            грн</ui-text-h6
+            ₴</ui-text-h6
           >
         </div>
 
@@ -26,7 +26,7 @@
             }"
           >
             {{ Math.round(productQuantityPrice).toLocaleString("uk-UA") }}
-            грн</ui-text-h6
+            ₴</ui-text-h6
           >
 
           <ui-text-h6
@@ -34,7 +34,7 @@
             v-if="+props.salePrice !== 0"
           >
             {{ Math.round(discountQuantityPrice).toLocaleString("uk-UA") }}
-            грн</ui-text-h6
+            ₴</ui-text-h6
           >
         </div>
 

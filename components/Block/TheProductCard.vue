@@ -36,11 +36,11 @@
         >{{
           Math.round(props.promotionalPrice).toLocaleString("uk-UA")
         }}
-        грн</ui-text-h4
+        ₴</ui-text-h4
       >
 
       <ui-text-h4 :class="{ text: props.promotionalPrice !== '0.00' }"
-        >{{ Math.round(props.price).toLocaleString("uk-UA") }} грн</ui-text-h4
+        >{{ Math.round(props.price).toLocaleString("uk-UA") }} ₴</ui-text-h4
       >
     </div>
 
