@@ -5,7 +5,7 @@
     <div class="product-in-cart_wrapper">
       <div class="product-in-cart_wrapper-title">
         <div>
-          <ui-text-h6 style="width: 200px">{{ props.title }}</ui-text-h6>
+          <ui-text-h6 class="title">{{ props.title }}</ui-text-h6>
 
           <ui-text-h6
             style="text-decoration: none; margin-top: 4px"
@@ -146,10 +146,21 @@ const calcTotalPrice = async (count) => {
   }
 }
 
+.title {
+  width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media screen and (max-width: 426px) {
   .product-in-cart {
     padding: 5px;
     gap: 5px;
+  }
+
+  .title {
+    width: 80px;
   }
 }
 </style>
