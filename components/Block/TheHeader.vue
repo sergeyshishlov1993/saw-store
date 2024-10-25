@@ -167,12 +167,14 @@ function closeVisibilityMenu() {
 
 function goToProduct(sub, id, name) {
   router.push(`/products/tools/${sub}/${id}`);
+  resetBreadcrumb();
   search.closeSearchCart();
 }
 
 function goHome() {
   router.push("/");
   visibilityStore.showCatalogNav = false;
+  resetBreadcrumb();
   search.closeSearchCart();
 }
 

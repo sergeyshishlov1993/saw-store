@@ -59,6 +59,7 @@ import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useCartData } from "~/stores/cartData";
 import { useSearchData } from "~/stores/searchData";
+import { useCategorySubCategory } from "~/stores/category_subCategory";
 import useScrollToTop from "~/utils/useScrollToTop";
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
 import TheProductCard from "~/components/Block/TheProductCard.vue";
@@ -70,6 +71,7 @@ import IconChevronNext from "~/assets/icons/IconChevronNext.vue";
 import UiTextH2 from "~/components/Ui/UiTextH2.vue";
 
 const { state, addProductToCart } = useCartData();
+const { resetBreadcrumb } = useCategorySubCategory();
 const { scrollToTop } = useScrollToTop();
 const search = useSearchData();
 const router = useRouter();
@@ -87,19 +89,6 @@ const breadcrumb = ref([
 onMounted(async () => {
   search.showSearchCart = false;
 });
-
-// const addProductToCart = (product, id) => {
-//   scrollToTop();
-//   let item = state.productsInСart.find((item) => item.product_id == id);
-
-//   if (item) {
-//     item.count += 1;
-//   } else {
-//     state.productsInСart.push({ ...product, count: 1 });
-//   }
-
-//   state.showModalWindow = true;
-// };
 
 async function changePage(page) {
   search.currentPage = page;
@@ -120,6 +109,7 @@ async function prevPage() {
 }
 
 const goToProducts = (category, id, name) => {
+  resetBreadcrumb();
   router.push(`/products/search/${category}/${id}`);
 };
 
