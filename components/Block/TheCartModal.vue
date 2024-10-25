@@ -63,7 +63,7 @@ import { useCartData } from "~/stores/cartData";
 import TheCartCard from "~/pages/cart/components/TheCartCard.vue";
 import UiBtn from "../Ui/UiBtn.vue";
 
-const { calcTotal, blockScroll, state, calcTotalDiscount } = useCartData();
+const { calcTotal, state, calcTotalDiscount } = useCartData();
 const router = useRouter();
 const route = useRoute();
 
@@ -72,19 +72,21 @@ const filterProducts = ref(state.productsInСart);
 
 const changeState = () => {
   emit("changeState");
-  blockScroll();
+  if (state.showModalWindow) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
 };
 
 onMounted(async () => {
   await calcTotal();
   calcTotalDiscount();
-  blockScroll();
 });
 
 const goToCart = () => {
   router.push(`/cart?cart=Оформлення замовлення&pixel=${route.query.pixel}`);
   state.showModalWindow = false;
-  blockScroll();
 };
 
 const backToShopping = () => {
@@ -100,7 +102,7 @@ const backToShopping = () => {
 
 .wrapper {
   padding: 100px;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -113,9 +115,13 @@ const backToShopping = () => {
   justify-content: center;
 
   z-index: 1000;
+  overflow: hidden;
 
   &__modal {
     margin: 150px;
+
+    max-width: 500px;
+    max-height: 90vh;
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -190,7 +196,7 @@ const backToShopping = () => {
   }
 }
 
-@media screen and (max-width: 426px) {
+@media screen and (max-width: 767px) {
   .wrapper {
     &__modal {
       &_card {

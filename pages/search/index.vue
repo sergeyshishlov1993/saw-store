@@ -17,6 +17,7 @@
           :path="product.pictures[product.pictures.length - 1].pictures_name"
           :title="product.product_name"
           :price="product.price"
+          :promotionalPrice="product.sale_price"
           @buy-product="addProductToCart(product, product.product_id)"
           @click="
             goToProducts(
@@ -68,7 +69,7 @@ import IconChevronLeft from "~/assets/icons/IconChevronLeft.vue";
 import IconChevronNext from "~/assets/icons/IconChevronNext.vue";
 import UiTextH2 from "~/components/Ui/UiTextH2.vue";
 
-const { state } = useCartData();
+const { state, addProductToCart } = useCartData();
 const { scrollToTop } = useScrollToTop();
 const search = useSearchData();
 const router = useRouter();
@@ -87,18 +88,18 @@ onMounted(async () => {
   search.showSearchCart = false;
 });
 
-const addProductToCart = (product, id) => {
-  scrollToTop();
-  let item = state.productsInСart.find((item) => item.product_id == id);
+// const addProductToCart = (product, id) => {
+//   scrollToTop();
+//   let item = state.productsInСart.find((item) => item.product_id == id);
 
-  if (item) {
-    item.count += 1;
-  } else {
-    state.productsInСart.push({ ...product, count: 1 });
-  }
+//   if (item) {
+//     item.count += 1;
+//   } else {
+//     state.productsInСart.push({ ...product, count: 1 });
+//   }
 
-  state.showModalWindow = true;
-};
+//   state.showModalWindow = true;
+// };
 
 async function changePage(page) {
   search.currentPage = page;

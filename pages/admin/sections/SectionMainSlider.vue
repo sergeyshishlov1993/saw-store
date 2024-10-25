@@ -126,7 +126,6 @@ async function loadFilesToStorage(files) {
     downloadURL.value = await Promise.all(uploadPromises);
     isLoadToFirebase.value = false;
     progress.value = 0;
-    console.log("URLs of uploaded files:", downloadURL.value);
   } catch (error) {
     console.error("Error uploading files:", error.message);
     progress.value = 0;
@@ -152,7 +151,6 @@ async function deleteFileByUrlAndDataBase(fileUrl, id) {
   try {
     const response = await axios.delete(`${apiUrl}/slider/${id}`);
 
-    console.log("slider", response);
     const fileRef = storageRef(storage, fileUrl);
     await deleteObject(fileRef);
   } catch (error) {
@@ -175,8 +173,6 @@ async function getSliderImg() {
   try {
     const response = await axios.get(`${apiUrl}/slider`);
 
-    console.log("slider", response);
-
     slider.value = response.data.slider;
   } catch (error) {
     console.error("сталась помилка:", error);
@@ -195,7 +191,6 @@ async function loadSliderImg() {
         id: crypto.randomUUID(),
         linkImg: el,
       });
-      console.log("slider", response);
     }
 
     files.value = null;

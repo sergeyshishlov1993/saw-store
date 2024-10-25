@@ -1,5 +1,4 @@
 import { ref, onMounted, onBeforeUnmount } from "vue";
-
 export default function useScrollToTop() {
   const showScrollToTop = ref(false);
 

@@ -140,7 +140,6 @@ function countLikeStar(emitParam) {
 
 function manageNickname(nickname) {
   localStorage.setItem("nickname", nickname);
-  console.log("Нове значення додано у localStorage:", nickname);
 }
 
 async function leaveFeedback(event) {

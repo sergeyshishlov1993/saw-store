@@ -58,7 +58,6 @@ const changePage = (page) => {
     return;
   }
 
-  console.log("Перехід на сторінку:", page);
   emit("changePage", page);
 };
 </script>

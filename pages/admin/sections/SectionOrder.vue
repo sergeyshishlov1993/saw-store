@@ -309,13 +309,10 @@ async function removeItem(id, parentId) {
 
   orders.value[parentIdx].orderItem.splice(idx, 1);
 
-  console.log(" updatedTotalPrice.value", updatedTotalPrice.value);
-
   try {
     const response = await axios.put(
       `${apiUrl}/order/delete/${parentId}/${id}?totalPrice=${updatedTotalPrice.value}`
     );
-    console.log("Order updated successfully", response);
   } catch (error) {
     console.error("Error updating the order:", error);
   }

@@ -83,11 +83,6 @@ export const useCartData = defineStore("cartData", () => {
     });
   }
 
-  //блок скрола
-  const blockScroll = () => {
-    document.body.style.overflow = state.showModalWindow ? "hidden" : "";
-  };
-
   //удалить блок скрола
   const removeBlockScroll = () => {
     document.body.style.overflow = "";
@@ -102,7 +97,6 @@ export const useCartData = defineStore("cartData", () => {
     calcTotal,
     removeProduct,
     updateValuePriceProducts,
-    blockScroll,
     addProductToCart,
     closeModal,
     state,

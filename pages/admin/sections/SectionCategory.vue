@@ -167,14 +167,11 @@ function changeTab(name) {
 
 function getSelecValue(event) {
   selectedCategory.value = event;
-  console.log("selectedCategory", selectedCategory.value);
 }
 
 async function syncCateogory() {
   try {
     const response = await axios.put(`${apiUrl}/admin/products/add_category`);
-
-    console.log("response", response);
   } catch (error) {
     console.error(error);
   }
@@ -188,8 +185,6 @@ async function getCategory() {
     categorys.value = response.data.category;
     subCategory.value = response.data.subCategory;
     totalPage.value = response.data.totalPages;
-
-    console.log(response);
   } catch (error) {
     console.error(error);
   }
@@ -223,8 +218,6 @@ async function createSubCategory() {
     selectedCategory.value = "";
     nameSubCategory.value = "";
     urlCategory.value = "";
-
-    console.log("response", response);
   } catch (error) {
     console.error(error);
   }
@@ -255,8 +248,6 @@ async function removeCategory(id, table) {
       const response = await axios.delete(
         `${apiUrl}/products/category/${id}/delete?name=${table}`
       );
-
-      console.log("response", response);
     } else {
       const idx = subCategory.value.findIndex((el) => el.sub_category_id == id);
       subCategory.value.splice(idx, 1);
@@ -264,7 +255,6 @@ async function removeCategory(id, table) {
       const response = await axios.delete(
         `${apiUrl}/products/category/${id}/delete?name=${table}`
       );
-      console.log("response", response);
     }
   } catch (error) {
     console.error(error);

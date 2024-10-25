@@ -109,8 +109,6 @@ async function refreshAccessToken() {
       token: refreshToken,
     });
 
-    console.log("response", response);
-
     if (response.status === 200) {
       localStorage.setItem("accessToken", response.data.accessToken);
 
@@ -122,7 +120,6 @@ async function refreshAccessToken() {
         newAccessTokenExpires.toISOString()
       );
 
-      console.log("Access token has been refreshed.");
       emit("auth", true);
       return response.data.accessToken;
     }
@@ -130,7 +127,7 @@ async function refreshAccessToken() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
 
-    console.log("Error occurred during token refresh");
+    console.error("Error occurred during token refresh");
   }
 }
 
@@ -143,16 +140,11 @@ function checkTokenExpiration() {
   );
 
   if (new Date() > accessTokenExpires) {
-    console.log("время вышло обновить");
     refreshAccessToken();
   } else if (new Date() > refreshTokenExpires) {
-    console.log("Refresh token expired. Need to login again.");
-
     emit("logout");
   } else {
     emit("auth", true);
-
-    console.log("Зареган");
   }
 }
 

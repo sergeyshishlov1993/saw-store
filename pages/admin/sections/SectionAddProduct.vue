@@ -329,7 +329,6 @@ async function loadFilesToStorage(files) {
     downloadURL.value = await Promise.all(uploadPromises);
 
     progress.value = 0;
-    console.log("URLs of uploaded files:", downloadURL.value);
   } catch (error) {
     console.error("Error uploading files:", error.message);
     progress.value = 0;

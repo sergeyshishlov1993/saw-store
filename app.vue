@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import TheHeader from "./components/Block/TheHeader.vue";
 import { useCategorySubCategory } from "./stores/category_subCategory";
@@ -56,6 +56,14 @@ const {
 
 onMounted(async () => {
   await fetchCategoriesAndSubCategories();
+
+  watchEffect(() => {
+    if (state.showModalWindow) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  });
 });
 
 useHead({

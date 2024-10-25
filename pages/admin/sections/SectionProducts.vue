@@ -253,8 +253,6 @@ async function updateDiscountProcent(id, procent, salePrice, isSale) {
         sale: isSale,
       }
     );
-
-    console.log("response", response);
   } catch (error) {
     console.error("ошибка", error);
   }
@@ -405,7 +403,6 @@ async function removeProduct(id, url, custom) {
     products.value.splice(idx, 1);
 
     const response = await axios.delete(`${apiUrl}/admin/products/${id}`);
-    console.log("response remove", response);
 
     if (custom) {
       url.forEach(async (el) => await deleteFileByUrl(el.pictures_name));
@@ -419,8 +416,6 @@ async function deleteFileByUrl(fileUrl) {
   try {
     const fileRef = storageRef(storage, fileUrl);
     await deleteObject(fileRef);
-
-    console.log("успішно видаленно");
   } catch (error) {
     console.error("Помилка при видаленні файлу:", error.message);
   }

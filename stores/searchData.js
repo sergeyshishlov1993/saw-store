@@ -37,8 +37,6 @@ export const useSearchData = defineStore("searchData", () => {
 
         showSearchCart.value = false;
       }
-
-      console.log("response", response);
     } catch (error) {
       console.error("сталась помилка");
     }
