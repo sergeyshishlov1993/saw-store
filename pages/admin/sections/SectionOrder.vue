@@ -1,19 +1,24 @@
 <template>
   <div class="container">
     <div class="orders">
-      <the-empty-modal v-if="notFound">
+      <!-- <the-empty-modal v-if="notFound">
         Замовлення не знайдено
-      </the-empty-modal>
+      </the-empty-modal> -->
 
-      <transition name="fade" v-else>
-        <div class="orders__wrapper" v-if="showLoader">
+      <transition name="fade">
+        <div class="orders__wrapper">
           <div class="filters">
-            <input
+            <ui-calendar
+              @selectedDate="getCalendarDate"
+              @selectedMonth="filterProductsByMonth"
+            />
+
+            <!-- <input
               type="date"
               :value="filterDate"
               @input="(event) => getCalendarDate(event)"
               placeholder="Оберіть дату"
-            />
+            /> -->
 
             <select @change="(event) => handlerFilterSelectValue(event)">
               <option value="">Всі статуси</option>
@@ -24,9 +29,9 @@
               <option value="завершено">завершено</option>
             </select>
 
-            <button @click="clearFilters">
+            <ui-btn @click="clearFilters">
               <ui-text-h5>Скинути фільтри</ui-text-h5>
-            </button>
+            </ui-btn>
           </div>
 
           <div class="orders__search">
@@ -198,6 +203,9 @@ import IconClose from "~/assets/icons/IconClose.vue";
 import IconChevronLeft from "~/assets/icons/IconChevronLeft.vue";
 import IconChevronNext from "~/assets/icons/IconChevronNext.vue";
 
+import UiCalendar from "../components/UiCalendar.vue";
+import UiBtn from "~/components/Ui/UiBtn.vue";
+
 const { scrollToTop } = useScrollToTop();
 const emit = defineEmits(["count"]);
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
@@ -213,10 +221,12 @@ const isSearching = ref(false);
 const count = ref(0);
 
 const filterDate = ref("");
+const selectedYear = ref("");
+const selectedMonth = ref();
 const filterStatus = ref("");
 const filterArr = ref([]);
 
-onBeforeMount(async () => {
+onMounted(async () => {
   await getOrders();
 });
 
@@ -236,9 +246,14 @@ async function getOrders() {
   isSearching.value = true;
 
   try {
-    const response = await axios.get(
-      `${apiUrl}/order/all-orders?page=${currentPage.value}&search=${search.value}`
-    );
+    const response = await axios.get(`${apiUrl}/order/all-orders`, {
+      params: {
+        page: currentPage.value,
+        search: search.value,
+        year: selectedYear.value || "",
+        month: selectedMonth.value || "",
+      },
+    });
 
     orders.value = response.data.orders;
     totalPage.value = response.data.totalPages;
@@ -318,9 +333,20 @@ async function removeItem(id, parentId) {
   }
 }
 
-function getCalendarDate(event) {
-  filterDate.value = event.target.value;
+function getCalendarDate(date) {
+  const year = date.year;
+  const month = String(date.month + 1).padStart(2, "0");
+  const day = String(date.day).padStart(2, "0");
+  filterDate.value = `${year}-${month}-${day}`;
+
   filterOrders();
+}
+
+async function filterProductsByMonth(year, month) {
+  selectedYear.value = year;
+  selectedMonth.value = month + 1;
+
+  await getOrders();
 }
 
 function handlerFilterSelectValue(event) {
@@ -346,9 +372,13 @@ function filterOrders() {
   }
 }
 
-function clearFilters() {
+async function clearFilters() {
   filterDate.value = "";
   filterStatus.value = "";
+  selectedYear.value = "";
+  selectedMonth.value = "";
+
+  await getOrders();
 }
 
 async function removeOrder(id) {
@@ -525,6 +555,7 @@ table {
 select {
   padding: 10px;
   border-radius: 15px;
+  font-weight: 600;
 }
 
 .new {
@@ -540,11 +571,13 @@ select {
 }
 
 .canceled {
-  background-color: yellow;
+  background-color: rgb(236, 183, 83);
+  color: white;
 }
 
 .return {
-  background-color: red;
+  background-color: darkred;
+  color: white;
 }
 
 .price {
@@ -558,8 +591,14 @@ select {
 
 .filters {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
+  gap: 10px;
+
+  button {
+    padding: 10px;
+    width: 150px;
+  }
 }
 
 @media screen and (max-width: 991px) {
@@ -600,6 +639,12 @@ select {
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .filters {
+    justify-content: center;
   }
 }
 </style>
