@@ -39,7 +39,9 @@
         ₴</ui-text-h4
       >
 
-      <ui-text-h4 :class="{ text: props.promotionalPrice !== '0.00' }"
+      <ui-text-h4
+        class="price"
+        :class="{ text: props.promotionalPrice !== '0.00' }"
         >{{ Math.round(props.price).toLocaleString("uk-UA") }} ₴</ui-text-h4
       >
     </div>
@@ -147,6 +149,10 @@ const buyProduct = () => {
 .text {
   text-decoration: line-through;
   color: gray;
+}
+
+.price {
+  font-size: 25px;
 }
 
 .discount {
