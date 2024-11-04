@@ -45,6 +45,7 @@
               :price="product.price"
               :isSale="product.sale"
               :sale="product.sale_price"
+              :discount="product.discount"
               @buy-product="addProductToCart(product, product.product_id)"
             />
 

@@ -42,12 +42,18 @@
     <div style="order: 3">
       <div class="title__wrapper">
         <div>
-          <ui-text-h1 :class="{ isSale: props.isSale === 'true' }">
-            {{ Math.round(props.price) }} ₴
-          </ui-text-h1>
+          <div class="isSale__wrapper">
+            <ui-text-h1 :class="{ isSale: props.isSale === 'true' }">
+              {{ Math.round(props.price).toLocaleString("uk-UA") }} ₴
+            </ui-text-h1>
+
+            <div class="procent__discount" v-if="props.discount">
+              -{{ props.discount }}%
+            </div>
+          </div>
 
           <ui-text-h1 class="discount" v-if="props.isSale === 'true'">
-            {{ Math.round(props.sale) }} ₴
+            {{ Math.round(props.sale).toLocaleString("uk-UA") }} ₴
           </ui-text-h1>
         </div>
 
@@ -99,6 +105,7 @@ const props = defineProps({
   isSale: String,
   sale: String,
   alt: String,
+  discount: Number,
 });
 
 const imageLoaded = ref(false);
@@ -257,7 +264,6 @@ img {
 .v-img {
   display: inline-block;
   width: 40%;
-  // min-height: auto;
   object-fit: contain;
   order: 2;
 }
@@ -269,11 +275,13 @@ img {
   gap: 30px;
 
   h2 {
+    font-size: 30px;
     font-weight: 700;
   }
 
   button {
-    height: 50px;
+    height: 50px !important;
+    font-size: 20px;
   }
 }
 
@@ -306,10 +314,28 @@ img {
 
 .isSale {
   text-decoration: line-through;
+  color: gray;
+  font-size: 14px !important;
+}
+
+.isSale__wrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.procent__discount {
+  padding: 5px;
+  background: darkred;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  border-radius: 10px;
 }
 
 .discount {
   color: darkred;
+  font-size: 30px !important;
 }
 
 .skeleton {
@@ -387,17 +413,11 @@ img {
 .title__wrapper {
   padding-top: 50px;
 
-  h2 {
-    font-size: 18px;
-  }
-
   button {
     display: flex;
     align-items: center;
     justify-content: center;
-
     width: 200px;
-    height: 40px;
   }
 }
 .delivery {
@@ -423,8 +443,11 @@ img {
 
 @media screen and (max-width: 767px) {
   .title__wrapper {
-    h2 {
-      font-size: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+
+    button {
+      width: 100%;
     }
   }
 

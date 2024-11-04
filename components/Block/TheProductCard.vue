@@ -141,10 +141,12 @@ const buyProduct = () => {
 
 .action {
   color: darkred;
+  font-size: 25px;
 }
 
 .text {
   text-decoration: line-through;
+  color: gray;
 }
 
 .discount {

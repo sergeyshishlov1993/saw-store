@@ -1,10 +1,6 @@
 <template>
   <div class="container">
     <div class="orders">
-      <!-- <the-empty-modal v-if="notFound">
-        Замовлення не знайдено
-      </the-empty-modal> -->
-
       <transition name="fade">
         <div class="orders__wrapper">
           <div class="filters">
@@ -12,13 +8,6 @@
               @selectedDate="getCalendarDate"
               @selectedMonth="filterProductsByMonth"
             />
-
-            <!-- <input
-              type="date"
-              :value="filterDate"
-              @input="(event) => getCalendarDate(event)"
-              placeholder="Оберіть дату"
-            /> -->
 
             <select @change="(event) => handlerFilterSelectValue(event)">
               <option value="">Всі статуси</option>
@@ -62,12 +51,7 @@
               </thead>
 
               <tbody>
-                <tr
-                  v-for="order in filterDate || filterStatus
-                    ? filterArr
-                    : orders"
-                  :key="order.order_id"
-                >
+                <tr v-for="order in orders" :key="order.order_id">
                   <td class="wrapper">
                     <div
                       class="order"
@@ -252,6 +236,7 @@ async function getOrders() {
         search: search.value,
         year: selectedYear.value || "",
         month: selectedMonth.value || "",
+        status: filterStatus.value || "",
       },
     });
 
@@ -333,13 +318,13 @@ async function removeItem(id, parentId) {
   }
 }
 
-function getCalendarDate(date) {
+async function getCalendarDate(date) {
   const year = date.year;
   const month = String(date.month + 1).padStart(2, "0");
   const day = String(date.day).padStart(2, "0");
   filterDate.value = `${year}-${month}-${day}`;
 
-  filterOrders();
+  await getOrders();
 }
 
 async function filterProductsByMonth(year, month) {
@@ -349,27 +334,10 @@ async function filterProductsByMonth(year, month) {
   await getOrders();
 }
 
-function handlerFilterSelectValue(event) {
+async function handlerFilterSelectValue(event) {
   filterStatus.value = event.target.value;
-  filterOrders();
-}
 
-function filterOrders() {
-  if (filterDate.value !== "") {
-    filterArr.value = orders.value.filter((el) => {
-      return (
-        new Date(el.createdAt).toISOString().split("T")[0] === filterDate.value
-      );
-    });
-  } else {
-    filterArr.value = orders.value;
-  }
-
-  if (filterStatus.value !== "") {
-    filterArr.value = filterArr.value.filter((el) => {
-      return el.status === filterStatus.value;
-    });
-  }
+  await getOrders();
 }
 
 async function clearFilters() {
