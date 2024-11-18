@@ -186,7 +186,7 @@ useHead({
       t.src=v;s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)}(window,document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '1952136378533536');
+      fbq('init', '1068367784605220');
       fbq('track', 'PageView');`,
       type: "text/javascript",
       charset: "utf-8",
