@@ -80,12 +80,7 @@
           placeholder="Ціна"
           type="text"
           :value="price"
-          @focus="(event) => handleFocus(event, 'price')"
           @input="(event) => getInputValue(event, 'price')"
-          @blur="(event) => handleBlur(event, 'price')"
-          :class="{
-            invalid: errorsFormData?.price?.errors.length != 0,
-          }"
         />
 
         <ui-error
