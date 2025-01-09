@@ -383,11 +383,9 @@ async function deleteAllFileByUrl(fileUrl) {
 function doValidateForm() {
   createErrorObj("productName");
   createErrorObj("name_description");
-  createErrorObj("price");
 
   validateField(productName.value, "productName");
   validateField(productDescription.value, "name_description");
-  validateField(price.value, "price");
 }
 
 function isFormValid() {
