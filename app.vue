@@ -145,13 +145,28 @@ useHead({
     },
     { property: "og:url", content: "https://sawstore.com.ua/" },
     { property: "og:type", content: "website" },
+
+    { name: "twitter:card", content: "summary_large_image" },
+    {
+      name: "twitter:title",
+      content: "SAW STORE - Інтернет магазин професійного електроінструменту",
+    },
+    {
+      name: "twitter:description",
+      content:
+        "SAW STORE - інтернет-магазин професійного електроінструменту. Пропонуємо якісний і доступний інструмент для будь-яких задач.",
+    },
+    {
+      name: "twitter:image",
+      content: imageUrl,
+    },
+    { name: "twitter:url", content: "https://www.sawstore.com.ua/" },
   ],
 
   link: [
     {
       rel: "image_src",
-      // href: new URL("assets/img/IMG_8377.jpg", import.meta.url).href,
-      content: "./public/img/IMG_8377.jpg",
+      content: imageUrl,
     },
   ],
 
@@ -216,6 +231,26 @@ useHead({
       fbq('track', 'PageView');`,
       type: "text/javascript",
       charset: "utf-8",
+    },
+    {
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: "SAW STORE - Інтернет магазин професійного електроінструменту",
+        description:
+          "SAW STORE - інтернет-магазин професійного електроінструменту. Пропонуємо якісний і доступний інструмент для будь-яких задач.",
+        image: imageUrl,
+        url: "https://www.sawstore.com.ua/",
+        publisher: {
+          "@type": "Organization",
+          name: "SAW STORE",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://www.sawstore.com.ua/assets/img/logo.png",
+          },
+        },
+      }),
     },
   ],
   __dangerouslyDisableSanitizersByTagID: {
