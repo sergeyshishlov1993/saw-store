@@ -44,6 +44,7 @@ import TheCartModal from "./components/Block/TheCartModal.vue";
 import useScrollToTop from "./utils/useScrollToTop";
 
 import Breadcrumbs from "~/components/Block/Breadcrumbs.vue";
+const imageUrl = new URL(`./public/img/IMG_8377.jpg`, import.meta.url).href;
 
 const router = useRouter();
 const { showScrollToTop, scrollToTop } = useScrollToTop();
@@ -118,9 +119,20 @@ useHead({
         "Вибір професіоналів - Надійний електроінструмент для будь-яких задач",
     },
     {
+      hid: "og:image-main",
       property: "og:image",
-      // content: new URL("assets/img/IMG_8377.jpg", import.meta.url).href,
-      content: "./public/img/IMG_8377.jpg",
+      content: imageUrl,
+    },
+
+    {
+      hid: "og:url-main",
+      property: "og:url",
+      content: imageUrl,
+    },
+    {
+      hid: "og:type-main",
+      property: "og:type",
+      content: "website",
     },
 
     {
