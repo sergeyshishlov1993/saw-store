@@ -5,6 +5,7 @@ const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  pages: true,
   css: ["~/assets/css/app.scss"],
 
   build: {
