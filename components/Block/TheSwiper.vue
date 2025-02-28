@@ -1,6 +1,6 @@
 <template>
   <div class="slider__wrapper">
-    <div :class="{ skeleton: !isLoad }">
+    <div :class="{ skeleton: !isLoad }" class="desktop">
       <Swiper
         :modules="[SwiperAutoplay, SwiperEffectCreative]"
         :slides-per-view="1"
@@ -22,7 +22,46 @@
         }"
       >
         <SwiperSlide v-for="slide in slider" :key="slide.id">
-          <img :src="slide.name" :alt="slide.name" @load="isLoad = true" />
+          <v-img
+            :lazy-src="slide.name"
+            :src="slide.name"
+            :alt="slide.name"
+            loading="lazy"
+            @load="isLoad = true"
+          />
+        </SwiperSlide>
+      </Swiper>
+    </div>
+
+    <div class="mobile">
+      <Swiper
+        :modules="[SwiperAutoplay, SwiperEffectCreative]"
+        :slides-per-view="1"
+        :loop="true"
+        :effect="'creative'"
+        :autoplay="{
+          delay: 7000,
+          disableOnInteraction: true,
+        }"
+        :creative-effect="{
+          prev: {
+            shadow: false,
+            translate: ['-20%', 0, -1],
+          },
+
+          next: {
+            translate: ['100%', 0, 0],
+          },
+        }"
+      >
+        <SwiperSlide v-for="slide in mobileSlide" :key="slide">
+          <v-img
+            :lazy-src="slide"
+            :src="slide"
+            :alt="slide"
+            loading="lazy"
+            @load="isLoad = true"
+          />
         </SwiperSlide>
       </Swiper>
     </div>
@@ -30,10 +69,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 
 const slider = ref([]);
+const mobileSlide = ref([
+  "/img/slide1-mobile.webp",
+  "/img/slide2-mobile.webp",
+  "/img/slide3-mobile.webp",
+]);
 const isLoad = ref(false);
 const apiUrl = process.env.VITE_API_URL || import.meta.env.VITE_API_URL;
 
@@ -72,22 +116,26 @@ async function getSliderImg() {
     max-height: 100%;
   }
 
+  .mobile {
+    display: none;
+  }
+
   .skeleton {
     width: 100%;
     min-height: 500px;
-    background-color: #e0e0e0;
+    background-color: white;
     animation: pulse 1.5s infinite;
   }
 
   @keyframes pulse {
     0% {
-      background-color: #e0e0e0;
+      background-color: white;
     }
     50% {
-      background-color: #f0f0f0;
+      background-color: white;
     }
     100% {
-      background-color: #e0e0e0;
+      background-color: white;
     }
   }
 }
@@ -105,6 +153,15 @@ async function getSliderImg() {
   .slider__wrapper {
     .skeleton {
       min-height: 200px;
+    }
+
+    .desktop {
+      display: none;
+    }
+
+    .mobile {
+      display: block;
+      min-height: 500px;
     }
   }
 }

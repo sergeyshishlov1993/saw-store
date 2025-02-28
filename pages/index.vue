@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted } from "vue";
 import SectionMainCategorie from "./section/SectionMainCategorie.vue";
 import SectionBestseller from "./section/SectionBestseller.vue";
 import SectionDiscount from "./section/SectionDiscount.vue";

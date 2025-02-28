@@ -143,11 +143,11 @@ const { scrollToTop } = useScrollToTop();
 const { addviewedItems, viewedItems } = useviewedItems();
 const apiUrl = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 const id = route.params.id;
+const productById = ref();
 const currentTab = ref("Все про товар");
 const rating = ref(0);
 const counReviews = ref();
 const showLoader = ref(false);
-const productById = ref();
 
 const tabs = [
   { name: "Все про товар" },
