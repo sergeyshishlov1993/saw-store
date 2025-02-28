@@ -55,13 +55,7 @@
         }"
       >
         <SwiperSlide v-for="slide in mobileSlide" :key="slide">
-          <v-img
-            :lazy-src="slide"
-            :src="slide"
-            :alt="slide"
-            loading="lazy"
-            @load="isLoad = true"
-          />
+          <v-img :lazy-src="slide" :src="slide" :alt="slide" loading="lazy" />
         </SwiperSlide>
       </Swiper>
     </div>
@@ -97,6 +91,17 @@ async function getSliderImg() {
     console.error("сталась помилка:", error);
   }
 }
+
+useHead({
+  link: [
+    {
+      rel: "preload",
+      as: "image",
+      href: "/img/slide1-mobile.webp",
+      type: "image/webp",
+    },
+  ],
+});
 </script>
 
 <style lang="scss" scoped>
@@ -114,6 +119,7 @@ async function getSliderImg() {
   img {
     width: 100%;
     max-height: 100%;
+    object-fit: cover;
   }
 
   .mobile {
