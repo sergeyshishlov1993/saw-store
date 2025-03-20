@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "nuxt-swiper",
     "@nuxtjs/sitemap",
+
     (_options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
         // @ts-expect-error

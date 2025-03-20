@@ -14,7 +14,7 @@
         height="1"
         width="1"
         style="display: none"
-        src="https://www.facebook.com/tr?id=1952136378533536&ev=PageView&noscript=1"
+        src="https://www.facebook.com/tr?id=2155287528259777&ev=PageView&noscript=1"
       />
     </noscript>
 
@@ -166,7 +166,7 @@ useHead({
       t.src=v;s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)}(window,document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '1068367784605220');
+      fbq('init', '2155287528259777');
       fbq('track', 'PageView');`,
       type: "text/javascript",
       charset: "utf-8",
